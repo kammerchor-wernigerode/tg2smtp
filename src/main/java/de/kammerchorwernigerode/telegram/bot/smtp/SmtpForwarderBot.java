@@ -46,6 +46,16 @@ public class SmtpForwarderBot extends TelegramLongPollingBot {
         }
 
         Long chatId = message.getChatId();
+        if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", chatId);
+        if (!properties.getChatId().contains(chatId)) {
+            if (log.isDebugEnabled()) log.debug("Chat not authorized");
+            String text = "Your chat is not authorized to use this bot. "
+                    + "Please remove " + properties.getUsername() + ".";
+            SendMessage errorMessage = new SendMessage(chatId.toString(), text);
+            execute(errorMessage);
+            return;
+        }
+
         SendMessage cc = new SendMessage(chatId.toString(), message.toString());
         execute(cc);
     }
