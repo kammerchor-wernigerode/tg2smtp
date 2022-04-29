@@ -19,12 +19,19 @@
 
     <properties>
         <java.version>11</java.version>
+
+        <telegrambots.version>6.0.1</telegrambots.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-spring-boot-starter</artifactId>
+            <version>${telegrambots.version}</version>
         </dependency>
 
         <dependency>
