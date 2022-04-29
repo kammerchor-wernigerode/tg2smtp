@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import javax.mail.internet.InternetAddress;
 import java.util.Set;
 
 /**
@@ -20,4 +21,6 @@ public class SmtpForwarderBotProperties {
     private String username;
     private String token;
     private Set<Long> chatId;
+    private Set<InternetAddress> to;
+    private String mimeSubject;
 }

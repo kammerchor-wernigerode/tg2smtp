@@ -3,18 +3,26 @@ package de.kammerchorwernigerode.telegram.bot.smtp;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.lang.Nullable;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**
- * This is more a playground than it is a working forwarder.
+ * Forwards Telegram messages as MIME messages via SMTP.
  *
  * @author Vincent Nadoll
  */
@@ -25,6 +33,8 @@ import java.util.Optional;
 public class SmtpForwarderBot extends TelegramLongPollingBot {
 
     private final SmtpForwarderBotProperties properties;
+    private final JavaMailSender mailSender;
+    private final MailProperties mailProperties;
 
     @Override
     public String getBotUsername() {
@@ -58,6 +68,18 @@ public class SmtpForwarderBot extends TelegramLongPollingBot {
 
         SendMessage cc = new SendMessage(chatId.toString(), message.toString());
         execute(cc);
+
+        String text = message.getText();
+        if (!StringUtils.hasText(text)) {
+            if (log.isDebugEnabled()) log.debug("Text is empty, noting to do");
+            return;
+        }
+
+        MimeMessagePreparator[] preparators = properties.getTo().stream()
+                .map(emailAddress -> prepareMimeMessage(emailAddress, text))
+                .toArray(MimeMessagePreparator[]::new);
+
+        mailSender.send(preparators);
     }
 
     @Nullable
@@ -65,5 +87,23 @@ public class SmtpForwarderBot extends TelegramLongPollingBot {
         return Optional.ofNullable(update.getMessage())
                 .or(() -> Optional.ofNullable(update.getChannelPost()))
                 .orElse(null);
+    }
+
+    private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress, String text) {
+        return message -> {
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, StandardCharsets.UTF_8.name());
+            helper.setTo(emailAddress);
+            helper.setSubject(properties.getMimeSubject());
+            helper.setText(text);
+            applyReplyTo(helper);
+            message.setFrom();
+        };
+    }
+
+    private void applyReplyTo(MimeMessageHelper helper) throws MessagingException {
+        String value = mailProperties.getProperties().get("mail.reply-to");
+        if (StringUtils.hasText(value)) {
+            helper.setReplyTo(value);
+        }
     }
 }
