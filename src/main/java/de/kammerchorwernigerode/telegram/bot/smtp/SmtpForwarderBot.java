@@ -66,9 +66,6 @@ public class SmtpForwarderBot extends TelegramLongPollingBot {
             return;
         }
 
-        SendMessage cc = new SendMessage(chatId.toString(), message.toString());
-        execute(cc);
-
         String text = message.getText();
         if (!StringUtils.hasText(text)) {
             if (log.isDebugEnabled()) log.debug("Text is empty, noting to do");
