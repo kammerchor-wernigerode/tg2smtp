@@ -1,0 +1,26 @@
+# Test classes
+src/test
+
+# Git files
+.git/
+.gitignore
+
+# Project files
+target
+*.md
+docker-compose.*.yml
+docker-compose.yml
+/application.yml
+
+# Log files
+*.log
+
+# IntelliJ IDEA
+.idea
+*.iml
+.jpb
+.github
+
+# Dotenv
+.env
+.env.leave
