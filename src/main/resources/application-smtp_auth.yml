@@ -1,6 +1,6 @@
 spring:
   mail:
-    username: ${MAIL_USER:smtp@example.com}
+    username: ${MAIL_USERNAME:smtp@example.com}
     password: ${MAIL_PASSWORD:d3v}
     properties:
       mail.smtp.auth: true
