@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: kchwr/smtp2tg:latest
+    image: kchwr/tg2smtp:latest
     environment:
       - TG2SMTP_MAIL_SUBEJCT="[Telegram] New message"
       - TG2SMTP_MAIL_TO=john.doe@example.com,jane.doe@example.com

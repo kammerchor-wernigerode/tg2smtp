@@ -138,7 +138,7 @@ docker run -d \
  -e MAIL_FROM=user@example.com \
  -e MAIL_REPLY_TO=no-reply@example.com \
  -e SPRING_PROFILES_ACTIVE=smtp_auth,smtp_tls \
- kchwr/smtp2tg:latest
+ kchwr/tg2smtp:latest
 ```
 
 The `example/` directory contains a Docker Compose file that configures Tg2SMTP the same way as the example above.
