@@ -32,6 +32,11 @@
             <artifactId>telegrambots-spring-boot-starter</artifactId>
             <version>${telegrambots.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.vinado.boot</groupId>
+            <artifactId>spring-boot-secrets-api</artifactId>
+            <version>1.1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
