@@ -38,12 +38,12 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return properties.getUsername();
+        return properties.getBot().getUsername();
     }
 
     @Override
     public String getBotToken() {
-        return properties.getToken();
+        return properties.getBot().getToken();
     }
 
     @SneakyThrows
@@ -60,7 +60,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
         if (!properties.getChatId().contains(chatId)) {
             if (log.isDebugEnabled()) log.debug("Chat not authorized");
             String text = "Your chat is not authorized to use this bot. "
-                    + "Please remove " + properties.getUsername() + ".";
+                    + "Please remove " + getBotUsername() + ".";
             SendMessage errorMessage = new SendMessage(chatId.toString(), text);
             execute(errorMessage);
             return;
@@ -90,7 +90,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
         return message -> {
             MimeMessageHelper helper = new MimeMessageHelper(message, false, StandardCharsets.UTF_8.name());
             helper.setTo(emailAddress);
-            helper.setSubject(properties.getMimeSubject());
+            helper.setSubject(properties.getSubject());
             helper.setText(text);
             applyReplyTo(helper);
             message.setFrom();
