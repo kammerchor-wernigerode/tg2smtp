@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  app:
+    image: kchwr/smtp2tg:latest
+    environment:
+      - TG2SMTP_MAIL_SUBEJCT="[Telegram] New message"
+      - TG2SMTP_MAIL_TO=john.doe@example.com,jane.doe@example.com
+      - TG2SMTP_CHAT_ID=1337420
+      - TG2SMTP_BOT_USERNAME=MyAwesoneTg2SmtpBot
+      - TG2SMTP_BOT_TOKEN=XXXXXXXX:YYYYYYYYY
+      - MAIL_HOST=smtp.example.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=user@example.com
+      - MAIL_PASSWORD=s3cr3t
+      - MAIL_HELO=my-host.example.com
+      - MAIL_FROM=user@example.com
+      - MAIL_REPLY_TO=no-reply@example.com
+      - SPRING_PROFILES_ACTIVE=smtp_auth,smtp_tls
