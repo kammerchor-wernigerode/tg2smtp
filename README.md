@@ -182,7 +182,7 @@ docker-compose -f docker-compose.dev.yml up -d
 To stop the stack use the command below.
 
 ```shell
-docker-compose down
+docker-compose -f docker-compose.dev.yml down
 ```
 
 ### Usage
