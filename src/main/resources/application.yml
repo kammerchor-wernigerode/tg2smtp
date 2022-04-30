@@ -2,6 +2,11 @@ spring:
   main:
     banner-mode: off
 
+  profiles:
+    active:
+      - smtp_auth
+      - smtp_tls
+
   mail:
     host: ${MAIL_HOST:localhost}
     port: ${MAIL_PORT:587}
