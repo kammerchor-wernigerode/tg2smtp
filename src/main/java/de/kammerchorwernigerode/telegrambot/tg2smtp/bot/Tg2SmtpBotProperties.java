@@ -11,12 +11,12 @@ import java.util.Set;
  * Configuration properties for the SMTP forwarder bot.
  *
  * @author Vincent Nadoll
- * @see SmtpForwarderBot
+ * @see Tg2SmtpBot
  */
 @Getter
 @Setter
 @ConfigurationProperties("bot.smtp")
-public class SmtpForwarderBotProperties {
+public class Tg2SmtpBotProperties {
 
     private String username;
     private String token;

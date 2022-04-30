@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Vincent Nadoll
  */
 @SpringBootApplication
-public class TelegramBotApplication {
+public class Tg2SmtpApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TelegramBotApplication.class, args);
+        SpringApplication.run(Tg2SmtpApplication.class, args);
     }
 }

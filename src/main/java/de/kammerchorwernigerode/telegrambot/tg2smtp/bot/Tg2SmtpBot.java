@@ -29,10 +29,10 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@EnableConfigurationProperties({SmtpForwarderBotProperties.class})
-public class SmtpForwarderBot extends TelegramLongPollingBot {
+@EnableConfigurationProperties({Tg2SmtpBotProperties.class})
+public class Tg2SmtpBot extends TelegramLongPollingBot {
 
-    private final SmtpForwarderBotProperties properties;
+    private final Tg2SmtpBotProperties properties;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
 
