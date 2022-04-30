@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegram.spi;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
 import org.springframework.util.CollectionUtils;
 

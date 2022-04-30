@@ -10,11 +10,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>de.kammerchor-wernigerode.telegram</groupId>
-    <artifactId>smtp-forwarder</artifactId>
+    <groupId>de.kammerchor-wernigerode.telegrambot</groupId>
+    <artifactId>tg2smtp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Telegram Message SMTP Forwarder</name>
     <description>Telegram bot that forwards chat message to a SMTP server</description>
 
     <properties>

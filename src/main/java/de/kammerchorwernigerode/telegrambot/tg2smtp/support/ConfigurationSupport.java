@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegram.spi;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
 /**
  * Configuration main class for the application's Java config.
