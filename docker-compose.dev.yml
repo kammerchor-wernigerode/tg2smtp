@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  smtp:
+    image: amontaigu/fakesmtp
+    ports:
+      - "587:25"
+    volumes:
+      - ./data/received-emails:/var/mail
