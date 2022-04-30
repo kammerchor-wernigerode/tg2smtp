@@ -197,4 +197,4 @@ mvn spring-boot:run
 
 ## Licence
 
-Apache License 2.0 - Kammerchor Wernigerode e.V. - Built with :heart:
+Apache License 2.0 - [Kammerchor Wernigerode e.V.](https://kammerchor-wernigerode.de) - Built with :heart:
