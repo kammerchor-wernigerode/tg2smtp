@@ -4,3 +4,4 @@ spring:
     password: ${MAIL_PASSWORD:d3v}
     properties:
       mail.smtp.auth: true
+      mail.from: ${MAIL_FROM:${spring.mail.username}}
