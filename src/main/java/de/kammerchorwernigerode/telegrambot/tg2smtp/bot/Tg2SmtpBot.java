@@ -98,7 +98,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
     }
 
     private void applyReplyTo(MimeMessageHelper helper) throws MessagingException {
-        String value = mailProperties.getProperties().get("mail.reply-to");
+        String value = mailProperties.getProperties().get("mail.reply.to");
         if (StringUtils.hasText(value)) {
             helper.setReplyTo(value);
         }
