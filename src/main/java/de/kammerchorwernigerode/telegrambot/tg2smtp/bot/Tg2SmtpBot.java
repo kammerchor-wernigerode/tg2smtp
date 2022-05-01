@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -27,7 +28,7 @@ import java.util.Optional;
  * @author Vincent Nadoll
  */
 @Slf4j
-@Component
+@Controller
 @RequiredArgsConstructor
 @EnableConfigurationProperties({Tg2SmtpBotProperties.class})
 public class Tg2SmtpBot extends TelegramLongPollingBot {
