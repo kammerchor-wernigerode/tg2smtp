@@ -17,7 +17,7 @@ spring:
       mail.reply.to: ${MAIL_REPLY_TO:}
 
 tg2smtp:
-  subject: ${TG2SMTP_MAIL_SUBEJCT}
+  subject: ${TG2SMTP_MAIL_SUBJECT}
   to: ${TG2SMTP_MAIL_TO}
   chat-id: ${TG2SMTP_CHAT_ID}
   bot:

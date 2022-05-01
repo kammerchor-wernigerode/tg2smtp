@@ -4,7 +4,7 @@ services:
   app:
     image: kchwr/tg2smtp:latest
     environment:
-      - TG2SMTP_MAIL_SUBEJCT="[Telegram] New message"
+      - TG2SMTP_MAIL_SUBJECT="[Telegram] New message"
       - TG2SMTP_MAIL_TO=john.doe@example.com,jane.doe@example.com
       - TG2SMTP_CHAT_ID=1337420
       - TG2SMTP_BOT_USERNAME=MyAwesoneTg2SmtpBot

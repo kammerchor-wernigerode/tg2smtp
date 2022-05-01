@@ -74,7 +74,7 @@ file at startup.
 
 | Property                                     | Environment Variable   | Datatype   | Default Value        | Example Value                                         | Description                                                                  |
 |----------------------------------------------|------------------------|------------|----------------------|-------------------------------------------------------|------------------------------------------------------------------------------|
-| _tg2smtp.subject_                            | TG2SMTP_MAIL_SUBEJCT   | _`String`_ |                      | `"[Telegram] New Message"`                            | The mail's subject line                                                      |
+| _tg2smtp.subject_                            | TG2SMTP_MAIL_SUBJECT   | _`String`_ |                      | `"[Telegram] New Message"`                            | The mail's subject line                                                      |
 | _tg2smtp.to_                                 | TG2SMTP_MAIL_TO        | _`String`_ |                      | `john@example.com,jane@example.com`                   | Comma-separated list of zero or more mail recipients                         |
 | _tg2smtp.chat-id_                            | TG2SMTP_CHAT_ID        | _`Number`_ |                      | `1337420,-0815`                                       | Comma-separated list of zero or more Telegram Chat IDs                       |
 | _tg2smtp.bot.username_                       | TG2SMTP_BOT_USERNAME   | _`String`_ |                      | `MyAwesoneTg2SmtpBot`                                 | The Bot's username                                                           |
@@ -125,7 +125,7 @@ Replace the sample configuration and run the command below to start a Tg2SMTP Do
 
 ```shell
 docker run -d \
- -e TG2SMTP_MAIL_SUBEJCT="[Telegram] New message" \
+ -e TG2SMTP_MAIL_SUBJECT="[Telegram] New message" \
  -e TG2SMTP_MAIL_TO=john.doe@example.com,jane.doe@example.com \
  -e TG2SMTP_CHAT_ID=1337420 \
  -e TG2SMTP_BOT_USERNAME=MyAwesoneTg2SmtpBot \
