@@ -4,15 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -27,9 +24,7 @@ import java.util.Optional;
  * @author Vincent Nadoll
  */
 @Slf4j
-@Controller
 @RequiredArgsConstructor
-@EnableConfigurationProperties({Tg2SmtpBotProperties.class})
 public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     private final Tg2SmtpBotProperties properties;
@@ -55,18 +50,8 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
             return;
         }
 
-        Long chatId = message.getChatId();
-        if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", chatId);
-        if (!properties.getChatId().contains(chatId)) {
-            if (log.isDebugEnabled()) log.debug("Chat not authorized");
-            String text = "Your chat is not authorized to use this bot. "
-                    + "Please remove " + getBotUsername() + ".";
-            SendMessage errorMessage = new SendMessage(chatId.toString(), text);
-            execute(errorMessage);
-            return;
-        }
-
         String text = message.getText();
+        if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
         if (!StringUtils.hasText(text)) {
             if (log.isDebugEnabled()) log.debug("Text is empty, noting to do");
             return;
