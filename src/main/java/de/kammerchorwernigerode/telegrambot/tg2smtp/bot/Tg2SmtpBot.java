@@ -16,7 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 /**
  * Forwards Telegram messages as MIME messages via SMTP.
@@ -66,9 +65,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     @Nullable
     private Message extractMessage(Update update) {
-        return Optional.ofNullable(update.getMessage())
-                .or(() -> Optional.ofNullable(update.getChannelPost()))
-                .orElse(null);
+        return UpdateUtils.extractMessage(update).orElse(null);
     }
 
     private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress, String text) {
