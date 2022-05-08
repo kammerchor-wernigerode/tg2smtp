@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author Vincent Nadoll
@@ -32,7 +33,16 @@ public class FilteringLongPollingBot extends LongPollingBotDecorator implements 
 
     @Override
     public void onUpdatesReceived(List<Update> updates) {
-        updates.forEach(this::onUpdateReceived);
+        List<Update> filtered = updates.stream()
+                .filter(update -> {
+                    if (filter.test(update)) {
+                        return true;
+                    }
+
+                    respondUnauthorized(update);
+                    return false;
+                }).collect(Collectors.toList());
+        super.onUpdatesReceived(filtered);
     }
 
     @Override
