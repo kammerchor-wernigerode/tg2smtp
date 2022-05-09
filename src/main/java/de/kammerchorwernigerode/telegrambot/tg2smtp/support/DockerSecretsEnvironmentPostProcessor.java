@@ -13,9 +13,9 @@ import java.util.Map;
  *
  * @author Vincent Nadoll
  */
-public class DockerSecretsEnvironmentProstProcessor extends SecretsEnvironmentPostProcessor {
+public class DockerSecretsEnvironmentPostProcessor extends SecretsEnvironmentPostProcessor {
 
-    public DockerSecretsEnvironmentProstProcessor(DeferredLogFactory logFactory) {
+    public DockerSecretsEnvironmentPostProcessor(DeferredLogFactory logFactory) {
         super(logFactory);
     }
 
