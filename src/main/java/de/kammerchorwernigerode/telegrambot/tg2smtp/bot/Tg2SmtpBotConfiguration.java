@@ -1,7 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.FilteringLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
@@ -10,7 +9,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 /**
@@ -29,7 +27,6 @@ class Tg2SmtpBotConfiguration implements Configurer {
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
-        registry.addPrinter(Poll.class, Printer.nullSafe(new PollPrinter()));
         registry.addPrinter(String.class, new TextPrinter());
     }
 }
