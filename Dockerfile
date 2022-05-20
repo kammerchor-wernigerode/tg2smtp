@@ -14,7 +14,7 @@ FROM openjdk:11-jre-slim
 RUN mkdir -p /app
 WORKDIR      /app
 
-ARG JAR_FILE=tg2smtp-0.2.0-SNAPSHOT.jar
+ARG JAR_FILE=tg2smtp-0.2.0.jar
 COPY --from=maven /usr/src/app/target/$JAR_FILE /app/application.jar
 
 CMD ["/usr/local/openjdk-11/bin/java", "-Djava.security.egd=file:/dev/./urandom", "-jar" ,"/app/application.jar"]
