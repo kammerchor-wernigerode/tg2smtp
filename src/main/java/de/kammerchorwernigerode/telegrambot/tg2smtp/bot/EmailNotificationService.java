@@ -13,6 +13,8 @@ import org.springframework.util.StringUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * {@link NotificationService} implementation that forwards {@link Notification}s using the SMTP protocol.
@@ -33,6 +35,22 @@ public class EmailNotificationService implements NotificationService {
                 .toArray(MimeMessagePreparator[]::new);
 
         mailSender.send(preparators);
+    }
+
+    @Override
+    public void send(@NonNull Collection<? extends Notification> notifications) {
+        MimeMessagePreparator[] preparators = properties.getTo().stream()
+                .flatMap(emailAddress -> prepareMimeMessages(emailAddress, notifications))
+                .toArray(MimeMessagePreparator[]::new);
+
+        mailSender.send(preparators);
+    }
+
+    @NonNull
+    private Stream<MimeMessagePreparator> prepareMimeMessages(InternetAddress emailAddress,
+                                                              Collection<? extends Notification> notifications) {
+        return notifications.stream()
+                .map(notification -> prepareMimeMessage(emailAddress, notification));
     }
 
     private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress, Notification notification) {
