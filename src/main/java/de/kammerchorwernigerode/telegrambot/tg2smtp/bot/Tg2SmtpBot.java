@@ -1,5 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
 
 /**
  * Forwards Telegram messages as MIME messages via SMTP.
@@ -29,6 +31,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
     private final Tg2SmtpBotProperties properties;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
+    private final PrinterService printerService;
 
     @Override
     public String getBotUsername() {
@@ -49,15 +52,17 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
             return;
         }
 
-        String text = message.getText();
         if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
+        StringBuilder text = new StringBuilder();
+        printTo(text, message::getText);
+
         if (!StringUtils.hasText(text)) {
             if (log.isDebugEnabled()) log.debug("Text is empty, noting to do");
             return;
         }
 
         MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .map(emailAddress -> prepareMimeMessage(emailAddress, text))
+                .map(emailAddress -> prepareMimeMessage(emailAddress, text.toString()))
                 .toArray(MimeMessagePreparator[]::new);
 
         mailSender.send(preparators);
@@ -66,6 +71,12 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
     @Nullable
     private Message extractMessage(Update update) {
         return UpdateUtils.extractMessage(update).orElse(null);
+    }
+
+    private void printTo(StringBuilder builder, Supplier<?>... suppliers) {
+        for (Supplier<?> supplier : suppliers) {
+            builder.append(printerService.print(supplier.get()));
+        }
     }
 
     private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress, String text) {
