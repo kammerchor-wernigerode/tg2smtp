@@ -61,8 +61,13 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
             return;
         }
 
+        String mailText = text.toString();
+        if (!StringUtils.hasText(mailText)) {
+            return;
+        }
+
         MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .map(emailAddress -> prepareMimeMessage(emailAddress, text.toString()))
+                .map(emailAddress -> prepareMimeMessage(emailAddress, mailText))
                 .toArray(MimeMessagePreparator[]::new);
 
         mailSender.send(preparators);
