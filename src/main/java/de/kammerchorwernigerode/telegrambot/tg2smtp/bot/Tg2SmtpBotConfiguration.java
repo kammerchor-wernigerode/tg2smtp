@@ -11,6 +11,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
@@ -40,6 +41,9 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     public void addPrinters(PrinterRegistry registry) {
         registry.addPrinter(String.class, nullSafe(new TextPrinter()));
         registry.addPrinter(Poll.class, nullSafe(new PollPrinter()));
+
+        LocationUrlResolver locationUrlResolver = new GoogleMapsLocationUrlResolver();
+        registry.addPrinter(Location.class, nullSafe(new LocationPrinter(locationUrlResolver)));
 
         if (hasProfile("debug")) {
             registry.addPrinter(Object.class, new ToStringPrinter());
