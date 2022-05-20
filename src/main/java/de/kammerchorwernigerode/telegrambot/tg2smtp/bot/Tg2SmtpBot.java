@@ -55,12 +55,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
             return;
         }
 
-        String mailText = text.toString();
-        if (!StringUtils.hasText(mailText)) {
-            return;
-        }
-
-        notificationService.send(() -> mailText);
+        notificationService.send(text::toString);
     }
 
     @Nullable

@@ -3,14 +3,18 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.FilteringLongPollingBot;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.EmptyMessageFilteringNotificationServiceDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
@@ -29,6 +33,17 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
 
     @Setter
     private Environment environment;
+
+    @Bean
+    @Profile("!debug")
+    public NotificationService notificationService(Tg2SmtpBotProperties properties,
+                                                   JavaMailSender javaMailSender,
+                                                   MailProperties mailProperties) {
+        EmailNotificationService notificationService = new EmailNotificationService(properties,
+                javaMailSender,
+                mailProperties);
+        return new EmptyMessageFilteringNotificationServiceDecorator(notificationService);
+    }
 
     @Bean
     public LongPollingBot tg2SmtpBot(Tg2SmtpBotProperties properties, NotificationService notificationService,
