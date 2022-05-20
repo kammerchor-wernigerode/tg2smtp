@@ -1,26 +1,20 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.lang.Nullable;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
 /**
- * Forwards Telegram messages as MIME messages via SMTP.
+ * {@link org.telegram.telegrambots.meta.generics.TelegramBot} that forwards Telegram messages.
  *
  * @author Vincent Nadoll
  */
@@ -29,8 +23,7 @@ import java.util.function.Supplier;
 public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     private final Tg2SmtpBotProperties properties;
-    private final JavaMailSender mailSender;
-    private final MailProperties mailProperties;
+    private final NotificationService notificationService;
     private final PrinterService printerService;
 
     @Override
@@ -66,11 +59,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
             return;
         }
 
-        MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .map(emailAddress -> prepareMimeMessage(emailAddress, mailText))
-                .toArray(MimeMessagePreparator[]::new);
-
-        mailSender.send(preparators);
+        notificationService.send(() -> mailText);
     }
 
     @Nullable
@@ -81,24 +70,6 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
     private void printTo(StringBuilder builder, Supplier<?>... suppliers) {
         for (Supplier<?> supplier : suppliers) {
             builder.append(printerService.print(supplier.get()));
-        }
-    }
-
-    private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress, String text) {
-        return message -> {
-            MimeMessageHelper helper = new MimeMessageHelper(message, false, StandardCharsets.UTF_8.name());
-            helper.setTo(emailAddress);
-            helper.setSubject(properties.getSubject());
-            helper.setText(text);
-            applyReplyTo(helper);
-            message.setFrom();
-        };
-    }
-
-    private void applyReplyTo(MimeMessageHelper helper) throws MessagingException {
-        String value = mailProperties.getProperties().get("mail.reply.to");
-        if (StringUtils.hasText(value)) {
-            helper.setReplyTo(value);
         }
     }
 }
