@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer.nullSafe;
@@ -30,5 +31,6 @@ class Tg2SmtpBotConfiguration implements Configurer {
     @Override
     public void addPrinters(PrinterRegistry registry) {
         registry.addPrinter(String.class, nullSafe(new TextPrinter()));
+        registry.addPrinter(Poll.class, nullSafe(new PollPrinter()));
     }
 }
