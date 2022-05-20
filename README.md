@@ -12,7 +12,6 @@ below may be implemented in future iterations towards version 1.
 * Documents
 * Audio files
 * Voice messages
-* Linked websites
 
 
 ## Use Case
