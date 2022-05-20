@@ -24,8 +24,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: kchwr/tg2smtp:latest
           cache-from: type=registry,ref=kchwr/tg2smtp:latest
           cache-to: type=inline
 
