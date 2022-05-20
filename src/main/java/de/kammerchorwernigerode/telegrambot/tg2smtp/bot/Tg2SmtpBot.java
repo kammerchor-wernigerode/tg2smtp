@@ -47,7 +47,8 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
 
         if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
         StringBuilder text = new StringBuilder();
-        printTo(text, message::getText, message::getPoll);
+        printTo(text, message::getText, message::getPoll, message::getLocation, message::getPhoto, message::getDocument,
+                message::getAudio, message::getVoice, message::getVideo);
 
         if (!StringUtils.hasText(text)) {
             if (log.isDebugEnabled()) log.debug("Text is empty, noting to do");

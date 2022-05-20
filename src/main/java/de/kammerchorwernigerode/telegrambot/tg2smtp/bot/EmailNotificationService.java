@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationSer
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
  * @author Vincent Nadoll
  */
 @Service
+@Profile("!debug")
 @RequiredArgsConstructor
 public class EmailNotificationService implements NotificationService {
 
