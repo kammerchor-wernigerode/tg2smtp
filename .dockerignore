@@ -1,26 +1,28 @@
-# Test classes
+### Test classes
 src/test
 
-# Git files
+### Git files
 .git/
 .gitignore
 
-# Project files
-target
+### Project files
+target/
 *.md
-docker-compose.*.yml
-docker-compose.yml
+docker-compose.dev.yml
 /application.yml
+example/
+data/
 
-# Log files
-*.log
-
-# IntelliJ IDEA
-.idea
+### IntelliJ IDEA
+.idea/
 *.iml
-.jpb
-.github
 
-# Dotenv
+### CI/CD
+.github/
+
+### Dotenv
 .env
 .env.leave
+
+### Misc
+.DS_Store
