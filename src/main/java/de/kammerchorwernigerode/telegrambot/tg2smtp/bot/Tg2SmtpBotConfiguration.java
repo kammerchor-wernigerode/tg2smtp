@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer.nullSafe;
+
 /**
  * @author Vincent Nadoll
  */
@@ -27,6 +29,6 @@ class Tg2SmtpBotConfiguration implements Configurer {
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
-        registry.addPrinter(String.class, new TextPrinter());
+        registry.addPrinter(String.class, nullSafe(new TextPrinter()));
     }
 }
