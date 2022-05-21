@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Location;
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,6 +30,11 @@ class LocationPrinterTests {
     @BeforeEach
     void setUp() {
         printer = new LocationPrinter(resolver);
+    }
+
+    @Test
+    void printingNullLocation_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> printer.print(null));
     }
 
     @Test
