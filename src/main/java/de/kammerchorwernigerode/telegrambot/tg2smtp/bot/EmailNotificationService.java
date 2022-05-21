@@ -2,6 +2,8 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorAdapter;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorComposite;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -14,6 +16,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -31,37 +35,54 @@ public class EmailNotificationService implements NotificationService {
     @Override
     public void send(@NonNull Notification notification) {
         MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .map(emailAddress -> prepareMimeMessage(emailAddress, notification))
+                .map(this::prepareMimeMessage)
+                .map(this::compose)
+                .map(add(notification))
                 .toArray(MimeMessagePreparator[]::new);
 
         mailSender.send(preparators);
+    }
+
+    private MimeMessagePreparatorComposite compose(MimeMessagePreparator preparator) {
+        MimeMessagePreparatorComposite composite = new MimeMessagePreparatorComposite();
+        composite.add(preparator);
+        return composite;
+    }
+
+    private static UnaryOperator<MimeMessagePreparatorComposite> add(Notification notification) {
+        return preparator -> {
+            MimeMessagePreparatorAdapter adapter = new MimeMessagePreparatorAdapter(notification);
+            preparator.add(adapter);
+            return preparator;
+        };
+    }
+
+    private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress) {
+        return message -> {
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, StandardCharsets.UTF_8.name());
+            helper.setTo(emailAddress);
+            helper.setSubject(properties.getSubject());
+            applyReplyTo(helper);
+            message.setFrom();
+        };
     }
 
     @Override
     public void send(@NonNull Collection<? extends Notification> notifications) {
         MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .flatMap(emailAddress -> prepareMimeMessages(emailAddress, notifications))
+                .map(this::prepareMimeMessage)
+                .map(this::compose)
+                .flatMap(add(notifications))
                 .toArray(MimeMessagePreparator[]::new);
 
         mailSender.send(preparators);
     }
 
-    @NonNull
-    private Stream<MimeMessagePreparator> prepareMimeMessages(InternetAddress emailAddress,
-                                                              Collection<? extends Notification> notifications) {
-        return notifications.stream()
-                .map(notification -> prepareMimeMessage(emailAddress, notification));
-    }
-
-    private MimeMessagePreparator prepareMimeMessage(InternetAddress emailAddress, Notification notification) {
-        return message -> {
-            MimeMessageHelper helper = new MimeMessageHelper(message, false, StandardCharsets.UTF_8.name());
-            helper.setTo(emailAddress);
-            helper.setSubject(properties.getSubject());
-            helper.setText(notification.getMessage());
-            applyReplyTo(helper);
-            message.setFrom();
-        };
+    private static Function<MimeMessagePreparatorComposite, Stream<MimeMessagePreparator>> add(
+            Collection<? extends Notification> notifications) {
+        return preparator -> notifications.stream()
+                .map(EmailNotificationService::add)
+                .map(fn -> fn.apply(preparator));
     }
 
     private void applyReplyTo(MimeMessageHelper helper) throws MessagingException {
