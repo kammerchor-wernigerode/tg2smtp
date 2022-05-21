@@ -1,7 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -14,16 +13,17 @@ import static java.util.stream.Collectors.toList;
  *
  * @author Vincent Nadoll
  */
-@RequiredArgsConstructor
-public class EmptyMessageFilteringNotificationServiceDecorator implements NotificationService {
+public class EmptyMessageFilteringNotificationServiceDecorator extends NotificationServiceDecorator
+        implements NotificationService {
 
-    @NonNull
-    private final NotificationService subject;
+    public EmptyMessageFilteringNotificationServiceDecorator(NotificationService subject) {
+        super(subject);
+    }
 
     @Override
     public void send(@NonNull Notification notification) {
         if (hasMessage(notification)) {
-            subject.send(notification);
+            super.send(notification);
         }
     }
 
@@ -32,7 +32,7 @@ public class EmptyMessageFilteringNotificationServiceDecorator implements Notifi
         List<? extends Notification> filtered = notifications.stream()
                 .filter(EmptyMessageFilteringNotificationServiceDecorator::hasMessage)
                 .collect(toList());
-        subject.send(filtered);
+        super.send(filtered);
     }
 
     private static boolean hasMessage(Notification notification) {
