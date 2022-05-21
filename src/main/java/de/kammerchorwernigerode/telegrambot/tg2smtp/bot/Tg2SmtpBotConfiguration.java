@@ -3,7 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.EmptyMessageFilteringNotificationServiceDecorator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.Setter;
@@ -42,7 +42,7 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
         EmailNotificationService notificationService = new EmailNotificationService(properties,
                 javaMailSender,
                 mailProperties);
-        return new EmptyMessageFilteringNotificationServiceDecorator(notificationService);
+        return new FilteringNotificationService(notificationService, new EmptyMessageFilter());
     }
 
     @Bean
