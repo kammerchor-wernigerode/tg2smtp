@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Location;
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,17 +34,17 @@ class LocationPrinterTests {
     @Test
     @SneakyThrows
     void printingLocation_shouldDelegateToResolver() {
-        when(resolver.resolve(eq(location))).thenReturn(new URL("https://example.com/foo"));
+        when(resolver.resolve(any(), any())).thenReturn(new URL("https://example.com/foo"));
 
         printer.print(location);
 
-        verify(resolver).resolve(eq(location));
+        verify(resolver).resolve(any(), any());
     }
 
     @Test
     @SneakyThrows
     void printingLocation_shouldPrintResolved() {
-        when(resolver.resolve(eq(location))).thenReturn(new URL("https://example.com/foo"));
+        when(resolver.resolve(any(), any())).thenReturn(new URL("https://example.com/foo"));
 
         String string = printer.print(location);
 

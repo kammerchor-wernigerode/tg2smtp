@@ -14,5 +14,5 @@ import java.net.URL;
 public interface LocationUrlResolver {
 
     @org.springframework.lang.NonNull
-    URL resolve(@NonNull Location location);
+    URL resolve(@NonNull Number latitude, @NonNull Number longitude);
 }

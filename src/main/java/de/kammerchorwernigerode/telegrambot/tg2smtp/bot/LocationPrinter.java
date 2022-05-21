@@ -18,6 +18,6 @@ public class LocationPrinter implements Printer<Location> {
     @org.springframework.lang.NonNull
     @Override
     public String print(@NonNull Location location) {
-        return locationUrlResolver.resolve(location).toString();
+        return locationUrlResolver.resolve(location.getLatitude(), location.getLongitude()).toString();
     }
 }

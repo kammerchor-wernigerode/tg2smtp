@@ -22,10 +22,10 @@ public class GoogleMapsLocationUrlResolver implements LocationUrlResolver {
     @SneakyThrows
     @org.springframework.lang.NonNull
     @Override
-    public URL resolve(@NonNull Location location) {
+    public URL resolve(@NonNull Number latitude, @NonNull Number longitude) {
         URI uri = UriComponentsBuilder.fromHttpUrl(GOOGLE_MAPS_BASE_URL)
                 .query("q={latitude},{longitude}")
-                .buildAndExpand(location.getLatitude(), location.getLongitude())
+                .buildAndExpand(latitude, longitude)
                 .encode().toUri();
         return uri.toURL();
     }
