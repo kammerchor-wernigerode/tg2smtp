@@ -19,15 +19,15 @@ import java.util.stream.Collectors;
  * @author Vincent Nadoll
  */
 @Slf4j
-public class FilteringLongPollingBot extends LongPollingBotDecorator implements LongPollingBot {
+public class AuthorizedLongPollingBot extends LongPollingBotDecorator implements LongPollingBot {
 
-    private final Predicate<Update> filter;
+    private final Predicate<Update> authorizer;
     private final AbsSender sender;
 
-    public FilteringLongPollingBot(@NonNull LongPollingBot subject, @NonNull Predicate<Update> filter,
-                                   @NonNull AbsSender sender) {
+    public AuthorizedLongPollingBot(@NonNull LongPollingBot subject, @NonNull Predicate<Update> authorizer,
+                                    @NonNull AbsSender sender) {
         super(subject);
-        this.filter = filter;
+        this.authorizer = authorizer;
         this.sender = sender;
     }
 
@@ -35,7 +35,7 @@ public class FilteringLongPollingBot extends LongPollingBotDecorator implements 
     public void onUpdatesReceived(List<Update> updates) {
         List<Update> filtered = updates.stream()
                 .filter(update -> {
-                    if (filter.test(update)) {
+                    if (authorizer.test(update)) {
                         return true;
                     }
 
@@ -47,7 +47,7 @@ public class FilteringLongPollingBot extends LongPollingBotDecorator implements 
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (filter.test(update)) {
+        if (authorizer.test(update)) {
             super.onUpdateReceived(update);
         }
 

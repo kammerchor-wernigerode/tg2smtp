@@ -2,7 +2,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.FilteringLongPollingBot;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.EmptyMessageFilteringNotificationServiceDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
@@ -49,7 +49,7 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     public LongPollingBot tg2SmtpBot(Tg2SmtpBotProperties properties, NotificationService notificationService,
                                      PrinterService printerService) {
         Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(properties, notificationService, printerService);
-        return new FilteringLongPollingBot(tg2SmtpBot, new ChatFilter(properties.getChatId()), tg2SmtpBot);
+        return new AuthorizedLongPollingBot(tg2SmtpBot, new ChatIdAuthorizer(properties.getChatId()), tg2SmtpBot);
     }
 
     @Override

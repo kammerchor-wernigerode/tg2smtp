@@ -14,7 +14,7 @@ import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.UpdateUtils.extra
  * @author Vincent Nadoll
  */
 @RequiredArgsConstructor
-class ChatFilter implements Predicate<Update> {
+class ChatIdAuthorizer implements Predicate<Update> {
 
     @NonNull
     private final Collection<Long> chatIds;

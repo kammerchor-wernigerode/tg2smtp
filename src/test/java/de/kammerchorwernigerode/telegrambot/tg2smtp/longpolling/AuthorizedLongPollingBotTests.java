@@ -43,20 +43,20 @@ import static org.mockito.Mockito.when;
 /**
  * @author Vincent Nadoll
  */
-class FilteringLongPollingBotTests {
+class AuthorizedLongPollingBotTests {
 
     private static final long CHAT_ID = 0;
     private static final Predicate<Update> FILTER = update -> CHAT_ID == update.getMessage().getChatId();
 
     private LongPollingBot subject;
-    private FilteringLongPollingBot bot;
+    private AuthorizedLongPollingBot bot;
 
     private Update update;
 
     @BeforeEach
     void setUp() {
         subject = mock(LongPollingBot.class);
-        bot = new FilteringLongPollingBot(subject, FILTER, new NoopSender());
+        bot = new AuthorizedLongPollingBot(subject, FILTER, new NoopSender());
 
         update = mock(Update.class, Answers.RETURNS_DEEP_STUBS);
     }

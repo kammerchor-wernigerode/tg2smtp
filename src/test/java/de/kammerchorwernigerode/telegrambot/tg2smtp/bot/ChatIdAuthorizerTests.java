@@ -15,15 +15,15 @@ import static org.mockito.Mockito.when;
 /**
  * @author Vincent Nadoll
  */
-class ChatFilterTests {
+class ChatIdAuthorizerTests {
 
-    private ChatFilter filter;
+    private ChatIdAuthorizer filter;
 
     private Update update;
 
     @BeforeEach
     void setUp() {
-        filter = new ChatFilter(Set.of(42L, 1337L));
+        filter = new ChatIdAuthorizer(Set.of(42L, 1337L));
         update = mock(Update.class, Answers.RETURNS_DEEP_STUBS);
     }
 
