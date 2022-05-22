@@ -4,6 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,6 +18,7 @@ import java.util.Optional;
  *
  * @author Vincent Nadoll
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TelegramMessageTranslator {
@@ -38,6 +40,7 @@ public class TelegramMessageTranslator {
             return createNotification(poll, locale);
         }
 
+        log.warn("Missing translation for {}", message);
         return Optional.empty();
     }
 

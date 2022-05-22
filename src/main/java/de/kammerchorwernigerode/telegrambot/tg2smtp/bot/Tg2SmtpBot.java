@@ -44,7 +44,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
 
         if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
         translator.translate(message)
-                .ifPresent(notificationService::send);
+                .ifPresentOrElse(notificationService::send, () -> log.debug("Message is empty, noting to do"));
     }
 
     @Nullable
