@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
@@ -15,14 +16,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.telegram.telegrambots.meta.api.objects.Location;
-import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.function.Predicate;
-
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer.nullSafe;
 
 /**
  * @author Vincent Nadoll
@@ -47,19 +45,23 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
 
     @Bean
     public LongPollingBot tg2SmtpBot(Tg2SmtpBotProperties properties, NotificationService notificationService,
-                                     PrinterService printerService) {
-        Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(properties, notificationService, printerService);
+                                     TelegramMessageTranslator translator) {
+        Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(properties, notificationService, translator);
         return new AuthorizedLongPollingBot(tg2SmtpBot, new ChatIdAuthorizer(properties.getChatId()), tg2SmtpBot);
+    }
+
+    @Bean
+    public LocationUrlResolver locationUrlResolver() {
+        return new GoogleMapsLocationUrlResolver();
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return message -> Locale.getDefault();
     }
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
-        registry.addPrinter(String.class, nullSafe(new TextPrinter()));
-        registry.addPrinter(Poll.class, nullSafe(new PollPrinter()));
-
-        LocationUrlResolver locationUrlResolver = new GoogleMapsLocationUrlResolver();
-        registry.addPrinter(Location.class, nullSafe(new LocationPrinter(locationUrlResolver)));
-
         if (hasProfile("debug")) {
             registry.addPrinter(Object.class, new ToStringPrinter());
         }
