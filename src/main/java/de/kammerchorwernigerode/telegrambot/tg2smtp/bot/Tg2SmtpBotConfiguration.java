@@ -15,14 +15,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.telegram.telegrambots.meta.api.objects.Location;
-import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
-
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer.nullSafe;
 
 /**
  * @author Vincent Nadoll
@@ -52,14 +48,13 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
         return new AuthorizedLongPollingBot(tg2SmtpBot, new ChatIdAuthorizer(properties.getChatId()), tg2SmtpBot);
     }
 
+    @Bean
+    public LocationUrlResolver locationUrlResolver() {
+        return new GoogleMapsLocationUrlResolver();
+    }
+
     @Override
     public void addPrinters(PrinterRegistry registry) {
-        registry.addPrinter(String.class, nullSafe(new TextPrinter()));
-        registry.addPrinter(Poll.class, nullSafe(new PollPrinter()));
-
-        LocationUrlResolver locationUrlResolver = new GoogleMapsLocationUrlResolver();
-        registry.addPrinter(Location.class, nullSafe(new LocationPrinter(locationUrlResolver)));
-
         if (hasProfile("debug")) {
             registry.addPrinter(Object.class, new ToStringPrinter());
         }
