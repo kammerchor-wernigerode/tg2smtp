@@ -21,12 +21,13 @@ public class PollPrinter implements Printer<Poll> {
         String question = poll.getQuestion();
         StringBuilder builder = new StringBuilder()
                 .append(question)
-                .append("\n\n");
+                .append("\n");
 
         List<PollOption> options = poll.getOptions();
         for (int i = 0; i < options.size(); i++) {
             PollOption option = options.get(i);
-            builder.append(i + 1)
+            builder.append("  ")
+                    .append(i + 1)
                     .append(") ")
                     .append(option.getText())
                     .append("\n");
