@@ -10,7 +10,7 @@ RUN mvn -B -e -q package
 FROM openjdk:11-jre-slim as tg2smtp-assembler
 WORKDIR                                /opt/tg2smtp
 
-ARG JAR_FILE=tg2smtp-0.4.0-SNAPSHOT.jar
+ARG JAR_FILE=tg2smtp-0.4.0.jar
 COPY --from=tg2smtp-builder \
      /usr/src/tg2smtp/target/$JAR_FILE /opt/tg2smtp/app.jar
 
