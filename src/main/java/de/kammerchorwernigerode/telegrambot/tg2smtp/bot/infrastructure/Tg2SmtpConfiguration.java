@@ -6,6 +6,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.TextPrinter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -42,5 +43,14 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private Printer<Location> locationPrinter() {
         return nullSafe(new LocationPrinter(locationUrlResolver));
+    }
+
+    @Override
+    public void addNotificationFactories(NotificationFactoryRegistry registry) {
+        registry.addNotificationFactory(String.class, textNotificationFactory());
+    }
+
+    private TextNotificationFactory textNotificationFactory() {
+        return new TextNotificationFactory();
     }
 }
