@@ -1,17 +1,15 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.util.function.Supplier;
 
 /**
  * {@link org.telegram.telegrambots.meta.generics.TelegramBot} that forwards Telegram messages.
@@ -24,7 +22,7 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     private final Tg2SmtpBotProperties properties;
     private final NotificationService notificationService;
-    private final PrinterService printerService;
+    private final TelegramMessageTranslator translator;
 
     @Override
     public String getBotUsername() {
@@ -46,26 +44,12 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
         }
 
         if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
-        StringBuilder text = new StringBuilder();
-        printTo(text, message::getText, message::getPoll, message::getLocation, message::getPhoto, message::getDocument,
-                message::getAudio, message::getVoice, message::getVideo);
-
-        if (!StringUtils.hasText(text)) {
-            if (log.isDebugEnabled()) log.debug("Text is empty, noting to do");
-            return;
-        }
-
-        notificationService.send(text::toString);
+        Notification notification = translator.translate(message);
+        notificationService.send(notification);
     }
 
     @Nullable
     private Message extractMessage(Update update) {
         return UpdateUtils.extractMessage(update).orElse(null);
-    }
-
-    private void printTo(StringBuilder builder, Supplier<?>... suppliers) {
-        for (Supplier<?> supplier : suppliers) {
-            builder.append(printerService.print(supplier.get()));
-        }
     }
 }
