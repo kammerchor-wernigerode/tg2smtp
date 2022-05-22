@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import java.util.Optional;
 
@@ -69,6 +70,19 @@ class TelegramMessageTranslatorTests {
         when(message.hasLocation()).thenReturn(true);
         when(message.getLocation()).thenReturn(location);
         when(provider.findBy(location)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message);
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingPollMessage_shouldReturnNotification() {
+        Poll poll = mock(Poll.class);
+        Notification notification = () -> "foo";
+        when(message.hasPoll()).thenReturn(true);
+        when(message.getPoll()).thenReturn(poll);
+        when(provider.findBy(poll)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message);
 

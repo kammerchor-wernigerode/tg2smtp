@@ -50,6 +50,7 @@ class Tg2SmtpConfiguration implements Configurer {
     public void addNotificationFactories(NotificationFactoryRegistry registry) {
         registry.addNotificationFactory(String.class, textNotificationFactory());
         registry.addNotificationFactory(Location.class, locationNotificationFactory());
+        registry.addNotificationFactory(Poll.class, pollNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {
@@ -58,5 +59,9 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private LocationNotificationFactory locationNotificationFactory() {
         return new LocationNotificationFactory(configuration, new LocationPrinter(locationUrlResolver));
+    }
+
+    private PollNotificationFactory pollNotificationFactory() {
+        return new PollNotificationFactory(configuration, new PollPrinter());
     }
 }

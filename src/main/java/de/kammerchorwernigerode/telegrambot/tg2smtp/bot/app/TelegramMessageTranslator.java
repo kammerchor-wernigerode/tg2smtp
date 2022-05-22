@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -33,6 +34,9 @@ public class TelegramMessageTranslator {
         } else if (message.hasLocation()) {
             Location location = message.getLocation();
             return createNotification(location, locale);
+        } else if (message.hasPoll()) {
+            Poll poll = message.getPoll();
+            return createNotification(poll, locale);
         } else {
             String sender = Optional.ofNullable(message.getFrom())
                     .map(User::getFirstName)
