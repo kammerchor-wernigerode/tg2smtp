@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import java.util.Locale;
@@ -25,7 +24,7 @@ public class TelegramMessageTranslator {
     private final @NonNull NotificationFactoryProvider notificationFactoryProvider;
     private final @NonNull LocaleResolver localeResolver;
 
-    public Notification translate(@NonNull Message message) {
+    public Optional<Notification> translate(@NonNull Message message) {
         Locale locale = localeResolver.resolve(message);
 
         if (message.hasText()) {
@@ -37,20 +36,13 @@ public class TelegramMessageTranslator {
         } else if (message.hasPoll()) {
             Poll poll = message.getPoll();
             return createNotification(poll, locale);
-        } else {
-            String sender = Optional.ofNullable(message.getFrom())
-                    .map(User::getFirstName)
-                    .orElse("Somebody");
-            return () -> sender + " has sent a new message.";
         }
+
+        return Optional.empty();
     }
 
-    private <T> Notification createNotification(T message, Locale locale) {
+    private <T> Optional<Notification> createNotification(T message, Locale locale) {
         return notificationFactoryProvider.findBy(message)
-                .map(factory -> factory.create(message, locale))
-                .orElseThrow(() -> new IllegalArgumentException(""
-                        + "Factory for message of type "
-                        + message.getClass().getSimpleName()
-                        + " could not be found"));
+                .map(factory -> factory.create(message, locale));
     }
 }

@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -43,12 +44,25 @@ class TelegramMessageTranslatorTests {
     }
 
     @Test
-    void translatingUnknown_shouldThrowException() {
+    void translatingUnknown_shouldReturnEmptyOptional() {
         when(message.hasText()).thenReturn(true);
         when(message.getText()).thenReturn("foo");
         when(provider.findBy(any())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> translator.translate(message));
+        Optional<Notification> notification = translator.translate(message);
+
+        assertFalse(notification.isPresent());
+    }
+
+    @Test
+    void translatingUnregistered_shouldReturnEmptyOptional() {
+        when(message.hasText()).thenReturn(true);
+        when(message.getText()).thenReturn("foo");
+        when(provider.findBy("foo")).thenReturn(Optional.empty());
+
+        Optional<Notification> notification = translator.translate(message);
+
+        assertFalse(notification.isPresent());
     }
 
     @Test
@@ -58,7 +72,7 @@ class TelegramMessageTranslatorTests {
         when(message.getText()).thenReturn("foo");
         when(provider.findBy("foo")).thenReturn(Optional.of((msg, locale) -> notification));
 
-        Notification result = translator.translate(message);
+        Notification result = translator.translate(message).get();
 
         assertEquals(notification, result);
     }
@@ -71,7 +85,7 @@ class TelegramMessageTranslatorTests {
         when(message.getLocation()).thenReturn(location);
         when(provider.findBy(location)).thenReturn(Optional.of((msg, locale) -> notification));
 
-        Notification result = translator.translate(message);
+        Notification result = translator.translate(message).get();
 
         assertEquals(notification, result);
     }
@@ -84,7 +98,7 @@ class TelegramMessageTranslatorTests {
         when(message.getPoll()).thenReturn(poll);
         when(provider.findBy(poll)).thenReturn(Optional.of((msg, locale) -> notification));
 
-        Notification result = translator.translate(message);
+        Notification result = translator.translate(message).get();
 
         assertEquals(notification, result);
     }

@@ -1,7 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -44,8 +43,8 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
         }
 
         if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
-        Notification notification = translator.translate(message);
-        notificationService.send(notification);
+        translator.translate(message)
+                .ifPresent(notificationService::send);
     }
 
     @Nullable
