@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
+import java.util.Locale;
+
 /**
  * {@link Printer} implementation to transforms {@link Location}s to string.
  *
@@ -19,5 +21,10 @@ public class LocationPrinter implements Printer<Location> {
     @Override
     public String print(@NonNull Location location) {
         return locationUrlResolver.resolve(location.getLatitude(), location.getLongitude()).toString();
+    }
+
+    @Override
+    public String print(@NonNull Location object, @NonNull Locale locale) {
+        return Printer.super.print(object, locale);
     }
 }

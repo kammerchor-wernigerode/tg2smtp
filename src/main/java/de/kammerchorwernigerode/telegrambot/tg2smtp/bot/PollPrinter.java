@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollOption;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * {@link Printer} that formats Telegram {@link Poll}s into plaintext.
@@ -32,5 +33,10 @@ public class PollPrinter implements Printer<Poll> {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public String print(@NonNull Poll object, @NonNull Locale locale) {
+        return Printer.super.print(object, locale);
     }
 }
