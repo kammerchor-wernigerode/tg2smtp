@@ -5,9 +5,11 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -20,11 +22,17 @@ import java.util.Optional;
 public class TelegramMessageTranslator {
 
     private final @NonNull NotificationFactoryProvider notificationFactoryProvider;
+    private final @NonNull LocaleResolver localeResolver;
 
     public Notification translate(@NonNull Message message) {
+        Locale locale = localeResolver.resolve(message);
+
         if (message.hasText()) {
             String text = message.getText();
-            return createNotification(text);
+            return createNotification(text, locale);
+        } else if (message.hasLocation()) {
+            Location location = message.getLocation();
+            return createNotification(location, locale);
         } else {
             String sender = Optional.ofNullable(message.getFrom())
                     .map(User::getFirstName)
@@ -33,9 +41,9 @@ public class TelegramMessageTranslator {
         }
     }
 
-    private <T> Notification createNotification(T message) {
+    private <T> Notification createNotification(T message, Locale locale) {
         return notificationFactoryProvider.findBy(message)
-                .map(factory -> factory.create(message))
+                .map(factory -> factory.create(message, locale))
                 .orElseThrow(() -> new IllegalArgumentException(""
                         + "Factory for message of type "
                         + message.getClass().getSimpleName()

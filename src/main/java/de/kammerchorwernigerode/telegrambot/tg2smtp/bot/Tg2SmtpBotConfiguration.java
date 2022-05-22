@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.app.PrinterService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
@@ -18,6 +19,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.function.Predicate;
 
 /**
@@ -51,6 +53,11 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     @Bean
     public LocationUrlResolver locationUrlResolver() {
         return new GoogleMapsLocationUrlResolver();
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return message -> Locale.getDefault();
     }
 
     @Override

@@ -25,6 +25,7 @@ import static de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer.
 class Tg2SmtpConfiguration implements Configurer {
 
     private final LocationUrlResolver locationUrlResolver;
+    private final freemarker.template.Configuration configuration;
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
@@ -48,9 +49,14 @@ class Tg2SmtpConfiguration implements Configurer {
     @Override
     public void addNotificationFactories(NotificationFactoryRegistry registry) {
         registry.addNotificationFactory(String.class, textNotificationFactory());
+        registry.addNotificationFactory(Location.class, locationNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {
         return new TextNotificationFactory();
+    }
+
+    private LocationNotificationFactory locationNotificationFactory() {
+        return new LocationNotificationFactory(configuration, new LocationPrinter(locationUrlResolver));
     }
 }
