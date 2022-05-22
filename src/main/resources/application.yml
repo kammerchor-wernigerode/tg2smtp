@@ -7,6 +7,10 @@ spring:
       - smtp_auth
       - smtp_tls
 
+  freemarker:
+    content-type: text/plain
+    suffix: .ftl
+
   mail:
     host: ${MAIL_HOST:localhost}
     port: ${MAIL_PORT:587}
