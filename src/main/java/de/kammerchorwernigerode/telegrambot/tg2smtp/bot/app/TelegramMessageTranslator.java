@@ -1,5 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import lombok.NonNull;
@@ -38,6 +39,9 @@ public class TelegramMessageTranslator {
         } else if (message.hasPoll()) {
             Poll poll = message.getPoll();
             return createNotification(poll, locale);
+        } else if (message.hasPhoto()) {
+            Photos photos = new Photos(message.getPhoto());
+            return createNotification(photos, locale);
         }
 
         log.warn("Missing translation for {}", message);

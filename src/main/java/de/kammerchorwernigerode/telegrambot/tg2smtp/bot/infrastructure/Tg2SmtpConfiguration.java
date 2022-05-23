@@ -4,6 +4,9 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.LocationPrinter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.LocationUrlResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.TextPrinter;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
@@ -11,6 +14,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.api.objects.Location;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer.nullSafe;
@@ -26,6 +30,8 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private final LocationUrlResolver locationUrlResolver;
     private final freemarker.template.Configuration configuration;
+    private final PhotoPicker photoPicker;
+    private final Downloader<PhotoSize> photoDownloader;
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
@@ -51,6 +57,7 @@ class Tg2SmtpConfiguration implements Configurer {
         registry.addNotificationFactory(String.class, textNotificationFactory());
         registry.addNotificationFactory(Location.class, locationNotificationFactory());
         registry.addNotificationFactory(Poll.class, pollNotificationFactory());
+        registry.addNotificationFactory(Photos.class, photoNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {
@@ -63,5 +70,9 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private PollNotificationFactory pollNotificationFactory() {
         return new PollNotificationFactory(configuration, new PollPrinter());
+    }
+
+    private PhotoNotificationFactory photoNotificationFactory() {
+        return new PhotoNotificationFactory(configuration, photoPicker, photoDownloader);
     }
 }

@@ -2,6 +2,8 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.PhotoDownloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
@@ -16,6 +18,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.telegram.telegrambots.bots.DefaultAbsSender;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.util.Arrays;
@@ -48,6 +54,21 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
                                      TelegramMessageTranslator translator) {
         Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(properties, notificationService, translator);
         return new AuthorizedLongPollingBot(tg2SmtpBot, new ChatIdAuthorizer(properties.getChatId()), tg2SmtpBot);
+    }
+
+    @Bean
+    public AbsSender absSender(Tg2SmtpBotProperties properties) {
+        return new DefaultAbsSender(new DefaultBotOptions()) {
+            @Override
+            public String getBotToken() {
+                return properties.getBot().getToken();
+            }
+        };
+    }
+
+    @Bean
+    public Downloader<PhotoSize> photoDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
+        return new PhotoDownloader(properties, absSender::execute);
     }
 
     @Bean
