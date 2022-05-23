@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Video;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
@@ -54,6 +55,9 @@ public class TelegramMessageTranslator {
         } else if (message.hasVoice()) {
             Voice voice = message.getVoice();
             return createNotification(voice, locale);
+        } else if (message.hasVideo()) {
+            Video video = message.getVideo();
+            return createNotification(video, locale);
         }
 
         log.warn("Missing translation for {}", message);

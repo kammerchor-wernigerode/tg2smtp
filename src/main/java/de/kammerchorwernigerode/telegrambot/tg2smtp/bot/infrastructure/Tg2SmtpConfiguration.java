@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
+import org.telegram.telegrambots.meta.api.objects.Video;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
@@ -38,6 +39,7 @@ class Tg2SmtpConfiguration implements Configurer {
     private final Downloader<Document> documentDownloader;
     private final Downloader<Audio> audioDownloader;
     private final Downloader<Voice> voiceDownloader;
+    private final Downloader<Video> videoDownloader;
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
@@ -67,6 +69,7 @@ class Tg2SmtpConfiguration implements Configurer {
         registry.addNotificationFactory(Document.class, documentNotificationFactory());
         registry.addNotificationFactory(Audio.class, audioNotificationFactory());
         registry.addNotificationFactory(Voice.class, voiceNotificationFactory());
+        registry.addNotificationFactory(Video.class, videoNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {
@@ -95,5 +98,9 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private VoiceNotificationFactory voiceNotificationFactory() {
         return new VoiceNotificationFactory(configuration, voiceDownloader);
+    }
+
+    private VideoNotificationFactory videoNotificationFactory() {
+        return new VideoNotificationFactory(configuration, videoDownloader);
     }
 }

@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTrans
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.AudioDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.DocumentDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.PhotoDownloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.VideoDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.VoiceDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
@@ -26,6 +27,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
+import org.telegram.telegrambots.meta.api.objects.Video;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
@@ -90,6 +92,11 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     @Bean
     public Downloader<Voice> voiceDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
         return new VoiceDownloader(properties, absSender::execute);
+    }
+
+    @Bean
+    public Downloader<Video> videoDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
+        return new VideoDownloader(properties, absSender::execute);
     }
 
     @Bean
