@@ -15,6 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -52,5 +53,17 @@ class MimeMessagePreparatorAdapterTests {
         adapter.prepare(mimeMessage);
 
         verify(mimeMessage).setText(eq("foo"), any(String.class));
+    }
+
+    @Test
+    @SneakyThrows
+    void preparingEmptyAttachments_shouldNotAddAttachments() {
+        MimeMessage mimeMessage = mock(MimeMessage.class);
+        when(notification.getMessage()).thenReturn("");
+
+        adapter.prepare(mimeMessage);
+
+        verify(mimeMessage).setText(eq(""), any(String.class));
+        verifyNoMoreInteractions(mimeMessage);
     }
 }
