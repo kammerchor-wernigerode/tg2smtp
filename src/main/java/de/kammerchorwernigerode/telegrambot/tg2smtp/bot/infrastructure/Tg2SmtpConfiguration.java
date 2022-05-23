@@ -13,6 +13,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
@@ -32,6 +33,7 @@ class Tg2SmtpConfiguration implements Configurer {
     private final freemarker.template.Configuration configuration;
     private final PhotoPicker photoPicker;
     private final Downloader<PhotoSize> photoDownloader;
+    private final Downloader<Document> documentDownloader;
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
@@ -58,6 +60,7 @@ class Tg2SmtpConfiguration implements Configurer {
         registry.addNotificationFactory(Location.class, locationNotificationFactory());
         registry.addNotificationFactory(Poll.class, pollNotificationFactory());
         registry.addNotificationFactory(Photos.class, photoNotificationFactory());
+        registry.addNotificationFactory(Document.class, documentNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {
@@ -74,5 +77,9 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private PhotoNotificationFactory photoNotificationFactory() {
         return new PhotoNotificationFactory(configuration, photoPicker, photoDownloader);
+    }
+
+    private DocumentNotificationFactory documentNotificationFactory() {
+        return new DocumentNotificationFactory(configuration, documentDownloader);
     }
 }

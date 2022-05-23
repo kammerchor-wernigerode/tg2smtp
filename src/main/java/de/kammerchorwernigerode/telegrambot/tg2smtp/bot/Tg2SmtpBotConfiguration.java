@@ -2,6 +2,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.DocumentDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.PhotoDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
@@ -20,6 +21,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
@@ -69,6 +71,11 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     @Bean
     public Downloader<PhotoSize> photoDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
         return new PhotoDownloader(properties, absSender::execute);
+    }
+
+    @Bean
+    public Downloader<Document> documentDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
+        return new DocumentDownloader(properties, absSender::execute);
     }
 
     @Bean

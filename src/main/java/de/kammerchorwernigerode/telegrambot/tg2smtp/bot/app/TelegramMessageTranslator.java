@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
@@ -42,6 +43,9 @@ public class TelegramMessageTranslator {
         } else if (message.hasPhoto()) {
             Photos photos = new Photos(message.getPhoto());
             return createNotification(photos, locale);
+        } else if (message.hasDocument()) {
+            Document document = message.getDocument();
+            return createNotification(document, locale);
         }
 
         log.warn("Missing translation for {}", message);

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
@@ -111,6 +112,19 @@ class TelegramMessageTranslatorTests {
         when(message.hasPhoto()).thenReturn(true);
         when(message.getPhoto()).thenReturn(emptyList());
         when(provider.findBy(any(Photos.class))).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingDocumentMessage_shouldReturnNotification() {
+        Document document = mock(Document.class);
+        Notification notification = () -> "foo";
+        when(message.hasDocument()).thenReturn(true);
+        when(message.getDocument()).thenReturn(document);
+        when(provider.findBy(document)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 
