@@ -24,7 +24,7 @@ import java.util.Locale;
 public class DocumentNotificationFactory implements NotificationFactory<Document> {
 
     private final @NonNull Configuration configuration;
-    private final @NonNull Downloader<Document> downloader;
+    private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
     public Notification create(@NonNull Document document, @NonNull Locale locale) {
@@ -36,6 +36,7 @@ public class DocumentNotificationFactory implements NotificationFactory<Document
 
     @SneakyThrows
     private Resource download(Document document) {
-        return downloader.download(document);
+        MediaReference mediaReference = new MediaReference(document.getFileId(), document.getFileName());
+        return downloader.download(mediaReference);
     }
 }

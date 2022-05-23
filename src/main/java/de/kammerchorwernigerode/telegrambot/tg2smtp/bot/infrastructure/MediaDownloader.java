@@ -8,27 +8,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
-import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 
 /**
- * A specialized {@link Downloader} for {@link Audio Telegram audio files}.
+ * Generic {@link Downloader} that retrieves Telegram {@link File}s.
  *
  * @author Vincent Nadoll
  */
 @RequiredArgsConstructor
-public class AudioDownloader implements Downloader<Audio> {
+public class MediaDownloader implements Downloader<MediaReference> {
 
     private final @NonNull Tg2SmtpBotProperties properties;
     private final @NonNull ThrowingFunction<GetFile, File, TelegramApiException> executor;
 
     @Override
-    public Resource download(Audio audio) throws IOException {
+    public Resource download(MediaReference mediaReference) throws IOException {
         try {
-            String fileId = audio.getFileId();
+            String fileId = mediaReference.getFileId();
             GetFile method = new GetFile(fileId);
             File reference = executor.apply(method);
             String botToken = properties.getBot().getToken();
@@ -36,11 +35,12 @@ public class AudioDownloader implements Downloader<Audio> {
             return new UrlResource(path) {
                 @Override
                 public String getFilename() {
-                    return audio.getFileName();
+                    return mediaReference.getFilename().orElse(super.getFilename());
                 }
             };
         } catch (TelegramApiException e) {
             throw new IOException("Download failed", e);
         }
+
     }
 }

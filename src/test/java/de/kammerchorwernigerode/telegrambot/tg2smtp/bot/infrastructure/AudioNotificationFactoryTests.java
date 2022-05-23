@@ -28,7 +28,7 @@ class AudioNotificationFactoryTests {
     private AudioNotificationFactory factory;
 
     private @Mock Configuration configuration;
-    private @Mock Downloader<Audio> downloader;
+    private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
@@ -59,10 +59,13 @@ class AudioNotificationFactoryTests {
     void creatingFromAudio_shouldDelegateDownload() {
         Audio audio = mock(Audio.class);
         Resource attachment = mock(Resource.class);
-        when(downloader.download(eq(audio))).thenReturn(attachment);
+        MediaReference mediaReference = new MediaReference("foo", "bar.mp3");
+        when(audio.getFileId()).thenReturn("foo");
+        when(audio.getFileName()).thenReturn("bar.mp3");
+        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
         factory.create(audio);
 
-        verify(downloader).download(audio);
+        verify(downloader).download(mediaReference);
     }
 }

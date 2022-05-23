@@ -24,7 +24,7 @@ import java.util.Locale;
 public class VideoNotificationFactory implements NotificationFactory<Video> {
 
     private final @NonNull Configuration configuration;
-    private final @NonNull Downloader<Video> downloader;
+    private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
     public Notification create(@NonNull Video video, @NonNull Locale locale) {
@@ -36,6 +36,7 @@ public class VideoNotificationFactory implements NotificationFactory<Video> {
 
     @SneakyThrows
     private Resource download(Video video) {
-        return downloader.download(video);
+        MediaReference mediaReference = new MediaReference(video.getFileId(), video.getFileName());
+        return downloader.download(mediaReference);
     }
 }

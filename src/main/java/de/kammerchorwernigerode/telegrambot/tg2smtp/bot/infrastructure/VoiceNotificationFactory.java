@@ -24,7 +24,7 @@ import java.util.Locale;
 public class VoiceNotificationFactory implements NotificationFactory<Voice> {
 
     private final @NonNull Configuration configuration;
-    private final @NonNull Downloader<Voice> downloader;
+    private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
     public Notification create(@NonNull Voice voice, @NonNull Locale locale) {
@@ -36,6 +36,7 @@ public class VoiceNotificationFactory implements NotificationFactory<Voice> {
 
     @SneakyThrows
     private Resource download(Voice voice) {
-        return downloader.download(voice);
+        MediaReference mediaReference = new MediaReference(voice.getFileId());
+        return downloader.download(mediaReference);
     }
 }

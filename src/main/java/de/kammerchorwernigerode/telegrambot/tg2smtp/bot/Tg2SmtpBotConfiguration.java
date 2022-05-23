@@ -2,11 +2,8 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.AudioDownloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.DocumentDownloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.PhotoDownloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.VideoDownloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.VoiceDownloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaReference;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
@@ -24,11 +21,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.meta.api.objects.Audio;
-import org.telegram.telegrambots.meta.api.objects.Document;
-import org.telegram.telegrambots.meta.api.objects.PhotoSize;
-import org.telegram.telegrambots.meta.api.objects.Video;
-import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
@@ -75,28 +67,8 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     }
 
     @Bean
-    public Downloader<PhotoSize> photoDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
-        return new PhotoDownloader(properties, absSender::execute);
-    }
-
-    @Bean
-    public Downloader<Document> documentDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
-        return new DocumentDownloader(properties, absSender::execute);
-    }
-
-    @Bean
-    public Downloader<Audio> audioDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
-        return new AudioDownloader(properties, absSender::execute);
-    }
-
-    @Bean
-    public Downloader<Voice> voiceDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
-        return new VoiceDownloader(properties, absSender::execute);
-    }
-
-    @Bean
-    public Downloader<Video> videoDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
-        return new VideoDownloader(properties, absSender::execute);
+    public Downloader<MediaReference> telegramFileDownloader(Tg2SmtpBotProperties properties, AbsSender absSender) {
+        return new MediaDownloader(properties, absSender::execute);
     }
 
     @Bean

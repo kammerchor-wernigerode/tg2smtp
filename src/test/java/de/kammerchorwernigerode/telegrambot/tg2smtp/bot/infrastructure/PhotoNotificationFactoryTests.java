@@ -32,7 +32,7 @@ class PhotoNotificationFactoryTests {
 
     private @Mock Configuration configuration;
     private @Mock PhotoPicker picker;
-    private @Mock Downloader<PhotoSize> downloader;
+    private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
@@ -65,11 +65,13 @@ class PhotoNotificationFactoryTests {
         PhotoSize photo = mock(PhotoSize.class);
         Resource attachment = mock(Resource.class);
         Photos photos = new Photos(singletonList(photo));
+        MediaReference mediaReference = new MediaReference("foo");
+        when(photo.getFileId()).thenReturn("foo");
         when(picker.pickFrom(eq(photos))).thenReturn(photo);
-        when(downloader.download(eq(photo))).thenReturn(attachment);
+        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
         factory.create(photos);
 
-        verify(downloader).download(photo);
+        verify(downloader).download(mediaReference);
     }
 }

@@ -27,7 +27,7 @@ public class PhotoNotificationFactory implements NotificationFactory<Photos> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull PhotoPicker photoPicker;
-    private final @NonNull Downloader<PhotoSize> downloader;
+    private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
     public Notification create(@NonNull Photos photos, @NonNull Locale locale) {
@@ -40,6 +40,7 @@ public class PhotoNotificationFactory implements NotificationFactory<Photos> {
 
     @SneakyThrows
     private Resource download(PhotoSize photo) {
-        return downloader.download(photo);
+        MediaReference mediaReference = new MediaReference(photo.getFileId());
+        return downloader.download(mediaReference);
     }
 }

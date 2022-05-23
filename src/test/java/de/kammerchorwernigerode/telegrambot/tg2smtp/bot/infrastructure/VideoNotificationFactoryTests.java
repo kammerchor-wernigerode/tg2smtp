@@ -28,7 +28,7 @@ class VideoNotificationFactoryTests {
     private VideoNotificationFactory factory;
 
     private @Mock Configuration configuration;
-    private @Mock Downloader<Video> downloader;
+    private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
@@ -59,10 +59,13 @@ class VideoNotificationFactoryTests {
     void creatingFromVideo_shouldDelegateDownload() {
         Video video = mock(Video.class);
         Resource attachment = mock(Resource.class);
-        when(downloader.download(eq(video))).thenReturn(attachment);
+        MediaReference mediaReference = new MediaReference("foo", "bar.mp4");
+        when(video.getFileId()).thenReturn("foo");
+        when(video.getFileName()).thenReturn("bar.mp4");
+        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
         factory.create(video);
 
-        verify(downloader).download(video);
+        verify(downloader).download(mediaReference);
     }
 }

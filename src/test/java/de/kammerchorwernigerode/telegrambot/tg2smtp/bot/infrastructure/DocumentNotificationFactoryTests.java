@@ -28,7 +28,7 @@ class DocumentNotificationFactoryTests {
     private DocumentNotificationFactory factory;
 
     private @Mock Configuration configuration;
-    private @Mock Downloader<Document> downloader;
+    private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
@@ -59,10 +59,13 @@ class DocumentNotificationFactoryTests {
     void creatingFromDocument_shouldDelegateDownload() {
         Document document = mock(Document.class);
         Resource attachment = mock(Resource.class);
-        when(downloader.download(eq(document))).thenReturn(attachment);
+        MediaReference mediaReference = new MediaReference("foo", "bar.pdf");
+        when(document.getFileId()).thenReturn("foo");
+        when(document.getFileName()).thenReturn("bar.pdf");
+        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
         factory.create(document);
 
-        verify(downloader).download(document);
+        verify(downloader).download(mediaReference);
     }
 }

@@ -28,7 +28,7 @@ class VoiceNotificationFactoryTests {
     private VoiceNotificationFactory factory;
 
     private @Mock Configuration configuration;
-    private @Mock Downloader<Voice> downloader;
+    private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
@@ -59,10 +59,12 @@ class VoiceNotificationFactoryTests {
     void creatingFromVoice_shouldDelegateDownload() {
         Voice voiceMessage = mock(Voice.class);
         Resource attachment = mock(Resource.class);
-        when(downloader.download(eq(voiceMessage))).thenReturn(attachment);
+        MediaReference mediaReference = new MediaReference("foo");
+        when(voiceMessage.getFileId()).thenReturn("foo");
+        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
         factory.create(voiceMessage);
 
-        verify(downloader).download(voiceMessage);
+        verify(downloader).download(mediaReference);
     }
 }
