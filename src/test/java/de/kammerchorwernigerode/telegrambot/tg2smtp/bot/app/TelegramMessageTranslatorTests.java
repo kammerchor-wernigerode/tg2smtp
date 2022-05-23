@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -125,6 +126,19 @@ class TelegramMessageTranslatorTests {
         when(message.hasDocument()).thenReturn(true);
         when(message.getDocument()).thenReturn(document);
         when(provider.findBy(document)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingAudioMessage_shouldReturnNotification() {
+        Audio audio = mock(Audio.class);
+        Notification notification = () -> "foo";
+        when(message.hasAudio()).thenReturn(true);
+        when(message.getAudio()).thenReturn(audio);
+        when(provider.findBy(audio)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 

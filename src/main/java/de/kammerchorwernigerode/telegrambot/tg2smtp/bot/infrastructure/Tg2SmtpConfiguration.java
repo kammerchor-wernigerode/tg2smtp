@@ -13,6 +13,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -34,6 +35,7 @@ class Tg2SmtpConfiguration implements Configurer {
     private final PhotoPicker photoPicker;
     private final Downloader<PhotoSize> photoDownloader;
     private final Downloader<Document> documentDownloader;
+    private final Downloader<Audio> audioDownloader;
 
     @Override
     public void addPrinters(PrinterRegistry registry) {
@@ -61,6 +63,7 @@ class Tg2SmtpConfiguration implements Configurer {
         registry.addNotificationFactory(Poll.class, pollNotificationFactory());
         registry.addNotificationFactory(Photos.class, photoNotificationFactory());
         registry.addNotificationFactory(Document.class, documentNotificationFactory());
+        registry.addNotificationFactory(Audio.class, audioNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {
@@ -81,5 +84,9 @@ class Tg2SmtpConfiguration implements Configurer {
 
     private DocumentNotificationFactory documentNotificationFactory() {
         return new DocumentNotificationFactory(configuration, documentDownloader);
+    }
+
+    private AudioNotificationFactory audioNotificationFactory() {
+        return new AudioNotificationFactory(configuration, audioDownloader);
     }
 }
