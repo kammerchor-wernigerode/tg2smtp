@@ -2,13 +2,8 @@
 
 A Telegram Bot that forwards chat massages to email addresses. Works in private chats, groups and channels.
 
-
-## Limitations
-
-In its current state this bot is only capable of forwarding **text messages**, **polls**, **locations**, **photos**,
-**documents** and **audio files**. Features below may be implemented in future iterations towards version 1.
-
-* Voice messages
+This bot is only capable of forwarding **text messages**, **polls**, **locations**, **photos**, **documents**,
+**audio files** and **voice messages**.
 
 
 ## Use Case
