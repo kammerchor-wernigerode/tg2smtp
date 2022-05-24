@@ -4,6 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -126,10 +127,12 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingDocumentMessage_shouldReturnNotification() {
         Document document = mock(Document.class);
+        TitledDocument titledDocument = new TitledDocument("bar.pdf", document);
         Notification notification = () -> "foo";
         when(message.hasDocument()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.pdf");
         when(message.getDocument()).thenReturn(document);
-        when(provider.findBy(document)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(titledDocument)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 

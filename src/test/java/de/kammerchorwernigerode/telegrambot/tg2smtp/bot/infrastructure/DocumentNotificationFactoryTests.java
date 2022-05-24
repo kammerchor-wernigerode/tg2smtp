@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import freemarker.template.Configuration;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,21 +51,23 @@ class DocumentNotificationFactoryTests {
     @Test
     void creatingNullLocale_shouldThrowException() {
         Document document = mock(Document.class);
+        TitledDocument titledDocument = new TitledDocument("bar.pdf", document);
 
-        assertThrows(IllegalArgumentException.class, () -> factory.create(document, null));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(titledDocument, null));
     }
 
     @Test
     @SneakyThrows
     void creatingFromDocument_shouldDelegateDownload() {
         Document document = mock(Document.class);
+        TitledDocument titledDocument = new TitledDocument("bar.pdf", document);
         Resource attachment = mock(Resource.class);
         MediaReference mediaReference = new MediaReference("foo", "bar.pdf");
         when(document.getFileId()).thenReturn("foo");
         when(document.getFileName()).thenReturn("bar.pdf");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(document);
+        factory.create(titledDocument);
 
         verify(downloader).download(mediaReference);
     }

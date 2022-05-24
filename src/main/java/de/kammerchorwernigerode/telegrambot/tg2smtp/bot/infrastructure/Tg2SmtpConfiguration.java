@@ -12,10 +12,10 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
@@ -61,7 +61,7 @@ class Tg2SmtpConfiguration implements Configurer {
         registry.addNotificationFactory(Location.class, locationNotificationFactory());
         registry.addNotificationFactory(Poll.class, pollNotificationFactory());
         registry.addNotificationFactory(Photos.class, photoNotificationFactory());
-        registry.addNotificationFactory(Document.class, documentNotificationFactory());
+        registry.addNotificationFactory(TitledDocument.class, documentNotificationFactory());
         registry.addNotificationFactory(TitledAudio.class, audioNotificationFactory());
         registry.addNotificationFactory(Voice.class, voiceNotificationFactory());
         registry.addNotificationFactory(TitledVideo.class, videoNotificationFactory());

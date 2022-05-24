@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +22,17 @@ import java.util.Locale;
  * @author Vincent Nadoll
  */
 @RequiredArgsConstructor
-public class DocumentNotificationFactory implements NotificationFactory<Document> {
+public class DocumentNotificationFactory implements NotificationFactory<TitledDocument> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull Document document, @NonNull Locale locale) {
+    public Notification create(@NonNull TitledDocument document, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("document.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, msg -> "", "")
-                .with(download(document));
+        return new FreemarkerNotification<>(template, configuration, msg -> "", document.getCaption().orElse(""))
+                .with(download(document.getContent()));
     }
 
     @SneakyThrows
