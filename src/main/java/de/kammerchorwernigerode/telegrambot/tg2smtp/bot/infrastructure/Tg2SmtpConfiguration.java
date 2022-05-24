@@ -7,15 +7,8 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.telegram.telegrambots.meta.api.objects.Location;
-import org.telegram.telegrambots.meta.api.objects.Voice;
-import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 /**
  * SPI-{@link Configurer} implementation that adapts the Telegram Bot API for then Tg2SMTP Bot domain.
@@ -33,14 +26,14 @@ class Tg2SmtpConfiguration implements Configurer {
 
     @Override
     public void addNotificationFactories(NotificationFactoryRegistry registry) {
-        registry.addNotificationFactory(String.class, textNotificationFactory());
-        registry.addNotificationFactory(Location.class, locationNotificationFactory());
-        registry.addNotificationFactory(Poll.class, pollNotificationFactory());
-        registry.addNotificationFactory(TitledPhotos.class, photoNotificationFactory());
-        registry.addNotificationFactory(TitledDocument.class, documentNotificationFactory());
-        registry.addNotificationFactory(TitledAudio.class, audioNotificationFactory());
-        registry.addNotificationFactory(Voice.class, voiceNotificationFactory());
-        registry.addNotificationFactory(TitledVideo.class, videoNotificationFactory());
+        registry.addNotificationFactory(textNotificationFactory());
+        registry.addNotificationFactory(locationNotificationFactory());
+        registry.addNotificationFactory(pollNotificationFactory());
+        registry.addNotificationFactory(photoNotificationFactory());
+        registry.addNotificationFactory(documentNotificationFactory());
+        registry.addNotificationFactory(audioNotificationFactory());
+        registry.addNotificationFactory(voiceNotificationFactory());
+        registry.addNotificationFactory(videoNotificationFactory());
     }
 
     private TextNotificationFactory textNotificationFactory() {

@@ -10,5 +10,5 @@ import lombok.NonNull;
 @FunctionalInterface
 public interface NotificationFactoryRegistry {
 
-    <T> void addNotificationFactory(@NonNull Class<T> messageType, @NonNull NotificationFactory<T> factory);
+    void addNotificationFactory(@NonNull NotificationFactory<?> factory);
 }

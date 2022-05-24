@@ -1,12 +1,14 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,24 +23,14 @@ class ConfigurableNotificationFactoryProviderTests {
 
     private ConfigurableNotificationFactoryProvider provider;
 
-    private Class<Object> messageType;
-    private @Mock NotificationFactory<Object> factory;
-
     @BeforeEach
     void setUp() {
-        messageType = Object.class;
-
         provider = new ConfigurableNotificationFactoryProvider();
     }
 
     @Test
-    void addingNullType_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> provider.addNotificationFactory(null, factory));
-    }
-
-    @Test
     void addingNullFactory_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> provider.addNotificationFactory(messageType, null));
+        assertThrows(IllegalArgumentException.class, () -> provider.addNotificationFactory(null));
     }
 
     @Test
@@ -55,10 +47,20 @@ class ConfigurableNotificationFactoryProviderTests {
 
     @Test
     void findingRegistered_shouldReturnFactory() {
-        provider.addNotificationFactory(Object.class, factory);
+        NotificationFactory<Object> factory = new TestNotificationFactory();
+        provider.addNotificationFactory(factory);
 
         NotificationFactory<Object> found = provider.findBy(new Object()).get();
 
         assertEquals(factory, found);
+    }
+
+
+    private static final class TestNotificationFactory implements NotificationFactory<Object> {
+
+        @Override
+        public Notification create(@NonNull Object message, @NonNull Locale locale) {
+            return () -> "";
+        }
     }
 }
