@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +22,17 @@ import java.util.Locale;
  * @author Vincent Nadoll
  */
 @RequiredArgsConstructor
-public class AudioNotificationFactory implements NotificationFactory<Audio> {
+public class AudioNotificationFactory implements NotificationFactory<TitledAudio> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull Audio audio, @NonNull Locale locale) {
+    public Notification create(@NonNull TitledAudio audio, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("audio.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, msg -> "", "")
-                .with(download(audio));
+        return new FreemarkerNotification<>(template, configuration, msg -> "", audio.getCaption().orElse(""))
+                .with(download(audio.getContent()));
     }
 
     @SneakyThrows

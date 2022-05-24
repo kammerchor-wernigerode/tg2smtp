@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -138,10 +139,12 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingAudioMessage_shouldReturnNotification() {
         Audio audio = mock(Audio.class);
+        TitledAudio titledAudio = new TitledAudio("bar.mp3", audio);
         Notification notification = () -> "foo";
         when(message.hasAudio()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.mp3");
         when(message.getAudio()).thenReturn(audio);
-        when(provider.findBy(audio)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(titledAudio)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 

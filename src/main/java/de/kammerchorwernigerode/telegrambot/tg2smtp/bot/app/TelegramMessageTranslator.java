@@ -3,12 +3,12 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -50,7 +50,7 @@ public class TelegramMessageTranslator {
             Document document = message.getDocument();
             return createNotification(document, locale);
         } else if (message.hasAudio()) {
-            Audio audio = message.getAudio();
+            TitledAudio audio = new TitledAudio(message.getCaption(), message.getAudio());
             return createNotification(audio, locale);
         } else if (message.hasVoice()) {
             Voice voice = message.getVoice();

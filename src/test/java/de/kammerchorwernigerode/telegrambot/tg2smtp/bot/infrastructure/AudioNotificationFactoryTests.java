@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import freemarker.template.Configuration;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,21 +51,23 @@ class AudioNotificationFactoryTests {
     @Test
     void creatingNullLocale_shouldThrowException() {
         Audio audio = mock(Audio.class);
+        TitledAudio titledAudio = new TitledAudio("foo.mp3", audio);
 
-        assertThrows(IllegalArgumentException.class, () -> factory.create(audio, null));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(titledAudio, null));
     }
 
     @Test
     @SneakyThrows
     void creatingFromAudio_shouldDelegateDownload() {
         Audio audio = mock(Audio.class);
+        TitledAudio titledAudio = new TitledAudio("bar.mp3", audio);
         Resource attachment = mock(Resource.class);
         MediaReference mediaReference = new MediaReference("foo", "bar.mp3");
         when(audio.getFileId()).thenReturn("foo");
         when(audio.getFileName()).thenReturn("bar.mp3");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(audio);
+        factory.create(titledAudio);
 
         verify(downloader).download(mediaReference);
     }
