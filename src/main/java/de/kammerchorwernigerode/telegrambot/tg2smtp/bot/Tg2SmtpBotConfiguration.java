@@ -2,8 +2,8 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaReference;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaDownloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaReference;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
