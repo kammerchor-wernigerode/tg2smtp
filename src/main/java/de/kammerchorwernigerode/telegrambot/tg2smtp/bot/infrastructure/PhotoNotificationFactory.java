@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 import java.util.Locale;
@@ -24,6 +25,7 @@ import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.StaticPrinter.emp
  *
  * @author Vincent Nadoll
  */
+@Component
 @RequiredArgsConstructor
 public class PhotoNotificationFactory implements NotificationFactory<TitledPhotos> {
 

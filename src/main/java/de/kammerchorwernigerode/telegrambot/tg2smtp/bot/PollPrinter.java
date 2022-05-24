@@ -2,6 +2,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import lombok.NonNull;
 import org.springframework.format.Printer;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollOption;
 
@@ -13,6 +14,7 @@ import java.util.Locale;
  *
  * @author Vincent Nadoll
  */
+@Component
 public class PollPrinter implements Printer<Poll> {
 
     @org.springframework.lang.NonNull

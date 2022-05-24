@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
@@ -13,6 +14,7 @@ import java.util.Locale;
  *
  * @author Vincent Nadoll
  */
+@Component
 @RequiredArgsConstructor
 public class TextNotificationFactory implements NotificationFactory<String> {
 

@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.Printer;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
 import java.util.Locale;
@@ -12,6 +13,7 @@ import java.util.Locale;
  *
  * @author Vincent Nadoll
  */
+@Component
 @RequiredArgsConstructor
 public class LocationPrinter implements Printer<Location> {
 

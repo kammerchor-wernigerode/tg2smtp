@@ -8,6 +8,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import java.util.Locale;
@@ -18,6 +19,7 @@ import java.util.Locale;
  *
  * @author Vincent Nadoll
  */
+@Component
 @RequiredArgsConstructor
 public class PollNotificationFactory implements NotificationFactory<Poll> {
 
