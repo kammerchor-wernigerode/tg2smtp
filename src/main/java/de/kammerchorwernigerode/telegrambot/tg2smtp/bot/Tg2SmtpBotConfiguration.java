@@ -9,14 +9,11 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPo
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
-import lombok.Setter;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -30,10 +27,7 @@ import java.util.Locale;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({Tg2SmtpBotProperties.class})
-class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
-
-    @Setter
-    private Environment environment;
+class Tg2SmtpBotConfiguration implements Configurer {
 
     @Bean
     @Profile("!debug")
