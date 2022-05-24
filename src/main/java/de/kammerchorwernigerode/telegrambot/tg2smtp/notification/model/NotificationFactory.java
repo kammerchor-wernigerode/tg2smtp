@@ -15,8 +15,4 @@ import java.util.Locale;
 public interface NotificationFactory<T> {
 
     Notification create(@NonNull T message, @NonNull Locale locale);
-
-    default Notification create(@NonNull T message) {
-        return create(message, Locale.getDefault());
-    }
 }

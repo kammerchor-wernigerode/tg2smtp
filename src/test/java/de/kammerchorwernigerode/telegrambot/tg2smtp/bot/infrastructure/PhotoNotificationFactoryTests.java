@@ -50,7 +50,6 @@ class PhotoNotificationFactoryTests {
     @Test
     void creatingNullMessage_shouldThrowException() {
         assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null));
     }
 
     @Test
@@ -73,7 +72,7 @@ class PhotoNotificationFactoryTests {
         when(picker.pickFrom(eq(photos))).thenReturn(photo);
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledPhotos);
+        factory.create(titledPhotos, Locale.getDefault());
 
         verify(downloader).download(mediaReference);
     }

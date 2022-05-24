@@ -45,7 +45,6 @@ class DocumentNotificationFactoryTests {
     @Test
     void creatingNullMessage_shouldThrowException() {
         assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null));
     }
 
     @Test
@@ -67,7 +66,7 @@ class DocumentNotificationFactoryTests {
         when(document.getFileName()).thenReturn("bar.pdf");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledDocument);
+        factory.create(titledDocument, Locale.getDefault());
 
         verify(downloader).download(mediaReference);
     }

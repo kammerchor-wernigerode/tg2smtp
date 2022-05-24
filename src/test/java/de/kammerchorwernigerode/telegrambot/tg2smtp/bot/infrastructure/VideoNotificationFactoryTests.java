@@ -45,7 +45,6 @@ class VideoNotificationFactoryTests {
     @Test
     void creatingNullMessage_shouldThrowException() {
         assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null));
     }
 
     @Test
@@ -67,7 +66,7 @@ class VideoNotificationFactoryTests {
         when(video.getFileName()).thenReturn("bar.mp4");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledVideo);
+        factory.create(titledVideo, Locale.getDefault());
 
         verify(downloader).download(mediaReference);
     }

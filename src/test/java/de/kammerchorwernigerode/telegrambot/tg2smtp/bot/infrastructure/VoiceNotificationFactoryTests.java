@@ -44,7 +44,6 @@ class VoiceNotificationFactoryTests {
     @Test
     void creatingNullMessage_shouldThrowException() {
         assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null));
     }
 
     @Test
@@ -63,7 +62,7 @@ class VoiceNotificationFactoryTests {
         when(voiceMessage.getFileId()).thenReturn("foo");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(voiceMessage);
+        factory.create(voiceMessage, Locale.getDefault());
 
         verify(downloader).download(mediaReference);
     }

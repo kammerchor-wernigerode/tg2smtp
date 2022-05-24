@@ -45,7 +45,6 @@ class AudioNotificationFactoryTests {
     @Test
     void creatingNullMessage_shouldThrowException() {
         assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null));
     }
 
     @Test
@@ -67,7 +66,7 @@ class AudioNotificationFactoryTests {
         when(audio.getFileName()).thenReturn("bar.mp3");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledAudio);
+        factory.create(titledAudio, Locale.getDefault());
 
         verify(downloader).download(mediaReference);
     }

@@ -25,7 +25,6 @@ class TextNotificationFactoryTests {
     @Test
     void creatingNullMessage_shouldThrowException() {
         assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null));
     }
 
     @Test
@@ -35,7 +34,7 @@ class TextNotificationFactoryTests {
 
     @Test
     void creatingMessage_shouldReturnMessage() {
-        Notification notification = factory.create("foo");
+        Notification notification = factory.create("foo", Locale.getDefault());
 
         assertEquals("foo", notification.getMessage());
     }
