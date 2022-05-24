@@ -15,6 +15,8 @@ import org.telegram.telegrambots.meta.api.objects.Audio;
 
 import java.util.Locale;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.StaticPrinter.emptyString;
+
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Audio}
  * messages.
@@ -31,7 +33,7 @@ public class AudioNotificationFactory implements NotificationFactory<TitledAudio
     public Notification create(@NonNull TitledAudio audio, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("audio.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, (model, lang) -> "", audio.getCaption().orElse(null))
+        return new FreemarkerNotification<>(template, configuration, emptyString(), audio.getCaption().orElse(null))
                 .with(download(audio.getContent()));
     }
 
