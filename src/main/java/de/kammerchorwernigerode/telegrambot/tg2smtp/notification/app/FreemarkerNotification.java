@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
@@ -30,7 +31,15 @@ public class FreemarkerNotification<T> implements Notification {
     private final @NonNull TemplateBuilder templateBuilder;
     private final @NonNull Configuration configuration;
     private final @NonNull Printer<T> printer;
-    private final @NonNull T model;
+    private final @Nullable T model;
+
+    public FreemarkerNotification(@NonNull TemplateBuilder templateBuilder, @NonNull Configuration configuration,
+                                  @NonNull Printer<T> printer) {
+        this.templateBuilder = templateBuilder;
+        this.configuration = configuration;
+        this.printer = printer;
+        this.model = null;
+    }
 
     private final List<Resource> attachments = new ArrayList<>();
 

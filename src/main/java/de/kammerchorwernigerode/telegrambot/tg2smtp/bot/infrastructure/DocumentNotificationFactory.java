@@ -31,7 +31,7 @@ public class DocumentNotificationFactory implements NotificationFactory<TitledDo
     public Notification create(@NonNull TitledDocument document, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("document.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, msg -> "", document.getCaption().orElse(""))
+        return new FreemarkerNotification<>(template, configuration, msg -> "", document.getCaption().orElse(null))
                 .with(download(document.getContent()));
     }
 

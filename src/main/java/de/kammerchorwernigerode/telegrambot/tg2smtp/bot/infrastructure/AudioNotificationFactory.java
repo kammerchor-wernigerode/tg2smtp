@@ -31,7 +31,7 @@ public class AudioNotificationFactory implements NotificationFactory<TitledAudio
     public Notification create(@NonNull TitledAudio audio, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("audio.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, msg -> "", audio.getCaption().orElse(""))
+        return new FreemarkerNotification<>(template, configuration, msg -> "", audio.getCaption().orElse(null))
                 .with(download(audio.getContent()));
     }
 

@@ -13,6 +13,7 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,7 +44,11 @@ class FreemarkerNotificationTests {
         assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(null, configuration, printer, MODEL));
         assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(templateBuilder, null, printer, MODEL));
         assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(templateBuilder, configuration, null, MODEL));
-        assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(templateBuilder, configuration, printer, null));
+    }
+
+    @Test
+    void initializingNullMessage_shouldNotThrowException() {
+        assertDoesNotThrow(() -> new FreemarkerNotification<>(templateBuilder, configuration, printer, null));
     }
 
     @Test
