@@ -1,7 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer;
 import lombok.NonNull;
+import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.polls.PollOption;
 
@@ -17,7 +17,7 @@ public class PollPrinter implements Printer<Poll> {
 
     @org.springframework.lang.NonNull
     @Override
-    public String print(@NonNull Poll poll) {
+    public String print(@NonNull Poll poll, @NonNull Locale locale) {
         String question = poll.getQuestion();
         StringBuilder builder = new StringBuilder()
                 .append(question)
@@ -34,10 +34,5 @@ public class PollPrinter implements Printer<Poll> {
         }
 
         return builder.toString();
-    }
-
-    @Override
-    public String print(@NonNull Poll object, @NonNull Locale locale) {
-        return Printer.super.print(object, locale);
     }
 }

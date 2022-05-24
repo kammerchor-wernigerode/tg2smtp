@@ -11,11 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.polls.PollOption;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -53,7 +50,6 @@ class PollPrinterTests {
 
     @Test
     void printingNullPoll_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> printer.print(null));
         assertThrows(IllegalArgumentException.class, () -> printer.print(null, locale));
     }
 
@@ -69,7 +65,7 @@ class PollPrinterTests {
         when(option1.getText()).thenReturn("Bar");
         when(option2.getText()).thenReturn("Baz");
 
-        String string = printer.print(poll);
+        String string = printer.print(poll, Locale.getDefault());
 
         assertEquals(readFile("poll.txt"), string);
     }

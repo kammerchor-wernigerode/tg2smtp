@@ -30,7 +30,7 @@ public class VoiceNotificationFactory implements NotificationFactory<Voice> {
     public Notification create(@NonNull Voice voice, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("voice.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, object -> "", "")
+        return new FreemarkerNotification<>(template, configuration, (model, lang) -> "", "")
                 .with(download(voice));
     }
 

@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
 import java.net.URL;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,7 +35,12 @@ class LocationPrinterTests {
 
     @Test
     void printingNullLocation_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> printer.print(null));
+        assertThrows(IllegalArgumentException.class, () -> printer.print(null, Locale.getDefault()));
+    }
+
+    @Test
+    void printingNullLocale_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> printer.print(location, null));
     }
 
     @Test
@@ -42,7 +48,7 @@ class LocationPrinterTests {
     void printingLocation_shouldDelegateToResolver() {
         when(resolver.resolve(any(), any())).thenReturn(new URL("https://example.com/foo"));
 
-        printer.print(location);
+        printer.print(location, Locale.getDefault());
 
         verify(resolver).resolve(any(), any());
     }
@@ -52,7 +58,7 @@ class LocationPrinterTests {
     void printingLocation_shouldPrintResolved() {
         when(resolver.resolve(any(), any())).thenReturn(new URL("https://example.com/foo"));
 
-        String string = printer.print(location);
+        String string = printer.print(location, Locale.getDefault());
 
         assertEquals("https://example.com/foo", string);
     }

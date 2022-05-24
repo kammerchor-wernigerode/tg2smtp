@@ -34,7 +34,7 @@ public class PhotoNotificationFactory implements NotificationFactory<TitledPhoto
         TemplateBuilder template = new TemplateBuilder("photo.ftl").locale(locale);
         PhotoSize photo = photoPicker.pickFrom(photos.getContent());
 
-        return new FreemarkerNotification<>(template, configuration, object -> "", photos.getCaption().orElse(null))
+        return new FreemarkerNotification<>(template, configuration, (model, lang) -> "", photos.getCaption().orElse(null))
                 .with(download(photo));
     }
 

@@ -31,7 +31,7 @@ public class VideoNotificationFactory implements NotificationFactory<TitledVideo
     public Notification create(@NonNull TitledVideo video, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("video.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, msg -> "", video.getCaption().orElse(null))
+        return new FreemarkerNotification<>(template, configuration, (model, lang) -> "", video.getCaption().orElse(null))
                 .with(download(video.getContent()));
     }
 

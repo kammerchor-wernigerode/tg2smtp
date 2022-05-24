@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -9,6 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
+import org.springframework.format.Printer;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 

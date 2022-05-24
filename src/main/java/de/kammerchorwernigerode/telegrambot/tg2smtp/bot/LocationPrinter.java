@@ -1,8 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.Printer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
 import java.util.Locale;
@@ -19,12 +19,7 @@ public class LocationPrinter implements Printer<Location> {
 
     @org.springframework.lang.NonNull
     @Override
-    public String print(@NonNull Location location) {
+    public String print(@NonNull Location location, @NonNull Locale locale) {
         return locationUrlResolver.resolve(location.getLatitude(), location.getLongitude()).toString();
-    }
-
-    @Override
-    public String print(@NonNull Location object, @NonNull Locale locale) {
-        return Printer.super.print(object, locale);
     }
 }
