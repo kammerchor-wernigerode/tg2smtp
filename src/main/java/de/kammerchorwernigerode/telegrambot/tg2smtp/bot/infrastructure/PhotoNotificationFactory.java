@@ -2,7 +2,6 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;

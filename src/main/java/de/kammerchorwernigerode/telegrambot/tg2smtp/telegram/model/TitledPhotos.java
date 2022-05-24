@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import lombok.NonNull;
 import lombok.Value;
 import org.springframework.lang.Nullable;

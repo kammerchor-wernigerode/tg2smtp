@@ -1,6 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
