@@ -8,11 +8,16 @@ import freemarker.template.TemplateException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * A specialized notification that resolves its messages by processing a Freemarker template.
@@ -26,7 +31,22 @@ public class FreemarkerNotification<T> implements Notification {
     private final @NonNull TemplateBuilder templateBuilder;
     private final @NonNull Configuration configuration;
     private final @NonNull Printer<T> printer;
-    private final @NonNull T model;
+    private final @Nullable T model;
+
+    public FreemarkerNotification(@NonNull TemplateBuilder templateBuilder, @NonNull Configuration configuration,
+                                  @NonNull Printer<T> printer) {
+        this.templateBuilder = templateBuilder;
+        this.configuration = configuration;
+        this.printer = printer;
+        this.model = null;
+    }
+
+    private final List<Resource> attachments = new ArrayList<>();
+
+    public FreemarkerNotification<T> with(@NonNull Resource attachment) {
+        attachments.add(attachment);
+        return this;
+    }
 
     @Override
     public String getMessage() {
@@ -41,5 +61,10 @@ public class FreemarkerNotification<T> implements Notification {
             log.error("Unable to process email template", e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Stream<Resource> listAttachments() {
+        return attachments.stream();
     }
 }

@@ -4,6 +4,8 @@ target/
 /application.yml
 /data/received-emails/*
 !/data/received-emails/.gitkeep
+/data/downloads/*
+!/data/downloads/.gitkeep
 
 ### STS ###
 .apt_generated

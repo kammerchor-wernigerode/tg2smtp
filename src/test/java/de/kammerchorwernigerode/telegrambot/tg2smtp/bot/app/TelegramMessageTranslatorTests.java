@@ -2,17 +2,26 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.telegram.telegrambots.meta.api.objects.Audio;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Video;
+import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
 import java.util.Optional;
 
+import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -97,6 +106,77 @@ class TelegramMessageTranslatorTests {
         when(message.hasPoll()).thenReturn(true);
         when(message.getPoll()).thenReturn(poll);
         when(provider.findBy(poll)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingPhotoMessage_shouldReturnNotification() {
+        Notification notification = () -> "foo";
+        when(message.hasPhoto()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.jpg");
+        when(message.getPhoto()).thenReturn(emptyList());
+        when(provider.findBy(any(TitledPhotos.class))).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingDocumentMessage_shouldReturnNotification() {
+        Document document = mock(Document.class);
+        TitledDocument titledDocument = new TitledDocument("bar.pdf", document);
+        Notification notification = () -> "foo";
+        when(message.hasDocument()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.pdf");
+        when(message.getDocument()).thenReturn(document);
+        when(provider.findBy(titledDocument)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingAudioMessage_shouldReturnNotification() {
+        Audio audio = mock(Audio.class);
+        TitledAudio titledAudio = new TitledAudio("bar.mp3", audio);
+        Notification notification = () -> "foo";
+        when(message.hasAudio()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.mp3");
+        when(message.getAudio()).thenReturn(audio);
+        when(provider.findBy(titledAudio)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingVoiceMessage_shouldReturnNotification() {
+        Voice voice = mock(Voice.class);
+        Notification notification = () -> "foo";
+        when(message.hasVoice()).thenReturn(true);
+        when(message.getVoice()).thenReturn(voice);
+        when(provider.findBy(voice)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingVideoMessage_shouldReturnNotification() {
+        Video video = mock(Video.class);
+        TitledVideo titledVideo = new TitledVideo("bar.mp4", video);
+        Notification notification = () -> "foo";
+        when(message.hasVideo()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.mp4");
+        when(message.getVideo()).thenReturn(video);
+        when(provider.findBy(titledVideo)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 

@@ -27,7 +27,7 @@ public class Tg2SmtpBotProperties {
 
     @Getter
     @Setter
-    public final class Bot {
+    public static class Bot {
 
         private String username;
         private String token;
