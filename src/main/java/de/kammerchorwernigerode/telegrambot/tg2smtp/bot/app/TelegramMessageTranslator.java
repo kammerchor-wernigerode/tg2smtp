@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,8 @@ public class TelegramMessageTranslator {
             Poll poll = message.getPoll();
             return createNotification(poll, locale);
         } else if (message.hasPhoto()) {
-            Photos photos = new Photos(message.getPhoto());
+            Photos candidates = new Photos(message.getPhoto());
+            TitledPhotos photos = new TitledPhotos(message.getCaption(), candidates);
             return createNotification(photos, locale);
         } else if (message.hasDocument()) {
             TitledDocument document = new TitledDocument(message.getCaption(), message.getDocument());

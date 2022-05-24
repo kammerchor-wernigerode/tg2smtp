@@ -7,6 +7,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,18 +24,18 @@ import java.util.Locale;
  * @author Vincent Nadoll
  */
 @RequiredArgsConstructor
-public class PhotoNotificationFactory implements NotificationFactory<Photos> {
+public class PhotoNotificationFactory implements NotificationFactory<TitledPhotos> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull PhotoPicker photoPicker;
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull Photos photos, @NonNull Locale locale) {
+    public Notification create(@NonNull TitledPhotos photos, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("photo.ftl").locale(locale);
-        PhotoSize photo = photoPicker.pickFrom(photos);
+        PhotoSize photo = photoPicker.pickFrom(photos.getContent());
 
-        return new FreemarkerNotification<>(template, configuration, object -> "", "")
+        return new FreemarkerNotification<>(template, configuration, object -> "", photos.getCaption().orElse(""))
                 .with(download(photo));
     }
 

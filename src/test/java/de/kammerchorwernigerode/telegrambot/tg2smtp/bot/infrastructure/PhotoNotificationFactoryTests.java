@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
 import freemarker.template.Configuration;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,8 +56,9 @@ class PhotoNotificationFactoryTests {
     @Test
     void creatingNullLocale_shouldThrowException() {
         Photos photos = mock(Photos.class);
+        TitledPhotos titledPhotos = new TitledPhotos("bar.jpg", photos);
 
-        assertThrows(IllegalArgumentException.class, () -> factory.create(photos, null));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(titledPhotos, null));
     }
 
     @Test
@@ -65,12 +67,13 @@ class PhotoNotificationFactoryTests {
         PhotoSize photo = mock(PhotoSize.class);
         Resource attachment = mock(Resource.class);
         Photos photos = new Photos(singletonList(photo));
+        TitledPhotos titledPhotos = new TitledPhotos("bar.jpg", photos);
         MediaReference mediaReference = new MediaReference("foo");
         when(photo.getFileId()).thenReturn("foo");
         when(picker.pickFrom(eq(photos))).thenReturn(photo);
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(photos);
+        factory.create(titledPhotos);
 
         verify(downloader).download(mediaReference);
     }

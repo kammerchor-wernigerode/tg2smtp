@@ -1,10 +1,10 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,8 +116,9 @@ class TelegramMessageTranslatorTests {
     void translatingPhotoMessage_shouldReturnNotification() {
         Notification notification = () -> "foo";
         when(message.hasPhoto()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.jpg");
         when(message.getPhoto()).thenReturn(emptyList());
-        when(provider.findBy(any(Photos.class))).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(any(TitledPhotos.class))).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 
