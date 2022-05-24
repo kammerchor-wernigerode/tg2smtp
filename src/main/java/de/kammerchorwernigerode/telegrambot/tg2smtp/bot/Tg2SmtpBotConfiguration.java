@@ -5,7 +5,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTrans
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaDownloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.MediaReference;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
@@ -24,9 +23,7 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
-import java.util.Arrays;
 import java.util.Locale;
-import java.util.function.Predicate;
 
 /**
  * @author Vincent Nadoll
@@ -79,21 +76,5 @@ class Tg2SmtpBotConfiguration implements Configurer, EnvironmentAware {
     @Bean
     public LocaleResolver localeResolver() {
         return message -> Locale.getDefault();
-    }
-
-    @Override
-    public void addPrinters(PrinterRegistry registry) {
-        if (hasProfile("debug")) {
-            registry.addPrinter(Object.class, new ToStringPrinter());
-        }
-    }
-
-    private boolean hasProfile(String profile) {
-        return Arrays.stream(environment.getActiveProfiles())
-                .anyMatch(byEqualityIgnoringCasing(profile));
-    }
-
-    private static Predicate<String> byEqualityIgnoringCasing(String profile) {
-        return self -> self.equalsIgnoreCase(profile);
     }
 }

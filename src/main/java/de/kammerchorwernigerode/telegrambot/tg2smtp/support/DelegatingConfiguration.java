@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +23,6 @@ public class DelegatingConfiguration extends ConfigurationSupport {
         if (!CollectionUtils.isEmpty(configurers)) {
             this.configurers.addConfigurers(configurers);
         }
-    }
-
-    @Override
-    protected void addPrinters(PrinterRegistry registry) {
-        configurers.addPrinters(registry);
     }
 
     @Override

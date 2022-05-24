@@ -20,8 +20,4 @@ public interface Printer<T> extends org.springframework.format.Printer<T> {
     default String print(@NonNull T object, @NonNull Locale locale) {
         return print(object);
     }
-
-    static <T> Printer<T> nullSafe(@NonNull Printer<T> subject) {
-        return new NullSafePrinterDecorator<>(subject);
-    }
 }

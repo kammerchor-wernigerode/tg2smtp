@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import org.springframework.util.CollectionUtils;
 
@@ -20,11 +19,6 @@ class ConfigurerComposite implements Configurer {
         if (!CollectionUtils.isEmpty(configurers)) {
             this.delegates.addAll(configurers);
         }
-    }
-
-    @Override
-    public void addPrinters(PrinterRegistry registry) {
-        delegates.forEach(configurer -> configurer.addPrinters(registry));
     }
 
     @Override

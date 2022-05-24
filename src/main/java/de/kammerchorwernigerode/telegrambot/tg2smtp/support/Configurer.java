@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.format.model.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 
 /**
@@ -9,9 +8,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
  * @author Vincent Nadoll
  */
 public interface Configurer {
-
-    default void addPrinters(PrinterRegistry registry) {
-    }
 
     default void addNotificationFactories(NotificationFactoryRegistry registry) {
     }
