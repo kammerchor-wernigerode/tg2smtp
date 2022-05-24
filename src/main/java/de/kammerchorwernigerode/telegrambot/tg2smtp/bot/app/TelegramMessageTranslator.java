@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.Audio;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Video;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
@@ -56,7 +56,7 @@ public class TelegramMessageTranslator {
             Voice voice = message.getVoice();
             return createNotification(voice, locale);
         } else if (message.hasVideo()) {
-            Video video = message.getVideo();
+            TitledVideo video = new TitledVideo(message.getCaption(), message.getVideo());
             return createNotification(video, locale);
         }
 

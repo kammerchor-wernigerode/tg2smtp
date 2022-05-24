@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +22,17 @@ import java.util.Locale;
  * @author Vincent Nadoll
  */
 @RequiredArgsConstructor
-public class VideoNotificationFactory implements NotificationFactory<Video> {
+public class VideoNotificationFactory implements NotificationFactory<TitledVideo> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull Video video, @NonNull Locale locale) {
+    public Notification create(@NonNull TitledVideo video, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("video.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, msg -> "", "")
-                .with(download(video));
+        return new FreemarkerNotification<>(template, configuration, msg -> "", video.getCaption().orElse(""))
+                .with(download(video.getContent()));
     }
 
     @SneakyThrows

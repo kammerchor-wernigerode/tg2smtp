@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import freemarker.template.Configuration;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,21 +51,23 @@ class VideoNotificationFactoryTests {
     @Test
     void creatingNullLocale_shouldThrowException() {
         Video video = mock(Video.class);
+        TitledVideo titledVideo = new TitledVideo("bar.mp4", video);
 
-        assertThrows(IllegalArgumentException.class, () -> factory.create(video, null));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(titledVideo, null));
     }
 
     @Test
     @SneakyThrows
     void creatingFromVideo_shouldDelegateDownload() {
         Video video = mock(Video.class);
+        TitledVideo titledVideo = new TitledVideo("bar.mp4", video);
         Resource attachment = mock(Resource.class);
         MediaReference mediaReference = new MediaReference("foo", "bar.mp4");
         when(video.getFileId()).thenReturn("foo");
         when(video.getFileName()).thenReturn("bar.mp4");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(video);
+        factory.create(titledVideo);
 
         verify(downloader).download(mediaReference);
     }

@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -163,10 +164,12 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingVideoMessage_shouldReturnNotification() {
         Video video = mock(Video.class);
+        TitledVideo titledVideo = new TitledVideo("bar.mp4", video);
         Notification notification = () -> "foo";
         when(message.hasVideo()).thenReturn(true);
+        when(message.getCaption()).thenReturn("bar.mp4");
         when(message.getVideo()).thenReturn(video);
-        when(provider.findBy(video)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(titledVideo)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 
