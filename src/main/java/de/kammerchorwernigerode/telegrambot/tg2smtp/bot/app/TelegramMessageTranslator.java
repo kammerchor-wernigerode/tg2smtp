@@ -1,8 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
@@ -60,6 +61,9 @@ public class TelegramMessageTranslator {
         } else if (message.hasVideo()) {
             TitledVideo video = new TitledVideo(message.getCaption(), message.getVideo());
             return createNotification(video, locale);
+        } else if (message.hasVideoNote()) {
+            VideoNote videoNote = message.getVideoNote();
+            return createNotification(videoNote, locale);
         }
 
         log.warn("Missing translation for {}", message);

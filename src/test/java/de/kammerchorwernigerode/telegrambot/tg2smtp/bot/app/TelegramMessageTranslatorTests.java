@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Video;
+import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
@@ -177,6 +178,19 @@ class TelegramMessageTranslatorTests {
         when(message.getCaption()).thenReturn("bar.mp4");
         when(message.getVideo()).thenReturn(video);
         when(provider.findBy(titledVideo)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingVideoNote_shouldReturnNotification() {
+        VideoNote videoNote = mock(VideoNote.class);
+        Notification notification = () -> "foo";
+        when(message.hasVideoNote()).thenReturn(true);
+        when(message.getVideoNote()).thenReturn(videoNote);
+        when(provider.findBy(videoNote)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 
