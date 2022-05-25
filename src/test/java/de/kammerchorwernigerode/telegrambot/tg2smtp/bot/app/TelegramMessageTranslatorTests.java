@@ -19,6 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Video;
 import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.Optional;
 
@@ -191,6 +192,19 @@ class TelegramMessageTranslatorTests {
         when(message.hasVideoNote()).thenReturn(true);
         when(message.getVideoNote()).thenReturn(videoNote);
         when(provider.findBy(videoNote)).thenReturn(Optional.of((msg, locale) -> notification));
+
+        Notification result = translator.translate(message).get();
+
+        assertEquals(notification, result);
+    }
+
+    @Test
+    void translatingSticker_shouldReturnNotification() {
+        Sticker sticker = mock(Sticker.class);
+        Notification notification = () -> "foo";
+        when(message.hasSticker()).thenReturn(true);
+        when(message.getSticker()).thenReturn(sticker);
+        when(provider.findBy(sticker)).thenReturn(Optional.of((msg, locale) -> notification));
 
         Notification result = translator.translate(message).get();
 

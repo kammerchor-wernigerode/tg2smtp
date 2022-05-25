@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
+import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -64,6 +65,9 @@ public class TelegramMessageTranslator {
         } else if (message.hasVideoNote()) {
             VideoNote videoNote = message.getVideoNote();
             return createNotification(videoNote, locale);
+        } else if (message.hasSticker()) {
+            Sticker sticker = message.getSticker();
+            return createNotification(sticker, locale);
         }
 
         log.warn("Missing translation for {}", message);
