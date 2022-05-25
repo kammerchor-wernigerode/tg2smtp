@@ -78,6 +78,6 @@ class Tg2SmtpBotConfiguration implements Configurer {
     @Override
     public void addNotificationFactories(NotificationFactoryRegistry registry) {
         beanFactory.getBeansOfType(NotificationFactory.class).values()
-            .forEach(registry::addNotificationFactory);
+                .forEach(registry::addNotificationFactory);
     }
 }
