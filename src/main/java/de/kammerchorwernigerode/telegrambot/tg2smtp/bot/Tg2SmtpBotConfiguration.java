@@ -49,15 +49,20 @@ class Tg2SmtpBotConfiguration implements Configurer {
     }
 
     @Bean
-    public LongPollingBot tg2SmtpBot(Tg2SmtpBotProperties properties, NotificationService notificationService,
-                                     TelegramMessageTranslator translator) {
-        Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(properties, notificationService, translator);
+    public DefaultBotOptions defaultBotOptions() {
+        return new DefaultBotOptions();
+    }
+
+    @Bean
+    public LongPollingBot tg2SmtpBot(DefaultBotOptions botOptions, Tg2SmtpBotProperties properties,
+                                     NotificationService notificationService, TelegramMessageTranslator translator) {
+        Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(botOptions, properties, notificationService, translator);
         return new AuthorizedLongPollingBot(tg2SmtpBot, new ChatIdAuthorizer(properties.getChatId()), tg2SmtpBot);
     }
 
     @Bean
-    public AbsSender absSender(Tg2SmtpBotProperties properties) {
-        return new DefaultAbsSender(new DefaultBotOptions()) {
+    public AbsSender absSender(DefaultBotOptions botOptions, Tg2SmtpBotProperties properties) {
+        return new DefaultAbsSender(botOptions) {
             @Override
             public String getBotToken() {
                 return properties.getBot().getToken();

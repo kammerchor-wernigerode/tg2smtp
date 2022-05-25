@@ -2,10 +2,10 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -16,12 +16,21 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  * @author Vincent Nadoll
  */
 @Slf4j
-@RequiredArgsConstructor
 public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     private final Tg2SmtpBotProperties properties;
     private final NotificationService notificationService;
     private final TelegramMessageTranslator translator;
+
+    public Tg2SmtpBot(DefaultBotOptions options,
+                      Tg2SmtpBotProperties properties,
+                      NotificationService notificationService,
+                      TelegramMessageTranslator translator) {
+        super(options);
+        this.properties = properties;
+        this.notificationService = notificationService;
+        this.translator = translator;
+    }
 
     @Override
     public String getBotUsername() {
