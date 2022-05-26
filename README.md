@@ -188,6 +188,9 @@ This project already provides sane defaults to configure Tg2SMTP properly. You m
 preferences. To do so, create an `application.[yml,properties]`-file in your project root and override the properties
 you want to configure.
 
+Use the `debug` profile to disable the email sender and log incoming messages to the console. Downloaded files will be
+stored in `data/downloads`.
+
 ### Setup
 
 It's also a good idea to download dependencies and build the executable `.jar`-artifact once before you start hacking.
