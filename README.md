@@ -76,26 +76,46 @@ to provide configuration for Tg2SMTP. To do this, write the desired configuratio
 `application.properties` or `application.yml` file and place the file next to the `.jar` file. Spring then reads this
 file at startup.
 
-| Property                                     | Environment Variable   | Datatype   | Default Value        | Example Value                                         | Description                                                                  |
-|----------------------------------------------|------------------------|------------|----------------------|-------------------------------------------------------|------------------------------------------------------------------------------|
-| _tg2smtp.subject_                            | TG2SMTP_MAIL_SUBJECT   | _`String`_ |                      | `"[Telegram] New Message"`                            | The mail's subject line                                                      |
-| _tg2smtp.to_                                 | TG2SMTP_MAIL_TO        | _`String`_ |                      | `john@example.com,jane@example.com`                   | Comma-separated list of zero or more mail recipients                         |
-| _tg2smtp.chat-id_                            | TG2SMTP_CHAT_ID        | _`Number`_ |                      | `1337420,-0815`                                       | Comma-separated list of zero or more Telegram Chat IDs                       |
-| _tg2smtp.bot.username_                       | TG2SMTP_BOT_USERNAME   | _`String`_ |                      | `MyAwesoneTg2SmtpBot`                                 | The Bot's username                                                           |
-| _tg2smtp.bot.token_                          | TG2SMTP_BOT_TOKEN      | _`String`_ |                      | `XXXXXXXX:YYYYYYYYY`                                  | The Bot's HTTP API Token                                                     |
-| _spring.mail.host_                           | MAIL_HOST              | _`String`_ | `localhost`          |                                                       | The SMTP server that is used to send mails                                   |
-| _spring.mail.port_                           | MAIL_PORT              | _`Number`_ | `587`                |                                                       | The SMTP server's port                                                       |
-| _spring.mail.username_                       | MAIL_USERNAME          | _`String`_ | `smtp@example.com`   |                                                       | The SMTP username for authentication (required if _smtp_auth_ is active)     |
-| _spring.mail.password_                       | MAIL_PASSWORD          | _`String`_ | `d3v`                |                                                       | The SMTP password for authentication (required if _smtp_auth_ is active)     |
-| _spring.mail.properties.mail.smtp.localhost_ | MAIL_HELO              | _`String`_ | `localhost`          |                                                       | The well known hostname Tg2SMTP is running on (optional[^1])                 |
-| _spring.mail.properties.mail.from_           | MAIL_FROM              | _`String`_ | `smtp@example.com`   |                                                       | The email address mails are sent from (optional while _smtp_auth_ is active) |
-| _spring.mail.properties.mail.mail.reply.to_  | MAIL_REPLY_TO          | _`String`_ |                      |                                                       | Email address the recipient should answer to (optional)                      |
-| _spring.profiles.active_                     | SPRING_PROFILES_ACTIVE | _`String`_ | `smtp_auth,smtp_tls` | `smtp_auth`, `smtp_tls`, `smtp_auth,smtp_tls` or none | Comma-separated list of active Spring profiles (optional)                    |
+| Property                                     | Environment Variable    | Datatype     | Default Value        | Example Value                                         | Description                                                                  |
+|----------------------------------------------|-------------------------|--------------|----------------------|-------------------------------------------------------|------------------------------------------------------------------------------|
+| _tg2smtp.subject_                            | TG2SMTP_MAIL_SUBJECT    | _`String`_   |                      | `"[Telegram] New Message"`                            | The mail's subject line                                                      |
+| _tg2smtp.to_                                 | TG2SMTP_MAIL_TO         | _`String`_   |                      | `john@example.com,jane@example.com`                   | Comma-separated list of zero or more mail recipients                         |
+| _tg2smtp.chat-id_                            | TG2SMTP_CHAT_ID         | _`Number`_   |                      | `1337420,-0815`                                       | Comma-separated list of zero or more Telegram Chat IDs                       |
+| _tg2smtp.bot.username_                       | TG2SMTP_BOT_USERNAME    | _`String`_   |                      | `MyAwesoneTg2SmtpBot`                                 | The Bot's username                                                           |
+| _tg2smtp.bot.token_                          | TG2SMTP_BOT_TOKEN       | _`String`_   |                      | `XXXXXXXX:YYYYYYYYY`                                  | The Bot's HTTP API Token                                                     |
+| _tg2smtp.messages.active_                    | TG2SMTP_MESSAGES_ACTIVE | _`String[]`_ | `ALL`                | `TEXT,PHOTO,LOCATION,VIDEO_NOTE`                      | Comma-separated list of Telegram [message types](#message-types)[^1].        |
+| _spring.mail.host_                           | MAIL_HOST               | _`String`_   | `localhost`          |                                                       | The SMTP server that is used to send mails                                   |
+| _spring.mail.port_                           | MAIL_PORT               | _`Number`_   | `587`                |                                                       | The SMTP server's port                                                       |
+| _spring.mail.username_                       | MAIL_USERNAME           | _`String`_   | `smtp@example.com`   |                                                       | The SMTP username for authentication (required if _smtp_auth_ is active)     |
+| _spring.mail.password_                       | MAIL_PASSWORD           | _`String`_   | `d3v`                |                                                       | The SMTP password for authentication (required if _smtp_auth_ is active)     |
+| _spring.mail.properties.mail.smtp.localhost_ | MAIL_HELO               | _`String`_   | `localhost`          |                                                       | The well known hostname Tg2SMTP is running on (optional[^2])                 |
+| _spring.mail.properties.mail.from_           | MAIL_FROM               | _`String`_   | `smtp@example.com`   |                                                       | The email address mails are sent from (optional while _smtp_auth_ is active) |
+| _spring.mail.properties.mail.mail.reply.to_  | MAIL_REPLY_TO           | _`String`_   |                      |                                                       | Email address the recipient should answer to (optional)                      |
+| _spring.profiles.active_                     | SPRING_PROFILES_ACTIVE  | _`String`_   | `smtp_auth,smtp_tls` | `smtp_auth`, `smtp_tls`, `smtp_auth,smtp_tls` or none | Comma-separated list of active Spring profiles (optional)                    |
 
 Both profiles, smtp_auth and smtp_tls, are active per default, as it is the most common authentication mechanism
 throughout.
 
-[^1]: Depends on the provider if the HELO header is necessary, but might resolve issues anyway if set
+[^1]: Use `ALL` to forward all compatible messages or select the type of message you want.
+[^2]: Depends on the provider if the HELO header is necessary, but might resolve issues anyway if set
+
+##### Message Types
+
+This bot will only forward these messages as stated in the introduction. For the sake of completeness following list
+shows the available messages types and their activation key.
+
+| Message Type   | Configuration Key |
+|----------------|-------------------|
+| Text Messages  | `TEXT`            |
+| Locations      | `LOCATION`        |
+| Polls          | `POLL`            |
+| Photos         | `PHOTO`           |
+| Documents      | `DOCUMENT`        |
+| Audio Files    | `AUDIO`           |
+| Voice Messages | `VOICE`           |
+| Video Files    | `VIDEO`           |
+| Video Notes    | `VIDEO_NOTE`      |
+| Stickers       | `STICKER`         |
 
 #### Jar
 

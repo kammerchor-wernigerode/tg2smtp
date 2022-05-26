@@ -27,3 +27,5 @@ tg2smtp:
   bot:
     username: ${TG2SMTP_BOT_USERNAME}
     token: ${TG2SMTP_BOT_TOKEN}
+  messages:
+    active: ${TG2SMTP_MESSAGES_ACTIVE:ALL}

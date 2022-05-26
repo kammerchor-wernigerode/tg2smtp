@@ -13,8 +13,9 @@ import org.springframework.context.annotation.Bean;
 public class ConfigurationSupport {
 
     @Bean
-    public NotificationFactoryProvider notificationFactoryProvider() {
-        ConfigurableNotificationFactoryProvider factoryProvider = new ConfigurableNotificationFactoryProvider();
+    public NotificationFactoryProvider notificationFactoryProvider(Tg2SmtpMessageTypeProperties properties) {
+        ConfigurableNotificationFactoryProvider factoryProvider =
+                new ConfigurableNotificationFactoryProvider(properties.getActive());
         addNotificationFactories(factoryProvider);
         return factoryProvider;
     }
