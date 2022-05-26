@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,6 @@ import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Voice;
-
-import java.util.Locale;
 
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Voice}
@@ -29,8 +28,8 @@ public class VoiceNotificationFactory implements NotificationFactory<Voice> {
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull Voice voice, @NonNull Locale locale) {
-        TemplateBuilder template = new TemplateBuilder("voice.ftl").locale(locale);
+    public Notification create(@NonNull Voice voice, @NonNull Metadata metadata) {
+        TemplateBuilder template = new TemplateBuilder("voice.ftl").locale(metadata.getLocale());
 
         return new FreemarkerNotification(template, configuration)
                 .with(download(voice));

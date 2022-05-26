@@ -12,8 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.telegram.telegrambots.meta.api.objects.Video;
 
-import java.util.Locale;
-
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -44,11 +43,11 @@ class VideoNotificationFactoryTests {
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldThrowException() {
+    void creatingNullMetadata_shouldThrowException() {
         Video video = mock(Video.class);
         TitledVideo titledVideo = new TitledVideo("bar.mp4", video);
 
@@ -66,7 +65,7 @@ class VideoNotificationFactoryTests {
         when(video.getFileName()).thenReturn("bar.mp4");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledVideo, Locale.getDefault());
+        factory.create(titledVideo, createDefault());
 
         verify(downloader).download(mediaReference);
     }

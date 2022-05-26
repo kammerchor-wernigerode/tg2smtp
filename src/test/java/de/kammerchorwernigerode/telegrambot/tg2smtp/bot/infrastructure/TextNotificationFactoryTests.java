@@ -4,8 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Locale;
-
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,24 +23,24 @@ class TextNotificationFactoryTests {
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldNotThrowException() {
+    void creatingNullMetadata_shouldNotThrowException() {
         assertDoesNotThrow(() -> factory.create("foo", null));
     }
 
     @Test
     void creatingMessage_shouldReturnMessage() {
-        Notification notification = factory.create("foo", Locale.getDefault());
+        Notification notification = factory.create("foo", createDefault());
 
         assertEquals("foo", notification.getMessage());
     }
 
     @Test
     void creatingLocalizedMessage_shouldReturnMessage() {
-        Notification notification = factory.create("foo", Locale.getDefault());
+        Notification notification = factory.create("foo", createDefault());
 
         assertEquals("foo", notification.getMessage());
     }

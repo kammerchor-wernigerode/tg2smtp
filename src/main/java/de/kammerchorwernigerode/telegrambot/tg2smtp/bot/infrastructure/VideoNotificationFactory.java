@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
 import freemarker.template.Configuration;
 import lombok.NonNull;
@@ -13,8 +14,6 @@ import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Video;
-
-import java.util.Locale;
 
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Video}
@@ -30,8 +29,8 @@ public class VideoNotificationFactory implements NotificationFactory<TitledVideo
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull TitledVideo video, @NonNull Locale locale) {
-        TemplateBuilder template = new TemplateBuilder("video.ftl").locale(locale);
+    public Notification create(@NonNull TitledVideo video, @NonNull Metadata metadata) {
+        TemplateBuilder template = new TemplateBuilder("video.ftl").locale(metadata.getLocale());
 
         return new FreemarkerNotification(template, configuration)
                 .with(download(video.getContent()))

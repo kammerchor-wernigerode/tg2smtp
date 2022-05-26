@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
-import java.util.Locale;
-
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -43,11 +42,11 @@ class StickerNotificationFactoryTests {
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldThrowException() {
+    void creatingNullMetadata_shouldThrowException() {
         Sticker sticker = mock(Sticker.class);
 
         assertThrows(IllegalArgumentException.class, () -> factory.create(sticker, null));
@@ -62,7 +61,7 @@ class StickerNotificationFactoryTests {
         when(sticker.getFileId()).thenReturn("foo");
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(sticker, Locale.getDefault());
+        factory.create(sticker, createDefault());
 
         verify(downloader).download(mediaReference);
     }

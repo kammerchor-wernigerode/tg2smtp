@@ -14,8 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
-import java.util.Locale;
-
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
@@ -49,11 +48,11 @@ class PhotoNotificationFactoryTests {
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldThrowException() {
+    void creatingNullMetadata_shouldThrowException() {
         Photos photos = mock(Photos.class);
         TitledPhotos titledPhotos = new TitledPhotos("bar.jpg", photos);
 
@@ -72,7 +71,7 @@ class PhotoNotificationFactoryTests {
         when(picker.pickFrom(eq(photos))).thenReturn(photo);
         when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledPhotos, Locale.getDefault());
+        factory.create(titledPhotos, createDefault());
 
         verify(downloader).download(mediaReference);
     }

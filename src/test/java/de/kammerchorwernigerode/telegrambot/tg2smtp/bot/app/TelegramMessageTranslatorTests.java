@@ -40,18 +40,16 @@ class TelegramMessageTranslatorTests {
     private TelegramMessageTranslator translator;
 
     private @Mock NotificationFactoryProvider provider;
-    private @Mock LocaleResolver localeResolver;
     private @Mock Message message;
 
     @BeforeEach
     void setUp() {
-        translator = new TelegramMessageTranslator(provider, localeResolver);
+        translator = new TelegramMessageTranslator(provider);
     }
 
     @Test
-    void initializeNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new TelegramMessageTranslator(null, localeResolver));
-        assertThrows(IllegalArgumentException.class, () -> new TelegramMessageTranslator(provider, null));
+    void initializeNullProvider_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new TelegramMessageTranslator(null));
     }
 
     @Test
@@ -81,7 +79,7 @@ class TelegramMessageTranslatorTests {
         Notification notification = () -> "foo";
         when(message.hasText()).thenReturn(true);
         when(message.getText()).thenReturn("foo");
-        when(provider.findBy("foo")).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy("foo")).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -94,7 +92,7 @@ class TelegramMessageTranslatorTests {
         Notification notification = () -> "foo";
         when(message.hasLocation()).thenReturn(true);
         when(message.getLocation()).thenReturn(location);
-        when(provider.findBy(location)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(location)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -107,7 +105,7 @@ class TelegramMessageTranslatorTests {
         Notification notification = () -> "foo";
         when(message.hasPoll()).thenReturn(true);
         when(message.getPoll()).thenReturn(poll);
-        when(provider.findBy(poll)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(poll)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -120,7 +118,7 @@ class TelegramMessageTranslatorTests {
         when(message.hasPhoto()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.jpg");
         when(message.getPhoto()).thenReturn(emptyList());
-        when(provider.findBy(any(TitledPhotos.class))).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(any(TitledPhotos.class))).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -135,7 +133,7 @@ class TelegramMessageTranslatorTests {
         when(message.hasDocument()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.pdf");
         when(message.getDocument()).thenReturn(document);
-        when(provider.findBy(titledDocument)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(titledDocument)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -150,7 +148,7 @@ class TelegramMessageTranslatorTests {
         when(message.hasAudio()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.mp3");
         when(message.getAudio()).thenReturn(audio);
-        when(provider.findBy(titledAudio)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(titledAudio)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -163,7 +161,7 @@ class TelegramMessageTranslatorTests {
         Notification notification = () -> "foo";
         when(message.hasVoice()).thenReturn(true);
         when(message.getVoice()).thenReturn(voice);
-        when(provider.findBy(voice)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(voice)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -178,7 +176,7 @@ class TelegramMessageTranslatorTests {
         when(message.hasVideo()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.mp4");
         when(message.getVideo()).thenReturn(video);
-        when(provider.findBy(titledVideo)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(titledVideo)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -191,7 +189,7 @@ class TelegramMessageTranslatorTests {
         Notification notification = () -> "foo";
         when(message.hasVideoNote()).thenReturn(true);
         when(message.getVideoNote()).thenReturn(videoNote);
-        when(provider.findBy(videoNote)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(videoNote)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 
@@ -204,7 +202,7 @@ class TelegramMessageTranslatorTests {
         Notification notification = () -> "foo";
         when(message.hasSticker()).thenReturn(true);
         when(message.getSticker()).thenReturn(sticker);
-        when(provider.findBy(sticker)).thenReturn(Optional.of((msg, locale) -> notification));
+        when(provider.findBy(sticker)).thenReturn(Optional.of((msg, metadata) -> notification));
 
         Notification result = translator.translate(message).get();
 

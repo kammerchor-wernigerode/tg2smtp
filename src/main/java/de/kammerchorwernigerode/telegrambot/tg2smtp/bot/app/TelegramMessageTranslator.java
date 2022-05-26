@@ -2,6 +2,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
@@ -18,7 +19,6 @@ import org.telegram.telegrambots.meta.api.objects.Voice;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
-import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -32,50 +32,49 @@ import java.util.Optional;
 public class TelegramMessageTranslator {
 
     private final @NonNull NotificationFactoryProvider notificationFactoryProvider;
-    private final @NonNull LocaleResolver localeResolver;
 
     public Optional<Notification> translate(@NonNull Message message) {
-        Locale locale = localeResolver.resolve(message);
+        Metadata metadata = new Metadata(message.getDate(), message.getFrom());
 
         if (message.hasText()) {
             String text = message.getText();
-            return createNotification(text, locale);
+            return createNotification(text, metadata);
         } else if (message.hasLocation()) {
             Location location = message.getLocation();
-            return createNotification(location, locale);
+            return createNotification(location, metadata);
         } else if (message.hasPoll()) {
             Poll poll = message.getPoll();
-            return createNotification(poll, locale);
+            return createNotification(poll, metadata);
         } else if (message.hasPhoto()) {
             Photos candidates = new Photos(message.getPhoto());
             TitledPhotos photos = new TitledPhotos(message.getCaption(), candidates);
-            return createNotification(photos, locale);
+            return createNotification(photos, metadata);
         } else if (message.hasDocument()) {
             TitledDocument document = new TitledDocument(message.getCaption(), message.getDocument());
-            return createNotification(document, locale);
+            return createNotification(document, metadata);
         } else if (message.hasAudio()) {
             TitledAudio audio = new TitledAudio(message.getCaption(), message.getAudio());
-            return createNotification(audio, locale);
+            return createNotification(audio, metadata);
         } else if (message.hasVoice()) {
             Voice voice = message.getVoice();
-            return createNotification(voice, locale);
+            return createNotification(voice, metadata);
         } else if (message.hasVideo()) {
             TitledVideo video = new TitledVideo(message.getCaption(), message.getVideo());
-            return createNotification(video, locale);
+            return createNotification(video, metadata);
         } else if (message.hasVideoNote()) {
             VideoNote videoNote = message.getVideoNote();
-            return createNotification(videoNote, locale);
+            return createNotification(videoNote, metadata);
         } else if (message.hasSticker()) {
             Sticker sticker = message.getSticker();
-            return createNotification(sticker, locale);
+            return createNotification(sticker, metadata);
         }
 
         log.warn("Missing translation for {}", message);
         return Optional.empty();
     }
 
-    private <T> Optional<Notification> createNotification(T message, Locale locale) {
+    private <T> Optional<Notification> createNotification(T message, Metadata metadata) {
         return notificationFactoryProvider.findBy(message)
-                .map(factory -> factory.create(message, locale));
+                .map(factory -> factory.create(message, metadata));
     }
 }
