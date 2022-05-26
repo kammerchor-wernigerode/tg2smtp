@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Voice;
 
 import java.util.Locale;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.StaticPrinter.emptyString;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.common.Printers.emptyString;
 
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Voice}
