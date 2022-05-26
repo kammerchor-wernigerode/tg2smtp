@@ -5,7 +5,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageComposit
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationComposite;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -16,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -54,18 +54,9 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
         return properties.getBot().getToken();
     }
 
-    @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = extractMessage(update);
-        if (null == message) {
-            if (log.isDebugEnabled()) log.debug("Message is empty, skipping this update={}", update);
-            return;
-        }
-
-        if (log.isTraceEnabled()) log.trace("Received message from chat w/ chatId={}", message.getChatId());
-        translator.translate(message)
-                .ifPresentOrElse(notificationService::send, () -> log.debug("Message is empty, noting to do"));
+        onUpdatesReceived(singletonList(update));
     }
 
     @Override
