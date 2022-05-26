@@ -15,10 +15,7 @@ import org.springframework.util.StringUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 /**
  * {@link NotificationService} implementation that forwards {@link Notification}s using the SMTP protocol.
@@ -65,24 +62,6 @@ public class EmailNotificationService implements NotificationService {
             applyReplyTo(helper);
             message.setFrom();
         };
-    }
-
-    @Override
-    public void send(@NonNull Collection<? extends Notification> notifications) {
-        MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .map(this::prepareMimeMessage)
-                .map(this::compose)
-                .flatMap(add(notifications))
-                .toArray(MimeMessagePreparator[]::new);
-
-        mailSender.send(preparators);
-    }
-
-    private static Function<MimeMessagePreparatorComposite, Stream<MimeMessagePreparator>> add(
-            Collection<? extends Notification> notifications) {
-        return preparator -> notifications.stream()
-                .map(EmailNotificationService::add)
-                .map(fn -> fn.apply(preparator));
     }
 
     private void applyReplyTo(MimeMessageHelper helper) throws MessagingException {

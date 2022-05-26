@@ -13,7 +13,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import javax.mail.internet.InternetAddress;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -45,11 +44,6 @@ class EmailNotificationServiceTests {
     }
 
     @Test
-    void sendingNullCollection_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> service.send((Collection<? extends Notification>) null));
-    }
-
-    @Test
     @SneakyThrows
     void sendingToOneRecipient_shouldDelegateToSender() {
         when(botProperties.getTo()).thenReturn(Collections.singleton(new InternetAddress("foo@example.com")));
@@ -61,16 +55,6 @@ class EmailNotificationServiceTests {
 
     @Test
     @SneakyThrows
-    void sendingNotificationsToOneRecipient_shouldDelegateToSender() {
-        when(botProperties.getTo()).thenReturn(Collections.singleton(new InternetAddress("foo@example.com")));
-
-        service.send(Set.of(() -> "foo", () -> "bar"));
-
-        verify(sender).send(new MimeMessagePreparator[]{any(), any()});
-    }
-
-    @Test
-    @SneakyThrows
     void sendingToMultipleRecipients_shouldDelegateToSender() {
         when(botProperties.getTo())
                 .thenReturn(Set.of(new InternetAddress("foo@example.com"), new InternetAddress("bar@example.com")));
@@ -78,16 +62,5 @@ class EmailNotificationServiceTests {
         service.send(() -> "foo");
 
         verify(sender).send(new MimeMessagePreparator[]{any(), any()});
-    }
-
-    @Test
-    @SneakyThrows
-    void sendingNotificationsToMultipleRecipients_shouldDelegateToSender() {
-        when(botProperties.getTo())
-                .thenReturn(Set.of(new InternetAddress("foo@example.com"), new InternetAddress("bar@example.com")));
-
-        service.send(Set.of(() -> "foo", () -> "bar"));
-
-        verify(sender).send(new MimeMessagePreparator[]{any(), any(), any(), any()});
     }
 }
