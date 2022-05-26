@@ -97,7 +97,7 @@ throughout.
 
 [^1]: Depends on the provider if the HELO header is necessary, but might resolve issues anyway if set
 
-##### Jar
+#### Jar
 
 Download the `.jar`-file of the latest release. Execute the following command in your console to start Tg2SMTP. Don't
 forget to replace the sample configuration with your own.
