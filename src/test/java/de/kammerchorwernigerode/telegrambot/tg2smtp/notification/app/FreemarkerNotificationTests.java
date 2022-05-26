@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -28,27 +27,20 @@ class FreemarkerNotificationTests {
 
     private static final String MODEL = "foo";
 
-    private FreemarkerNotification<String> notification;
+    private FreemarkerNotification notification;
 
     private @Mock TemplateBuilder templateBuilder;
     private @Mock Configuration configuration;
-    private @Mock Printer<String> printer;
 
     @BeforeEach
     void setUp() {
-        notification = new FreemarkerNotification<>(templateBuilder, configuration, printer, MODEL);
+        notification = new FreemarkerNotification(templateBuilder, configuration);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(null, configuration, printer, MODEL));
-        assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(templateBuilder, null, printer, MODEL));
-        assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification<>(templateBuilder, configuration, null, MODEL));
-    }
-
-    @Test
-    void initializingNullMessage_shouldNotThrowException() {
-        assertDoesNotThrow(() -> new FreemarkerNotification<>(templateBuilder, configuration, printer, null));
+        assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification(null, configuration));
+        assertThrows(IllegalArgumentException.class, () -> new FreemarkerNotification(templateBuilder, null));
     }
 
     @Test
@@ -68,7 +60,7 @@ class FreemarkerNotificationTests {
     void addingAttachment_shouldReturnSameNotificationInstance() {
         Resource attachment = mock(Resource.class);
 
-        FreemarkerNotification<String> result = notification.with(attachment);
+        FreemarkerNotification result = notification.with(attachment);
 
         assertSame(notification, result);
     }
@@ -98,5 +90,15 @@ class FreemarkerNotificationTests {
         Stream<Resource> attachments = notification.listAttachments();
 
         assertEquals(attachment, attachments.findFirst().get());
+    }
+
+    @Test
+    void addingNullDataKey_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> notification.with(null, MODEL));
+    }
+
+    @Test
+    void addNullDataValue_shouldNotThrowException() {
+        assertDoesNotThrow(() -> notification.with("model", null));
     }
 }

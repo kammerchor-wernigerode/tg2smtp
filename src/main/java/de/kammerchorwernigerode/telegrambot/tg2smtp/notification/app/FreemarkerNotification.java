@@ -8,7 +8,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -26,35 +24,27 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class FreemarkerNotification<T> implements Notification {
+public class FreemarkerNotification implements Notification {
 
     private final @NonNull TemplateBuilder templateBuilder;
     private final @NonNull Configuration configuration;
-    private final @NonNull Printer<T> printer;
-    private final @Nullable T model;
-
-    public FreemarkerNotification(@NonNull TemplateBuilder templateBuilder, @NonNull Configuration configuration,
-                                  @NonNull Printer<T> printer) {
-        this.templateBuilder = templateBuilder;
-        this.configuration = configuration;
-        this.printer = printer;
-        this.model = null;
-    }
+    private final HashMap<String, Object> model = new HashMap<>();
 
     private final List<Resource> attachments = new ArrayList<>();
 
-    public FreemarkerNotification<T> with(@NonNull Resource attachment) {
+    public FreemarkerNotification with(@NonNull Resource attachment) {
         attachments.add(attachment);
+        return this;
+    }
+
+    public FreemarkerNotification with(@NonNull String key, @Nullable Object value) {
+        model.put(key, value);
         return this;
     }
 
     @Override
     public String getMessage() {
         try {
-            Map<String, Object> model = new HashMap<>();
-            model.put("printer", printer);
-            model.put("model", this.model);
-
             Template template = templateBuilder.build(configuration);
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (IOException | TemplateException e) {

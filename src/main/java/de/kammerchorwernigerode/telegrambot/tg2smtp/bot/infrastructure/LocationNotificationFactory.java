@@ -30,6 +30,8 @@ public class LocationNotificationFactory implements NotificationFactory<Location
     public Notification create(@NonNull Location message, @NonNull Locale locale) {
         TemplateBuilder templateBuilder = new TemplateBuilder("location.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(templateBuilder, configuration, printer, message);
+        return new FreemarkerNotification(templateBuilder, configuration)
+                .with("printer", printer)
+                .with("model", message);
     }
 }

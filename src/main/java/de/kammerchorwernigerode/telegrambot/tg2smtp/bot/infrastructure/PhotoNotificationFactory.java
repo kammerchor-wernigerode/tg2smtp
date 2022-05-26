@@ -17,8 +17,6 @@ import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 import java.util.Locale;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.common.Printers.emptyString;
-
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link PhotoSize}
  * messages.
@@ -38,8 +36,9 @@ public class PhotoNotificationFactory implements NotificationFactory<TitledPhoto
         TemplateBuilder template = new TemplateBuilder("photo.ftl").locale(locale);
         PhotoSize photo = photoPicker.pickFrom(photos.getContent());
 
-        return new FreemarkerNotification<>(template, configuration, emptyString(), photos.getCaption().orElse(null))
-                .with(download(photo));
+        return new FreemarkerNotification(template, configuration)
+                .with(download(photo))
+                .with("model", photos.getCaption().orElse(null));
     }
 
     @SneakyThrows

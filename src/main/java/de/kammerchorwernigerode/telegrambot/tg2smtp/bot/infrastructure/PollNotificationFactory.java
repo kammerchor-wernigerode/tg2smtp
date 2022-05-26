@@ -30,6 +30,8 @@ public class PollNotificationFactory implements NotificationFactory<Poll> {
     public Notification create(@NonNull Poll message, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("poll.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, printer, message);
+        return new FreemarkerNotification(template, configuration)
+                .with("printer", printer)
+                .with("model", message);
     }
 }

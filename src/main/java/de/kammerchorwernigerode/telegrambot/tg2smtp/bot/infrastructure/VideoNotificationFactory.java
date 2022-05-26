@@ -16,8 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.Video;
 
 import java.util.Locale;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.common.Printers.emptyString;
-
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Video}
  * messages.
@@ -35,8 +33,9 @@ public class VideoNotificationFactory implements NotificationFactory<TitledVideo
     public Notification create(@NonNull TitledVideo video, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("video.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, emptyString(), video.getCaption().orElse(null))
-                .with(download(video.getContent()));
+        return new FreemarkerNotification(template, configuration)
+                .with(download(video.getContent()))
+                .with("model", video.getCaption().orElse(null));
     }
 
     @SneakyThrows

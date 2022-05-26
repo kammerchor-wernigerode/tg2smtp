@@ -16,8 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 
 import java.util.Locale;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.common.Printers.emptyString;
-
 /**
  * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Document}
  * messages.
@@ -35,8 +33,9 @@ public class DocumentNotificationFactory implements NotificationFactory<TitledDo
     public Notification create(@NonNull TitledDocument document, @NonNull Locale locale) {
         TemplateBuilder template = new TemplateBuilder("document.ftl").locale(locale);
 
-        return new FreemarkerNotification<>(template, configuration, emptyString(), document.getCaption().orElse(null))
-                .with(download(document.getContent()));
+        return new FreemarkerNotification(template, configuration)
+                .with(download(document.getContent()))
+                .with("model", document.getCaption().orElse(null));
     }
 
     @SneakyThrows
