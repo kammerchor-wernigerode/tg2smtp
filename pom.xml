@@ -80,4 +80,33 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>tests-unit</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludedGroups>de.kammerchorwernigerode.telegrambot.tg2smtp.test.IntegrationTest</excludedGroups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>tests-integration</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <groups>de.kammerchorwernigerode.telegrambot.tg2smtp.test.IntegrationTest</groups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
