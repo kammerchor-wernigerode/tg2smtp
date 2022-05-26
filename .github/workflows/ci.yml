@@ -27,8 +27,10 @@ jobs:
 
     - name: Compile sources
       run: mvn -B compile test-compile
-    - name: Run tests
-      run: mvn -B test
+    - name: Run Unit Tests
+      run: mvn -B -Ptests-unit test
+    - name: Run Integration Tests
+      run: mvn -B -Ptests-integration test
     - name: Package artifact
       run: mvn -B -fae -DskipTests=true package
 
