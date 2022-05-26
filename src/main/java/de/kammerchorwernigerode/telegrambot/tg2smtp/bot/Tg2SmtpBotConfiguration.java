@@ -5,6 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTrans
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageCompositor;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
@@ -55,8 +56,9 @@ class Tg2SmtpBotConfiguration implements Configurer {
 
     @Bean
     public LongPollingBot tg2SmtpBot(DefaultBotOptions botOptions, Tg2SmtpBotProperties properties,
-                                     NotificationService notificationService, TelegramMessageTranslator translator) {
-        Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(botOptions, properties, notificationService, translator);
+                                     NotificationService notificationService, TelegramMessageTranslator translator,
+                                     MessageCompositor messageCompositor) {
+        Tg2SmtpBot tg2SmtpBot = new Tg2SmtpBot(botOptions, properties, notificationService, translator, messageCompositor);
         return new AuthorizedLongPollingBot(tg2SmtpBot, new ChatIdAuthorizer(properties.getChatId()), tg2SmtpBot);
     }
 
@@ -78,6 +80,11 @@ class Tg2SmtpBotConfiguration implements Configurer {
     @Bean
     public ThrowingFunction<GetFile, File, TelegramApiException> methodExtractor(AbsSender absSender) {
         return absSender::execute;
+    }
+
+    @Bean("notificationDelimiter")
+    public CharSequence notificationDelimiter() {
+        return "\n---\n";
     }
 
     @Override
