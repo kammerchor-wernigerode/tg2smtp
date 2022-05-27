@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.audio.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.document.model.TitledDocument;

@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.ConfigurableNotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.Tg2SmtpMessageTypeProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.infrastructure.ConfigurablePrinterService;
 import org.springframework.context.annotation.Bean;

@@ -3,7 +3,6 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model.Metadata;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.Photos;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +18,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notifications.just;
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.ALL;
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.LOCATION;
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.TEXT;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.MessageType.ALL;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.MessageType.LOCATION;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.MessageType.TEXT;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

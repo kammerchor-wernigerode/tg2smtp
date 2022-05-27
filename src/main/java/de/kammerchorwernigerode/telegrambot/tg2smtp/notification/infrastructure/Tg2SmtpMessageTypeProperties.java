@@ -1,6 +1,5 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

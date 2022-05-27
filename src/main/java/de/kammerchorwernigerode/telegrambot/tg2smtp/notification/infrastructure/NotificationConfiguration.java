@@ -25,7 +25,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.function.Function;
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({Tg2SmtpBotProperties.class})
+@EnableConfigurationProperties({Tg2SmtpBotProperties.class, Tg2SmtpMessageTypeProperties.class})
 @RequiredArgsConstructor
 public class NotificationConfiguration implements Configurer {
 
