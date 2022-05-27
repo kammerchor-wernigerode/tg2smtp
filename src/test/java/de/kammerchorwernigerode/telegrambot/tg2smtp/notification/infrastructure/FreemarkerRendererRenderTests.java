@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.test.IntegrationTest;
 import freemarker.template.TemplateNotFoundException;

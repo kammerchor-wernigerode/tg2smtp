@@ -5,7 +5,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FilteringNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.FreemarkerRenderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;

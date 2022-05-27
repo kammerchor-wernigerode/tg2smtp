@@ -3,8 +3,6 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBotProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorAdapter;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorComposite;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
