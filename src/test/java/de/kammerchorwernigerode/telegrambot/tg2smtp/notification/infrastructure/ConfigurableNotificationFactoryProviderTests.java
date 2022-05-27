@@ -18,6 +18,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.ALL;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.LOCATION;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.TEXT;
@@ -175,7 +176,7 @@ class ConfigurableNotificationFactoryProviderTests {
 
         @Override
         public Notification create(@NonNull Object message, @NonNull Metadata metadata) {
-            return () -> "";
+            return just("");
         }
     }
 
@@ -183,7 +184,7 @@ class ConfigurableNotificationFactoryProviderTests {
 
         @Override
         public Notification create(@NonNull String message, @NonNull Metadata metadata) {
-            return () -> message;
+            return just(message);
         }
     }
 
@@ -191,7 +192,7 @@ class ConfigurableNotificationFactoryProviderTests {
 
         @Override
         public Notification create(@NonNull Location location, @NonNull Metadata metadata) {
-            return location::toString;
+            return just(location.toString());
         }
     }
 }

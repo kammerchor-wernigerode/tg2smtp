@@ -12,7 +12,6 @@ import java.util.stream.Stream;
  *
  * @author Vincent Nadoll
  */
-@FunctionalInterface
 public interface Notification {
 
     @Deprecated
@@ -22,7 +21,5 @@ public interface Notification {
         return getMessage();
     }
 
-    default Stream<Resource> listAttachments() {
-        return Stream.empty();
-    }
+    Stream<Resource> listAttachments();
 }

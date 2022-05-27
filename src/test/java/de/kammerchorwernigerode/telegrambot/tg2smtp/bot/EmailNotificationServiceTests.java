@@ -17,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 import java.util.Collections;
 import java.util.Set;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -50,7 +51,7 @@ class EmailNotificationServiceTests {
     void sendingToOneRecipient_shouldDelegateToSender() {
         when(botProperties.getTo()).thenReturn(Collections.singleton(new InternetAddress("foo@example.com")));
 
-        service.send(() -> "foo");
+        service.send(just("foo"));
 
         verify(sender).send(new MimeMessagePreparator[]{any()});
     }
@@ -61,7 +62,7 @@ class EmailNotificationServiceTests {
         when(botProperties.getTo())
                 .thenReturn(Set.of(new InternetAddress("foo@example.com"), new InternetAddress("bar@example.com")));
 
-        service.send(() -> "foo");
+        service.send(just("foo"));
 
         verify(sender).send(new MimeMessagePreparator[]{any(), any()});
     }

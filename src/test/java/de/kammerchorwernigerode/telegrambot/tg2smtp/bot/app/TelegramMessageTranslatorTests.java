@@ -23,6 +23,7 @@ import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.Optional;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -76,7 +77,7 @@ class TelegramMessageTranslatorTests {
 
     @Test
     void translatingTextMessage_shouldReturnNotification() {
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasText()).thenReturn(true);
         when(message.getText()).thenReturn("foo");
         when(provider.findBy("foo")).thenReturn(Optional.of((msg, metadata) -> notification));
@@ -89,7 +90,7 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingLocationMessage_shouldReturnNotification() {
         Location location = mock(Location.class);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasLocation()).thenReturn(true);
         when(message.getLocation()).thenReturn(location);
         when(provider.findBy(location)).thenReturn(Optional.of((msg, metadata) -> notification));
@@ -102,7 +103,7 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingPollMessage_shouldReturnNotification() {
         Poll poll = mock(Poll.class);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasPoll()).thenReturn(true);
         when(message.getPoll()).thenReturn(poll);
         when(provider.findBy(poll)).thenReturn(Optional.of((msg, metadata) -> notification));
@@ -114,7 +115,7 @@ class TelegramMessageTranslatorTests {
 
     @Test
     void translatingPhotoMessage_shouldReturnNotification() {
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasPhoto()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.jpg");
         when(message.getPhoto()).thenReturn(emptyList());
@@ -129,7 +130,7 @@ class TelegramMessageTranslatorTests {
     void translatingDocumentMessage_shouldReturnNotification() {
         Document document = mock(Document.class);
         TitledDocument titledDocument = new TitledDocument("bar.pdf", document);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasDocument()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.pdf");
         when(message.getDocument()).thenReturn(document);
@@ -144,7 +145,7 @@ class TelegramMessageTranslatorTests {
     void translatingAudioMessage_shouldReturnNotification() {
         Audio audio = mock(Audio.class);
         TitledAudio titledAudio = new TitledAudio("bar.mp3", audio);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasAudio()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.mp3");
         when(message.getAudio()).thenReturn(audio);
@@ -158,7 +159,7 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingVoiceMessage_shouldReturnNotification() {
         Voice voice = mock(Voice.class);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasVoice()).thenReturn(true);
         when(message.getVoice()).thenReturn(voice);
         when(provider.findBy(voice)).thenReturn(Optional.of((msg, metadata) -> notification));
@@ -172,7 +173,7 @@ class TelegramMessageTranslatorTests {
     void translatingVideoMessage_shouldReturnNotification() {
         Video video = mock(Video.class);
         TitledVideo titledVideo = new TitledVideo("bar.mp4", video);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasVideo()).thenReturn(true);
         when(message.getCaption()).thenReturn("bar.mp4");
         when(message.getVideo()).thenReturn(video);
@@ -186,7 +187,7 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingVideoNote_shouldReturnNotification() {
         VideoNote videoNote = mock(VideoNote.class);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasVideoNote()).thenReturn(true);
         when(message.getVideoNote()).thenReturn(videoNote);
         when(provider.findBy(videoNote)).thenReturn(Optional.of((msg, metadata) -> notification));
@@ -199,7 +200,7 @@ class TelegramMessageTranslatorTests {
     @Test
     void translatingSticker_shouldReturnNotification() {
         Sticker sticker = mock(Sticker.class);
-        Notification notification = () -> "foo";
+        Notification notification = just("foo");
         when(message.hasSticker()).thenReturn(true);
         when(message.getSticker()).thenReturn(sticker);
         when(provider.findBy(sticker)).thenReturn(Optional.of((msg, metadata) -> notification));

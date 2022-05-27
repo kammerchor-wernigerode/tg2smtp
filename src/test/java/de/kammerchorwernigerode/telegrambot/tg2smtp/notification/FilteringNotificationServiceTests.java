@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Predicate;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -46,7 +47,7 @@ class FilteringNotificationServiceTests {
     void sendingNonEligible_shouldNotDelegate() {
         when(filter.test(any())).thenReturn(false);
 
-        delegate.send(() -> null);
+        delegate.send(just(null));
 
         verify(subject, never()).send(any(Notification.class));
     }
@@ -55,7 +56,7 @@ class FilteringNotificationServiceTests {
     void sendingEligible_shouldDelegate() {
         when(filter.test(any())).thenReturn(true);
 
-        delegate.send(() -> "foo");
+        delegate.send(just("foo"));
 
         verify(subject).send(any(Notification.class));
     }

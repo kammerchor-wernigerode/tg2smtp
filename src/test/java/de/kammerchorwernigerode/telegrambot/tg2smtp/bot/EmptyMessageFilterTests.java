@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,21 +40,21 @@ class EmptyMessageFilterTests {
 
     @Test
     void testingNullContainingNotification_shouldNotSucceed() {
-        boolean result = filter.test(() -> null);
+        boolean result = filter.test(just(null));
 
         assertFalse(result);
     }
 
     @Test
     void testingEmptyNotification_shouldNotSucceed() {
-        boolean result = filter.test(() -> "");
+        boolean result = filter.test(just(""));
 
         assertFalse(result);
     }
 
     @Test
     void testingNonNullNotification_shouldSucceed() {
-        boolean result = filter.test(() -> "foo");
+        boolean result = filter.test(just("foo"));
 
         assertTrue(result);
     }

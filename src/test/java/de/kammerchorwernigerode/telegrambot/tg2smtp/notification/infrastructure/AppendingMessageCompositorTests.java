@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -57,7 +58,7 @@ class AppendingMessageCompositorTests {
 
     @Test
     void composingSingleNotification_shouldReturnNotificationsMessage() {
-        String composite = compositor.compose(singletonList(() -> "foo"));
+        String composite = compositor.compose(singletonList(just("foo")));
 
         assertEquals("foo", composite);
     }
@@ -67,7 +68,7 @@ class AppendingMessageCompositorTests {
     void composingMultiple_shouldAppendOrdered() {
         when(delimiter.toString()).thenReturn("\n-\n");
 
-        String composite = compositor.compose(asList(() -> "foo", () -> "bar"));
+        String composite = compositor.compose(asList(just("foo"), just("bar")));
 
         assertEquals(readFile("composite.txt"), composite);
     }
