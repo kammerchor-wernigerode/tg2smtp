@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.LocaleResolver;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
@@ -27,8 +26,6 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
-
-import java.util.Locale;
 
 /**
  * @author Vincent Nadoll
@@ -79,11 +76,6 @@ class Tg2SmtpBotConfiguration implements Configurer {
                 return properties.getBot().getToken();
             }
         };
-    }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        return message -> Locale.getDefault();
     }
 
     @Bean
