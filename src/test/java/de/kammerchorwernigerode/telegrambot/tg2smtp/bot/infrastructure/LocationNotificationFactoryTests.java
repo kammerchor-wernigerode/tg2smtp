@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.LocationPrinter;
 import freemarker.template.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,17 +21,15 @@ class LocationNotificationFactoryTests {
     private LocationNotificationFactory factory;
 
     private @Mock Configuration configuration;
-    private @Mock LocationPrinter printer;
 
     @BeforeEach
     void setUp() {
-        factory = new LocationNotificationFactory(configuration, printer);
+        factory = new LocationNotificationFactory(configuration);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new LocationNotificationFactory(null, printer));
-        assertThrows(IllegalArgumentException.class, () -> new LocationNotificationFactory(configuration, null));
+        assertThrows(IllegalArgumentException.class, () -> new LocationNotificationFactory(null));
     }
 
     @Test
