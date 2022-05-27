@@ -4,7 +4,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.Printer;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import java.util.Optional;
 public abstract class MetadataHeadedNotification implements Notification {
 
     private final @NonNull Metadata metadata;
-    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Optional<String> getSubject(@NonNull Renderer renderer) throws IOException {

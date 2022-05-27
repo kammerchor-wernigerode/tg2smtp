@@ -13,7 +13,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Video;
 
@@ -29,7 +28,6 @@ public class VideoNotificationFactory implements NotificationFactory<TitledVideo
 
     private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
-    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Notification create(@NonNull TitledVideo video, @NonNull Metadata metadata) {
@@ -38,7 +36,7 @@ public class VideoNotificationFactory implements NotificationFactory<TitledVideo
         Notification notification = new FreemarkerNotification(template, configuration)
                 .with(download(video.getContent()))
                 .with("model", video.getCaption().orElse(null));
-        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, notification);
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
     @SneakyThrows

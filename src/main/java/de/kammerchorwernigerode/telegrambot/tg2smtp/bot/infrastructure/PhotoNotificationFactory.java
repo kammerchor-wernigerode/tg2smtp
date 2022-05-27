@@ -14,7 +14,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
@@ -31,7 +30,6 @@ public class PhotoNotificationFactory implements NotificationFactory<TitledPhoto
     private final @NonNull Configuration configuration;
     private final @NonNull PhotoPicker photoPicker;
     private final @NonNull Downloader<MediaReference> downloader;
-    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Notification create(@NonNull TitledPhotos photos, @NonNull Metadata metadata) {
@@ -41,7 +39,7 @@ public class PhotoNotificationFactory implements NotificationFactory<TitledPhoto
         Notification notification = new FreemarkerNotification(template, configuration)
                 .with(download(photo))
                 .with("model", photos.getCaption().orElse(null));
-        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, notification);
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
     @SneakyThrows

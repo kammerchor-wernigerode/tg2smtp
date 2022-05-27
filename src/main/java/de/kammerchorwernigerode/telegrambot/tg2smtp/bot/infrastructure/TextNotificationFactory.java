@@ -6,7 +6,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification.just;
@@ -20,11 +19,8 @@ import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifica
 @RequiredArgsConstructor
 public class TextNotificationFactory implements NotificationFactory<String> {
 
-    @NonNull
-    private final Printer<Metadata> metadataPrinter;
-
     @Override
     public Notification create(@NonNull String message, @NonNull Metadata metadata) {
-        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, just(message));
+        return new MetadataHeadedNotificationDecorator(metadata, just(message));
     }
 }

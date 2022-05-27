@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +20,6 @@ import static org.mockito.Mockito.when;
 class MetadataHeadedNotificationDecoratorTests {
 
     private @Mock Notification subject;
-    private @Mock Printer<Metadata> printer;
     private @Mock Renderer renderer;
     private @Mock User user;
 
@@ -32,14 +30,13 @@ class MetadataHeadedNotificationDecoratorTests {
     @BeforeEach
     void setUp() {
         metadata = new Metadata(0, user);
-        delegate = new MetadataHeadedNotificationDecorator(metadata, printer, subject);
+        delegate = new MetadataHeadedNotificationDecorator(metadata, subject);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotificationDecorator(null, printer, subject));
-        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotificationDecorator(metadata, null, subject));
-        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotificationDecorator(metadata, printer, null));
+        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotificationDecorator(null, subject));
+        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotificationDecorator(metadata, null));
     }
 
     @Test

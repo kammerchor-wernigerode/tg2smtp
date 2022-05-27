@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.io.IOException;
@@ -24,7 +23,6 @@ class MetadataHeadedNotificationTests {
 
     private MetadataHeadedNotification notification;
 
-    private @Mock Printer<Metadata> printer;
     private @Mock Renderer renderer;
     private @Mock User user;
 
@@ -34,7 +32,7 @@ class MetadataHeadedNotificationTests {
     void setUp() {
         metadata = new Metadata(0, user);
 
-        notification = new MetadataHeadedNotification(metadata, printer) {
+        notification = new MetadataHeadedNotification(metadata) {
             @Override
             public String getMessage(@NonNull Renderer renderer) throws IOException {
                 return null;
@@ -44,17 +42,7 @@ class MetadataHeadedNotificationTests {
 
     @Test
     void initializingNullMetadata_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotification(null, printer) {
-            @Override
-            public String getMessage(@NonNull Renderer renderer) throws IOException {
-                return null;
-            }
-        });
-    }
-
-    @Test
-    void initializingNullPrinter_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotification(metadata, null) {
+        assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotification(null) {
             @Override
             public String getMessage(@NonNull Renderer renderer) throws IOException {
                 return null;

@@ -10,7 +10,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
@@ -26,7 +25,6 @@ public class PollNotificationFactory implements NotificationFactory<Poll> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull PollPrinter printer;
-    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Notification create(@NonNull Poll message, @NonNull Metadata metadata) {
@@ -35,6 +33,6 @@ public class PollNotificationFactory implements NotificationFactory<Poll> {
         Notification notification = new FreemarkerNotification(template, configuration)
                 .with("printer", printer)
                 .with("model", message);
-        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, notification);
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 }

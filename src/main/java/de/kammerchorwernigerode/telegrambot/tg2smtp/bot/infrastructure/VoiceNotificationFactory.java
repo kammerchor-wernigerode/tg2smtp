@@ -12,7 +12,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 
@@ -28,7 +27,6 @@ public class VoiceNotificationFactory implements NotificationFactory<Voice> {
 
     private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
-    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Notification create(@NonNull Voice voice, @NonNull Metadata metadata) {
@@ -36,7 +34,7 @@ public class VoiceNotificationFactory implements NotificationFactory<Voice> {
 
         Notification notification = new FreemarkerNotification(template, configuration)
                 .with(download(voice));
-        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, notification);
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
     @SneakyThrows

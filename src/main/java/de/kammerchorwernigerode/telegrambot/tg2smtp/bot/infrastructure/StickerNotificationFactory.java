@@ -12,7 +12,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
@@ -28,7 +27,6 @@ public class StickerNotificationFactory implements NotificationFactory<Sticker> 
 
     private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
-    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Notification create(@NonNull Sticker sticker, @NonNull Metadata metadata) {
@@ -36,7 +34,7 @@ public class StickerNotificationFactory implements NotificationFactory<Sticker> 
 
         Notification notification = new FreemarkerNotification(template, configuration)
                 .with(download(sticker));
-        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, notification);
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
     @SneakyThrows

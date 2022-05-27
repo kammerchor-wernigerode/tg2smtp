@@ -2,7 +2,6 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
 import freemarker.template.Configuration;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
-import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
@@ -35,19 +33,17 @@ class PhotoNotificationFactoryTests {
     private @Mock Configuration configuration;
     private @Mock PhotoPicker picker;
     private @Mock Downloader<MediaReference> downloader;
-    private @Mock Printer<Metadata> metadataPrinter;
 
     @BeforeEach
     void setUp() {
-        factory = new PhotoNotificationFactory(configuration, picker, downloader, metadataPrinter);
+        factory = new PhotoNotificationFactory(configuration, picker, downloader);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(null, picker, downloader, metadataPrinter));
-        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(configuration, null, downloader, metadataPrinter));
-        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(configuration, picker, null, metadataPrinter));
-        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(configuration, picker, downloader, null));
+        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(null, picker, downloader));
+        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(configuration, null, downloader));
+        assertThrows(IllegalArgumentException.class, () -> new PhotoNotificationFactory(configuration, picker, null));
     }
 
     @Test
