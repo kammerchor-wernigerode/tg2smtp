@@ -1,6 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import freemarker.template.Configuration;
+import freemarker.template.Template;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,13 +12,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,6 +37,7 @@ class FreemarkerNotificationTests {
 
     private @Mock TemplateBuilder templateBuilder;
     private @Mock Configuration configuration;
+    private @Mock Renderer renderer;
 
     @BeforeEach
     void setUp() {
@@ -100,5 +107,23 @@ class FreemarkerNotificationTests {
     @Test
     void addNullDataValue_shouldNotThrowException() {
         assertDoesNotThrow(() -> notification.with("model", null));
+    }
+
+    @Test
+    void gettingMessageNullRenderer_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> notification.getMessage(null));
+    }
+
+    @Test
+    @SneakyThrows
+    void gettingMessage_shouldRenderNotification() {
+        Template template = mock(Template.class);
+        when(template.getName()).thenReturn("foo.ftl");
+        when(template.getLocale()).thenReturn(Locale.GERMAN);
+        when(templateBuilder.build(configuration)).thenReturn(template);
+
+        notification.getMessage(renderer);
+
+        verify(renderer).render(eq("foo.ftl"), eq(Locale.GERMAN), any());
     }
 }

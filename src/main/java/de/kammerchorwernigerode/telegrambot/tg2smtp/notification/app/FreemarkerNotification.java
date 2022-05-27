@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -51,6 +52,12 @@ public class FreemarkerNotification implements Notification {
             log.error("Unable to process email template", e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getMessage(@NonNull Renderer renderer) throws IOException {
+        Template template = templateBuilder.build(configuration);
+        return renderer.render(template.getName(), template.getLocale(), model);
     }
 
     @Override
