@@ -1,9 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -25,26 +23,5 @@ public interface Notification {
 
     default Stream<Resource> listAttachments() {
         return Stream.empty();
-    }
-
-    static Notification just(String message) {
-        return just(renderer -> message);
-    }
-
-    static Notification just(@NonNull ThrowingFunction<Renderer, String, IOException> renderFunction) {
-        return new Basic(renderFunction);
-    }
-
-
-    @RequiredArgsConstructor
-    class Basic implements Notification {
-
-        @NonNull
-        private final ThrowingFunction<Renderer, String, IOException> renderFunction;
-
-        @Override
-        public String getMessage(@NonNull Renderer renderer) throws IOException {
-            return renderFunction.apply(renderer);
-        }
     }
 }
