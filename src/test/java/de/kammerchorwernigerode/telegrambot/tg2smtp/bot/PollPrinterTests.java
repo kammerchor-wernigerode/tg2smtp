@@ -71,7 +71,8 @@ class PollPrinterTests {
     }
 
     public static String readFile(String filename) throws IOException {
-        return IOUtils.toString(resourceStream(filename), StandardCharsets.UTF_8);
+        return IOUtils.toString(resourceStream(filename), StandardCharsets.UTF_8)
+                .trim();
     }
 
     public static InputStream resourceStream(String filename) {

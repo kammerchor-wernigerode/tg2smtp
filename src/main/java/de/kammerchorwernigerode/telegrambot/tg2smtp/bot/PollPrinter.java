@@ -31,9 +31,10 @@ public class PollPrinter implements Printer<Poll> {
             builder.append("  ")
                     .append(i + 1)
                     .append(") ")
-                    .append(option.getText());
+                    .append(option.getText())
+                    .append("\n");
         }
 
-        return builder.toString();
+        return builder.toString().trim();
     }
 }
