@@ -9,7 +9,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.spi.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.boot.autoconfigure.mail.MailProperties;

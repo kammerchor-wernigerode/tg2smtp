@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.spi;
 
 import de.vinado.boot.secrets.PropertyIndexSupplier;
 import de.vinado.boot.secrets.SecretsEnvironmentPostProcessor;

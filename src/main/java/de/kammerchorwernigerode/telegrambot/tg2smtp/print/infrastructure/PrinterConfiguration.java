@@ -1,7 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.print.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterRegistry;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.spi.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.annotation.Configuration;
