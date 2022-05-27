@@ -4,6 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.test.IntegrationTest;
 import freemarker.template.TemplateNotFoundException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +39,7 @@ class FreemarkerRendererRenderTests {
         assertDoesNotThrow(() -> renderer.render("test-plain.ftl", null, new Object()));
     }
 
+    @Disabled("Powerful computers may run into issues with locales, because Spring reuses the same test bootstrapper for all Spring Boot integration tests")
     @Test
     @SneakyThrows
     void renderingNullLocale_shouldRenderDefaultLocale() {
@@ -46,6 +48,7 @@ class FreemarkerRendererRenderTests {
         assertEquals("John Doe", render);
     }
 
+    @Disabled("Powerful computers may run into issues with locales, because Spring reuses the same test bootstrapper for all Spring Boot integration tests")
     @Test
     @SneakyThrows
     void renderingUnsupportedLocale_shouldDefaultToFallbackLocale() {
