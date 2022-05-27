@@ -1,6 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -28,14 +30,17 @@ import static java.nio.file.StandardOpenOption.WRITE;
 @Slf4j
 @Service
 @Profile("debug")
+@RequiredArgsConstructor
 public class LoggingNotificationService implements NotificationService, InitializingBean {
 
     private static final String OUTPUT_DIRECTORY = "data/downloads";
 
+    private final Renderer renderer;
+
     @SneakyThrows
     @Override
     public void send(@NonNull Notification notification) {
-        System.out.println(notification.getMessage());
+        System.out.println(notification.getMessage(renderer));
 
         Iterator<Resource> attachments = notification.listAttachments().iterator();
         if (attachments.hasNext()) {

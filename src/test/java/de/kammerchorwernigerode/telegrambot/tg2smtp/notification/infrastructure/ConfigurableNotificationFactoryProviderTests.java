@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,10 +15,10 @@ import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
 import java.util.EnumSet;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.ALL;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.LOCATION;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.TEXT;
@@ -174,24 +175,24 @@ class ConfigurableNotificationFactoryProviderTests {
     private static final class TestNotificationFactory implements NotificationFactory<Object> {
 
         @Override
-        public Notification create(@NonNull Object message, @NonNull Locale locale) {
-            return () -> "";
+        public Notification create(@NonNull Object message, @NonNull Metadata metadata) {
+            return just("");
         }
     }
 
     private static final class StringNotificationFactory implements NotificationFactory<String> {
 
         @Override
-        public Notification create(@NonNull String message, @NonNull Locale locale) {
-            return () -> message;
+        public Notification create(@NonNull String message, @NonNull Metadata metadata) {
+            return just(message);
         }
     }
 
     private static final class LocationNotificationFactory implements NotificationFactory<Location> {
 
         @Override
-        public Notification create(@NonNull Location location, @NonNull Locale locale) {
-            return location::toString;
+        public Notification create(@NonNull Location location, @NonNull Metadata metadata) {
+            return just(location.toString());
         }
     }
 }

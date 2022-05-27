@@ -1,7 +1,4 @@
-Hello,
-
-someone just uploaded a photo.
+A photo has been uploaded.
 <#if model??>
-
-**${model}**
+  * ${root.model}
 </#if>

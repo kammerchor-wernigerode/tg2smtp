@@ -1,23 +1,19 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
-import freemarker.template.Configuration;
-import lombok.SneakyThrows;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.Resource;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
-import java.util.Locale;
-
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Vincent Nadoll
@@ -27,43 +23,36 @@ class StickerNotificationFactoryTests {
 
     private StickerNotificationFactory factory;
 
-    private @Mock Configuration configuration;
     private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
-        factory = new StickerNotificationFactory(configuration, downloader);
+        factory = new StickerNotificationFactory(downloader);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new StickerNotificationFactory(null, downloader));
-        assertThrows(IllegalArgumentException.class, () -> new StickerNotificationFactory(configuration, null));
+        assertThrows(IllegalArgumentException.class, () -> new StickerNotificationFactory(null));
     }
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldThrowException() {
+    void creatingNullMetadata_shouldThrowException() {
         Sticker sticker = mock(Sticker.class);
 
         assertThrows(IllegalArgumentException.class, () -> factory.create(sticker, null));
     }
 
     @Test
-    @SneakyThrows
-    void creatingFromVoice_shouldDelegateDownload() {
+    void creatingNotification_shouldDecorate() {
         Sticker sticker = mock(Sticker.class);
-        Resource attachment = mock(Resource.class);
-        MediaReference mediaReference = new MediaReference("foo");
-        when(sticker.getFileId()).thenReturn("foo");
-        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(sticker, Locale.getDefault());
+        Notification notification = factory.create(sticker, createDefault());
 
-        verify(downloader).download(mediaReference);
+        assertTrue(notification instanceof MetadataHeadedNotificationDecorator);
     }
 }

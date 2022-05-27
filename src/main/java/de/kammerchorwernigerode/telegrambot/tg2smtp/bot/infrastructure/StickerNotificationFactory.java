@@ -1,25 +1,23 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
-import freemarker.template.Configuration;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
+import java.io.IOException;
 import java.util.Locale;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.common.Printers.emptyString;
-
 /**
- * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Sticker}
- * messages.
+ * {@link NotificationFactory} that creates templated
+ * {@link MetadataHeadedNotificationDecorator metadata subject decorated} {@link StickerNotification}s from Telegram
+ * {@link Sticker} messages.
  *
  * @author Vincent Nadoll
  */
@@ -27,20 +25,36 @@ import static de.kammerchorwernigerode.telegrambot.tg2smtp.common.Printers.empty
 @RequiredArgsConstructor
 public class StickerNotificationFactory implements NotificationFactory<Sticker> {
 
-    private final @NonNull Configuration configuration;
     private final @NonNull Downloader<MediaReference> downloader;
 
     @Override
-    public Notification create(@NonNull Sticker sticker, @NonNull Locale locale) {
-        TemplateBuilder template = new TemplateBuilder("sticker.ftl").locale(locale);
-
-        return new FreemarkerNotification<>(template, configuration, emptyString(), "")
-                .with(download(sticker));
+    public Notification create(@NonNull Sticker sticker, @NonNull Metadata metadata) {
+        Notification notification = new StickerNotification(sticker, downloader, metadata.getLocale());
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
-    @SneakyThrows
-    private Resource download(Sticker sticker) {
-        MediaReference mediaReference = new MediaReference(sticker.getFileId());
-        return downloader.download(mediaReference);
+
+    private static final class StickerNotification extends MediaNotification {
+
+        private final Sticker sticker;
+        private final Locale locale;
+
+        public StickerNotification(Sticker sticker,
+                                   Downloader<MediaReference> downloader,
+                                   Locale locale) {
+            super(downloader);
+            this.sticker = sticker;
+            this.locale = locale;
+        }
+
+        @Override
+        protected MediaReference create() {
+            return new MediaReference(sticker.getFileId());
+        }
+
+        @Override
+        public String getMessage(@NonNull Renderer renderer) throws IOException {
+            return renderer.render("sticker", locale, new Object());
+        }
     }
 }

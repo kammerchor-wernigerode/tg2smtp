@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import javax.mail.internet.InternetAddress;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -31,12 +32,13 @@ class EmailNotificationServiceTests {
     private @Mock Tg2SmtpBotProperties botProperties;
     private @Mock JavaMailSender sender;
     private @Mock(answer = Answers.RETURNS_DEEP_STUBS) MailProperties mailProperties;
+    private @Mock Renderer renderer;
 
     private EmailNotificationService service;
 
     @BeforeEach
     void setUp() {
-        service = new EmailNotificationService(botProperties, sender, mailProperties);
+        service = new EmailNotificationService(botProperties, sender, mailProperties, renderer);
     }
 
     @Test
@@ -45,28 +47,13 @@ class EmailNotificationServiceTests {
     }
 
     @Test
-    void sendingNullCollection_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> service.send((Collection<? extends Notification>) null));
-    }
-
-    @Test
     @SneakyThrows
     void sendingToOneRecipient_shouldDelegateToSender() {
         when(botProperties.getTo()).thenReturn(Collections.singleton(new InternetAddress("foo@example.com")));
 
-        service.send(() -> "foo");
+        service.send(just("foo"));
 
         verify(sender).send(new MimeMessagePreparator[]{any()});
-    }
-
-    @Test
-    @SneakyThrows
-    void sendingNotificationsToOneRecipient_shouldDelegateToSender() {
-        when(botProperties.getTo()).thenReturn(Collections.singleton(new InternetAddress("foo@example.com")));
-
-        service.send(Set.of(() -> "foo", () -> "bar"));
-
-        verify(sender).send(new MimeMessagePreparator[]{any(), any()});
     }
 
     @Test
@@ -75,19 +62,8 @@ class EmailNotificationServiceTests {
         when(botProperties.getTo())
                 .thenReturn(Set.of(new InternetAddress("foo@example.com"), new InternetAddress("bar@example.com")));
 
-        service.send(() -> "foo");
+        service.send(just("foo"));
 
         verify(sender).send(new MimeMessagePreparator[]{any(), any()});
-    }
-
-    @Test
-    @SneakyThrows
-    void sendingNotificationsToMultipleRecipients_shouldDelegateToSender() {
-        when(botProperties.getTo())
-                .thenReturn(Set.of(new InternetAddress("foo@example.com"), new InternetAddress("bar@example.com")));
-
-        service.send(Set.of(() -> "foo", () -> "bar"));
-
-        verify(sender).send(new MimeMessagePreparator[]{any(), any(), any(), any()});
     }
 }

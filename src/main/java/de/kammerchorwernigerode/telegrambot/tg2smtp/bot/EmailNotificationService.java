@@ -4,6 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorAdapter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorComposite;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -15,10 +16,7 @@ import org.springframework.util.StringUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 /**
  * {@link NotificationService} implementation that forwards {@link Notification}s using the SMTP protocol.
@@ -31,6 +29,7 @@ public class EmailNotificationService implements NotificationService {
     private final Tg2SmtpBotProperties properties;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
+    private final Renderer renderer;
 
     @Override
     public void send(@NonNull Notification notification) {
@@ -49,9 +48,9 @@ public class EmailNotificationService implements NotificationService {
         return composite;
     }
 
-    private static UnaryOperator<MimeMessagePreparatorComposite> add(Notification notification) {
+    private UnaryOperator<MimeMessagePreparatorComposite> add(Notification notification) {
         return preparator -> {
-            MimeMessagePreparatorAdapter adapter = new MimeMessagePreparatorAdapter(notification);
+            MimeMessagePreparatorAdapter adapter = new MimeMessagePreparatorAdapter(notification, renderer);
             preparator.add(adapter);
             return preparator;
         };
@@ -65,24 +64,6 @@ public class EmailNotificationService implements NotificationService {
             applyReplyTo(helper);
             message.setFrom();
         };
-    }
-
-    @Override
-    public void send(@NonNull Collection<? extends Notification> notifications) {
-        MimeMessagePreparator[] preparators = properties.getTo().stream()
-                .map(this::prepareMimeMessage)
-                .map(this::compose)
-                .flatMap(add(notifications))
-                .toArray(MimeMessagePreparator[]::new);
-
-        mailSender.send(preparators);
-    }
-
-    private static Function<MimeMessagePreparatorComposite, Stream<MimeMessagePreparator>> add(
-            Collection<? extends Notification> notifications) {
-        return preparator -> notifications.stream()
-                .map(EmailNotificationService::add)
-                .map(fn -> fn.apply(preparator));
     }
 
     private void applyReplyTo(MimeMessageHelper helper) throws MessagingException {

@@ -1,14 +1,13 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Locale;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Vincent Nadoll
@@ -24,25 +23,18 @@ class TextNotificationFactoryTests {
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldNotThrowException() {
-        assertDoesNotThrow(() -> factory.create("foo", null));
+    void creatingNullMetadata_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> factory.create("foo", null));
     }
 
     @Test
-    void creatingMessage_shouldReturnMessage() {
-        Notification notification = factory.create("foo", Locale.getDefault());
+    void creatingNotification_shouldDecorate() {
+        Notification notification = factory.create("foo", createDefault());
 
-        assertEquals("foo", notification.getMessage());
-    }
-
-    @Test
-    void creatingLocalizedMessage_shouldReturnMessage() {
-        Notification notification = factory.create("foo", Locale.getDefault());
-
-        assertEquals("foo", notification.getMessage());
+        assertTrue(notification instanceof MetadataHeadedNotificationDecorator);
     }
 }

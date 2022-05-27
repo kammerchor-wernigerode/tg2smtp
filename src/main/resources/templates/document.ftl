@@ -1,7 +1,4 @@
-Hello,
-
-someone just uploaded a new document.
+A document has been uploaded.
 <#if model??>
-
-**${model}**
+  * ${root.model}
 </#if>

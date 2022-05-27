@@ -1,7 +1,5 @@
-<#-- @ftlvariable name="printer" type="de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter" -->
-<#assign poll = printer.print(model, .locale_object)>
-Hello,
+<#-- @ftlvariable name="printer" type="de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService" -->
+<#assign poll = printer.print(root.model, .locale_object)>
+Someone created a poll: ${poll}
 
-somebody created a poll. Ask your responsible if you want to participate in this poll.
-
-${poll}
+Ask a responsible person if you want to participate in this poll or want to know the result.

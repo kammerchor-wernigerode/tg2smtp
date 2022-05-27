@@ -1,21 +1,24 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
-import freemarker.template.Configuration;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
- * {@link NotificationFactory} that creates templated {@link FreemarkerNotification}s from Telegram {@link Poll}
- * messages.
+ * {@link NotificationFactory} that creates templated
+ * {@link MetadataHeadedNotificationDecorator metadata subject decorated} {@link PollNotification}s from Telegram
+ * {@link Poll} messages.
  *
  * @author Vincent Nadoll
  */
@@ -23,13 +26,25 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class PollNotificationFactory implements NotificationFactory<Poll> {
 
-    private final @NonNull Configuration configuration;
-    private final @NonNull PollPrinter printer;
-
     @Override
-    public Notification create(@NonNull Poll message, @NonNull Locale locale) {
-        TemplateBuilder template = new TemplateBuilder("poll.ftl").locale(locale);
+    public Notification create(@NonNull Poll message, @NonNull Metadata metadata) {
+        PollNotification notification = new PollNotification(message, metadata.getLocale());
+        return new MetadataHeadedNotificationDecorator(metadata, notification);
+    }
 
-        return new FreemarkerNotification<>(template, configuration, printer, message);
+
+    @RequiredArgsConstructor
+    private static final class PollNotification implements Notification {
+
+        private final Poll location;
+        private final Locale locale;
+
+        @Override
+        public String getMessage(@NonNull Renderer renderer) throws IOException {
+            Map<String, Object> model = new HashMap<>();
+            model.put("model", location);
+
+            return renderer.render("poll", locale, model);
+        }
     }
 }

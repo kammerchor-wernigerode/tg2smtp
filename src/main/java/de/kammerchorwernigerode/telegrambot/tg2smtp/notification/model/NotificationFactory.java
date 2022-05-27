@@ -1,9 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
-
-import java.util.Locale;
 
 /**
  * Factory that creates new {@link Notification}s based on their type.
@@ -14,5 +13,5 @@ import java.util.Locale;
 @FunctionalInterface
 public interface NotificationFactory<T> {
 
-    Notification create(@NonNull T message, @NonNull Locale locale);
+    Notification create(@NonNull T message, @NonNull Metadata metadata);
 }

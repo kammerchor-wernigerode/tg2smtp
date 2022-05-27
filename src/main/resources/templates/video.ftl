@@ -1,7 +1,4 @@
-Hello,
-
-someone just uploaded a new video file.
+A video file has been uploaded.
 <#if model??>
-
-**${model}**
+  * ${root.model}
 </#if>

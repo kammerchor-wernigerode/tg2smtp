@@ -1,51 +1,46 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter;
-import freemarker.template.Configuration;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 
-import java.util.Locale;
-
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
  * @author Vincent Nadoll
  */
-@ExtendWith(MockitoExtension.class)
 class PollNotificationFactoryTests {
 
     private PollNotificationFactory factory;
 
-    private @Mock Configuration configuration;
-    private @Mock PollPrinter printer;
-
     @BeforeEach
     void setUp() {
-        factory = new PollNotificationFactory(configuration, printer);
-    }
-
-    @Test
-    void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new PollNotificationFactory(null, printer));
-        assertThrows(IllegalArgumentException.class, () -> new PollNotificationFactory(configuration, null));
+        factory = new PollNotificationFactory();
     }
 
     @Test
     void creatingNullMessage_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> factory.create(null, Locale.getDefault()));
+        assertThrows(IllegalArgumentException.class, () -> factory.create(null, createDefault()));
     }
 
     @Test
-    void creatingNullLocale_shouldThrowException() {
+    void creatingNullMetadata_shouldThrowException() {
         Poll poll = mock(Poll.class);
 
         assertThrows(IllegalArgumentException.class, () -> factory.create(poll, null));
     }
 
+    @Test
+    void creatingNotification_shouldDecorate() {
+        Poll poll = mock(Poll.class);
+
+        Notification notification = factory.create(poll, createDefault());
+
+        assertTrue(notification instanceof MetadataHeadedNotificationDecorator);
+    }
 }

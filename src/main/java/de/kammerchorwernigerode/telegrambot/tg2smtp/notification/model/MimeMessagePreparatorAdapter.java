@@ -29,11 +29,13 @@ public class MimeMessagePreparatorAdapter implements MimeMessagePreparator {
 
     @NonNull
     private final Notification notification;
+    @NonNull
+    private final Renderer renderer;
 
     @Override
     public void prepare(@NonNull MimeMessage mimeMessage) throws Exception {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, hasAttachments(), StandardCharsets.UTF_8.name());
-        helper.setText(notification.getMessage());
+        helper.setText(notification.getMessage(renderer).trim() + "\n");
 
         Iterator<Resource> attachments = notification.listAttachments().iterator();
         while (attachments.hasNext()) {

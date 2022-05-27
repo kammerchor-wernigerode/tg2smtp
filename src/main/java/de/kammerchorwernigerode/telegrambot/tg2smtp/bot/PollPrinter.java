@@ -35,6 +35,6 @@ public class PollPrinter implements Printer<Poll> {
                     .append("\n");
         }
 
-        return builder.toString();
+        return builder.toString().trim();
     }
 }

@@ -1,3 +1,1 @@
-Hallo,
-
-jemand hat gerade eine neue Videonotiz gesendet.
+Eine neue Videonachricht wurde hochgeladen.
