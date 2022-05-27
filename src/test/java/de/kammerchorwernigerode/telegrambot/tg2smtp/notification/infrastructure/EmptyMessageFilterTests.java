@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notifications.just;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;

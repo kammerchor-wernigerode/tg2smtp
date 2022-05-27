@@ -1,6 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
@@ -18,7 +18,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notifications.just;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notifications.just;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.ALL;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.LOCATION;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType.TEXT;

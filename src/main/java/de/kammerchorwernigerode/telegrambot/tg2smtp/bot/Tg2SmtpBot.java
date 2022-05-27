@@ -2,10 +2,10 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBotProperties;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageCompositor;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationComposite;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MessageCompositor;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationComposite;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.telegram.telegrambots.bots.DefaultBotOptions;

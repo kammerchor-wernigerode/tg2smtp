@@ -1,9 +1,9 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.MediaReference;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MetadataHeadedNotificationDecorator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.document.model.TitledDocument;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

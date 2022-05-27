@@ -1,6 +1,5 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
