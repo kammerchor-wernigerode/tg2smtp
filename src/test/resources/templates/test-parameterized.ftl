@@ -1,1 +1,1 @@
-Name: ${name}
+Name: ${root.name}

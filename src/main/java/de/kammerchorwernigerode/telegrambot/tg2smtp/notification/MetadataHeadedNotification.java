@@ -5,8 +5,10 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.Printer;
-import org.springframework.lang.Nullable;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -16,8 +18,11 @@ public abstract class MetadataHeadedNotification implements Notification {
     private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
-    public Optional<String> getSubject(@Nullable Renderer renderer) {
-        String print = metadataPrinter.print(metadata, metadata.getLocale());
-        return Optional.of(print);
+    public Optional<String> getSubject(@NonNull Renderer renderer) throws IOException {
+        HashMap<String, Object> model = new HashMap<>();
+        model.put("metadata", metadata);
+
+        String render = renderer.render("subject.ftl", Locale.getDefault(), model);
+        return Optional.of(render);
     }
 }

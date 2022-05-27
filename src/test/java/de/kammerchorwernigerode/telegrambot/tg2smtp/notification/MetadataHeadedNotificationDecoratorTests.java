@@ -11,11 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.User;
 
-import java.util.Locale;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,7 +45,7 @@ class MetadataHeadedNotificationDecoratorTests {
     @Test
     @SneakyThrows
     void gettingSubject_shouldNotDelegate() {
-        when(printer.print(eq(metadata), any(Locale.class))).thenReturn("foo");
+        when(renderer.render(any(), any(), any())).thenReturn("foo");
 
         delegate.getSubject(renderer);
 
