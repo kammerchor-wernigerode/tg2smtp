@@ -13,11 +13,12 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,22 +30,22 @@ class MediaDownloaderTests {
 
     private MediaDownloader downloader;
 
-    private @Mock(answer = RETURNS_DEEP_STUBS) Tg2SmtpBotProperties properties;
     private @Mock ThrowingFunction<GetFile, File, TelegramApiException> executor;
+    private @Mock Function<File, String> pathExtractor;
 
     private MediaReference reference;
 
     @BeforeEach
     void setUp() {
-        downloader = new MediaDownloader(properties, executor);
+        downloader = new MediaDownloader(executor, pathExtractor);
 
         reference = new MediaReference("foo");
     }
 
     @Test
     void initializeNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new MediaDownloader(null, executor));
-        assertThrows(IllegalArgumentException.class, () -> new MediaDownloader(properties, null));
+        assertThrows(IllegalArgumentException.class, () -> new MediaDownloader(executor, null));
+        assertThrows(IllegalArgumentException.class, () -> new MediaDownloader(null, pathExtractor));
     }
 
     @Test
@@ -59,9 +60,8 @@ class MediaDownloaderTests {
     @SneakyThrows
     void retrievingMalformedFileUrl_shouldThrowException() {
         File file = mock(File.class);
-        when(properties.getBot().getToken()).thenReturn("foo");
         when(executor.apply(any())).thenReturn(file);
-        when(file.getFileUrl(any())).thenReturn("");
+        when(pathExtractor.apply(eq(file))).thenReturn("");
 
         assertThrows(IOException.class, () -> downloader.download(reference));
     }
@@ -72,7 +72,7 @@ class MediaDownloaderTests {
         MediaReference reference = new MediaReference("foo", "foo.mp3");
         File file = mock(File.class);
         when(executor.apply(any())).thenReturn(file);
-        when(file.getFileUrl(any())).thenReturn("https://example.com/foo.mp3");
+        when(pathExtractor.apply(eq(file))).thenReturn("https://example.com/foo.mp3");
 
         Resource resource = downloader.download(reference);
 

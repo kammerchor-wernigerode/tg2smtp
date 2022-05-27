@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.util.function.Function;
 
 /**
  * Generic {@link Downloader} that retrieves Telegram {@link File}s.
@@ -22,8 +23,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MediaDownloader implements Downloader<MediaReference> {
 
-    private final @NonNull Tg2SmtpBotProperties properties;
     private final @NonNull ThrowingFunction<GetFile, File, TelegramApiException> executor;
+    private final @NonNull Function<File, String> pathExtractor;
 
     @Override
     public Resource download(MediaReference mediaReference) throws IOException {
@@ -31,8 +32,7 @@ public class MediaDownloader implements Downloader<MediaReference> {
             String fileId = mediaReference.getFileId();
             GetFile method = new GetFile(fileId);
             File reference = executor.apply(method);
-            String botToken = properties.getBot().getToken();
-            String path = reference.getFileUrl(botToken);
+            String path = pathExtractor.apply(reference);
             return new UrlResource(path) {
                 @Override
                 public String getFilename() {

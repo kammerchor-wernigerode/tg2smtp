@@ -24,6 +24,8 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.function.Function;
+
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({Tg2SmtpBotProperties.class})
 @RequiredArgsConstructor
@@ -52,6 +54,11 @@ public class NotificationConfiguration implements Configurer {
     @Bean
     public ThrowingFunction<GetFile, File, TelegramApiException> methodExtractor(AbsSender absSender) {
         return absSender::execute;
+    }
+
+    @Bean
+    public Function<File, String> pathExtractor(Tg2SmtpBotProperties properties) {
+        return file -> file.getFileUrl(properties.getBot().getToken());
     }
 
     @Bean("notificationDelimiter")
