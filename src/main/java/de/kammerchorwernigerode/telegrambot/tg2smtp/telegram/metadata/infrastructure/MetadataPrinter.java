@@ -1,6 +1,6 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.infrastructure;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.Printer;

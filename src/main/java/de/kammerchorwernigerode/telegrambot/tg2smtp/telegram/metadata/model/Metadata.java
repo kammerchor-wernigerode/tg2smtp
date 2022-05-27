@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

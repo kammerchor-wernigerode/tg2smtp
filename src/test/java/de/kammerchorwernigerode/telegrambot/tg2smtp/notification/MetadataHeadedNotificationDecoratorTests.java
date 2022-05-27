@@ -1,7 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model.Metadata;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

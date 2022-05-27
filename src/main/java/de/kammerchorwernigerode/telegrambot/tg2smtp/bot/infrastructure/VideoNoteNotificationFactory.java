@@ -5,7 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedN
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

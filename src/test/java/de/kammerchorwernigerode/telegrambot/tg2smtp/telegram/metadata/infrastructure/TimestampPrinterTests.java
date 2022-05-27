@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.infrastructure;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.infrastructure;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

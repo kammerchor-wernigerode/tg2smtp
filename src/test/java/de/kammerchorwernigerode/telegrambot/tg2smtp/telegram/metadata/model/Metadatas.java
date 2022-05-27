@@ -1,6 +1,5 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.experimental.UtilityClass;
 import org.telegram.telegrambots.meta.api.objects.User;
 
