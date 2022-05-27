@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.poll.infrastructure;
 
 import lombok.NonNull;
 import org.springframework.format.Printer;
