@@ -1,4 +1,4 @@
 An audio file has been uploaded.
 <#if model??>
-  * ${model}
+  * ${root.model}
 </#if>

@@ -10,6 +10,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Freemarke
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.infrastructure.TimestampPrinter;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +47,8 @@ class Tg2SmtpBotConfiguration implements Configurer {
     private final ListableBeanFactory beanFactory;
 
     @Bean
-    public Renderer renderer(freemarker.template.Configuration configuration) {
-        return new FreemarkerRenderer(configuration);
+    public Renderer renderer(freemarker.template.Configuration configuration, PrinterService printerService) {
+        return new FreemarkerRenderer(configuration, printerService);
     }
 
     @Bean

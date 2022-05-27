@@ -1,5 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.SneakyThrows;
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.when;
 class FreemarkerRendererTests {
 
     private @Mock Configuration configuration;
+    private @Mock PrinterService printerService;
 
     private FreemarkerRenderer renderer;
 
@@ -30,12 +32,17 @@ class FreemarkerRendererTests {
 
     @BeforeEach
     void setUp() {
-        renderer = new FreemarkerRenderer(configuration);
+        renderer = new FreemarkerRenderer(configuration, printerService);
     }
 
     @Test
     void initializingNullConfiguration_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new FreemarkerRenderer(null));
+        assertThrows(IllegalArgumentException.class, () -> new FreemarkerRenderer(null, printerService));
+    }
+
+    @Test
+    void initializingNullPrinterService_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new FreemarkerRenderer(configuration, null));
     }
 
     @Test

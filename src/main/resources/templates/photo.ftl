@@ -1,4 +1,4 @@
 A photo has been uploaded.
 <#if model??>
-  * ${model}
+  * ${root.model}
 </#if>

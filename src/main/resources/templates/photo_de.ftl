@@ -1,4 +1,4 @@
 Ein Foto wurde hochgeladen.
 <#if model??>
-  * ${model}
+  * ${root.model}
 </#if>
