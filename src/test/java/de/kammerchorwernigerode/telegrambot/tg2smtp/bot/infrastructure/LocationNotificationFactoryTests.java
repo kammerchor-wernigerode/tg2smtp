@@ -1,35 +1,26 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import freemarker.template.Configuration;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
  * @author Vincent Nadoll
  */
-@ExtendWith(MockitoExtension.class)
 class LocationNotificationFactoryTests {
 
     private LocationNotificationFactory factory;
 
-    private @Mock Configuration configuration;
-
     @BeforeEach
     void setUp() {
-        factory = new LocationNotificationFactory(configuration);
-    }
-
-    @Test
-    void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new LocationNotificationFactory(null));
+        factory = new LocationNotificationFactory();
     }
 
     @Test
@@ -42,5 +33,14 @@ class LocationNotificationFactoryTests {
         Location location = mock(Location.class);
 
         assertThrows(IllegalArgumentException.class, () -> factory.create(location, null));
+    }
+
+    @Test
+    void creatingNotification_shouldDecorate() {
+        Location location = mock(Location.class);
+
+        Notification notification = factory.create(location, createDefault());
+
+        assertTrue(notification instanceof MetadataHeadedNotificationDecorator);
     }
 }
