@@ -1,7 +1,4 @@
-Hallo,
-
-jemand hat gerade ein neues Video hochgeladen.
+Eine Videodatei wurde hochgeladen.
 <#if model??>
-
-**${model}**
+  > ${model}
 </#if>

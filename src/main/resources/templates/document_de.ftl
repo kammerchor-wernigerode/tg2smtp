@@ -1,7 +1,4 @@
-Hallo,
-
-jemand hat gerade ein neues Dokument hochgeladen.
+Ein Dokument wurde hochgeladen.
 <#if model??>
-
-**${model}**
+  > ${model}
 </#if>

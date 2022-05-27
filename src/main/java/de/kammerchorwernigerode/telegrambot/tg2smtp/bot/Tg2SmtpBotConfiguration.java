@@ -93,7 +93,7 @@ class Tg2SmtpBotConfiguration implements Configurer {
 
     @Bean("notificationDelimiter")
     public CharSequence notificationDelimiter() {
-        return "\n---\n";
+        return "\n";
     }
 
     @Primary

@@ -1,7 +1,4 @@
-Hallo,
-
-jemand hat gerade ein Foto hochgeladen.
+Ein Foto wurde hochgeladen.
 <#if model??>
-
-**${model}**
+  > ${model}
 </#if>

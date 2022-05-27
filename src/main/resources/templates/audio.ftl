@@ -1,7 +1,4 @@
-Hello,
-
-someone just uploaded a new audio file.
+An audio file has been uploaded.
 <#if model??>
-
-**${model}**
+  > ${model}
 </#if>

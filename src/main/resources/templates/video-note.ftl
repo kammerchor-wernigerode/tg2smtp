@@ -1,3 +1,1 @@
-Hello,
-
-someone just sent a video note.
+A video note has been uploaded.

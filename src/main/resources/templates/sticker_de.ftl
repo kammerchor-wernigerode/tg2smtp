@@ -1,3 +1,1 @@
-Hallo,
-
-jemand hat gerade einen Sticker gesendet.
+Ein Sticker wurde gesendet.

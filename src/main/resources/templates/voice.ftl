@@ -1,3 +1,1 @@
-Hello,
-
-someone just uploaded a new voice message.
+A voice message has been sent.

@@ -1,3 +1,1 @@
-Hallo,
-
-jemand hat gerade eine Sprachnachricht gesendet.
+Eine Sprachnachricht wurde gesendet.
