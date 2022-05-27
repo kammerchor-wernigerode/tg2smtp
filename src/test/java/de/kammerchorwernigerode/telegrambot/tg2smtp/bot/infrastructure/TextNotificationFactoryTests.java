@@ -2,15 +2,16 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.format.Printer;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -23,12 +24,17 @@ class TextNotificationFactoryTests {
 
     private TextNotificationFactory factory;
 
-    @Mock
-    private Renderer renderer;
+    private @Mock Renderer renderer;
+    private @Mock Printer<Metadata> metadataPrinter;
 
     @BeforeEach
     void setUp() {
-        factory = new TextNotificationFactory();
+        factory = new TextNotificationFactory(metadataPrinter);
+    }
+
+    @Test
+    void initializingNullMetadataPrinter_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new TextNotificationFactory(null));
     }
 
     @Test
@@ -37,8 +43,8 @@ class TextNotificationFactoryTests {
     }
 
     @Test
-    void creatingNullMetadata_shouldNotThrowException() {
-        assertDoesNotThrow(() -> factory.create("foo", null));
+    void creatingNullMetadata_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> factory.create("foo", null));
     }
 
     @Test

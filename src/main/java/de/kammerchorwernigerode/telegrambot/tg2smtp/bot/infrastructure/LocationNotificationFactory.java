@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.LocationPrinter;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.TemplateBuilder;
@@ -9,6 +10,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import freemarker.template.Configuration;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Location;
 
@@ -24,13 +26,15 @@ public class LocationNotificationFactory implements NotificationFactory<Location
 
     private final @NonNull Configuration configuration;
     private final @NonNull LocationPrinter printer;
+    private final @NonNull Printer<Metadata> metadataPrinter;
 
     @Override
     public Notification create(@NonNull Location message, @NonNull Metadata metadata) {
         TemplateBuilder templateBuilder = new TemplateBuilder("location.ftl").locale(metadata.getLocale());
 
-        return new FreemarkerNotification(templateBuilder, configuration)
+        Notification notification = new FreemarkerNotification(templateBuilder, configuration)
                 .with("printer", printer)
                 .with("model", message);
+        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, notification);
     }
 }

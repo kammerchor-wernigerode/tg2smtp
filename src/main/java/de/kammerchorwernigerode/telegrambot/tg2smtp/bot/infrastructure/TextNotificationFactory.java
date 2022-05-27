@@ -1,16 +1,15 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.lang.Nullable;
+import org.springframework.format.Printer;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Stream;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification.just;
 
 /**
  * Trivial {@link String} {@link NotificationFactory} that returns its input message.
@@ -21,18 +20,11 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class TextNotificationFactory implements NotificationFactory<String> {
 
-    @Override
-    public Notification create(@NonNull String message, @Nullable Metadata metadata) {
-        return new Notification() {
-            @Override
-            public String getMessage(@Nullable Renderer renderer) {
-                return message;
-            }
+    @NonNull
+    private final Printer<Metadata> metadataPrinter;
 
-            @Override
-            public Stream<Resource> listAttachments() {
-                return Stream.empty();
-            }
-        };
+    @Override
+    public Notification create(@NonNull String message, @NonNull Metadata metadata) {
+        return new MetadataHeadedNotificationDecorator(metadata, metadataPrinter, just(message));
     }
 }

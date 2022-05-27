@@ -34,6 +34,10 @@ public class AppendingMessageCompositor implements MessageCompositor {
     }
 
     private static ThrowingFunction<Notification, String, IOException> renderUsing(Renderer renderer) {
-        return notification -> notification.getMessage(renderer);
+        return notification -> {
+            String message = notification.getMessage(renderer);
+            return notification.getSubject(renderer).map(subject -> "[" + subject + "] " + message)
+                    .orElse(message);
+        };
     }
 }

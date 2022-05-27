@@ -11,13 +11,16 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.infrastructure.TimestampPrinter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.format.Printer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -26,6 +29,11 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 /**
  * @author Vincent Nadoll
@@ -86,6 +94,14 @@ class Tg2SmtpBotConfiguration implements Configurer {
     @Bean("notificationDelimiter")
     public CharSequence notificationDelimiter() {
         return "\n---\n";
+    }
+
+    @Primary
+    @Bean
+    public Printer<Instant> instantPrinter() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+                .withZone(ZoneId.systemDefault());
+        return new TimestampPrinter(formatter);
     }
 
     @Override
