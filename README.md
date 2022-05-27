@@ -3,7 +3,7 @@
 A Telegram Bot that forwards chat massages to email addresses. Works in private chats, groups and channels.
 
 This bot is only capable of forwarding **text messages**, **polls**, **locations**, **photos**, **documents**,
-**audio files**, **voice messages**, **stickers** and **video notes**.
+**audio files**, **video files**, **voice messages**, **stickers** and **video notes**.
 
 
 ## Use Case
@@ -101,7 +101,7 @@ throughout.
 
 ##### Message Types
 
-This bot will only forward these messages as stated in the introduction. For the sake of completeness following list
+This bot will only forward these messages as stated in the introduction. For the sake of completeness the following list
 shows the available messages types and their activation key.
 
 | Message Type   | Configuration Key |

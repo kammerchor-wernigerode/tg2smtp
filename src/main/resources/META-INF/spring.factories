@@ -1,1 +1,1 @@
-org.springframework.boot.env.EnvironmentPostProcessor=de.kammerchorwernigerode.telegrambot.tg2smtp.support.DockerSecretsEnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=de.kammerchorwernigerode.telegrambot.tg2smtp.spi.DockerSecretsEnvironmentPostProcessor

@@ -1,8 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageCompositor;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MessageCompositor;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Qualifier;

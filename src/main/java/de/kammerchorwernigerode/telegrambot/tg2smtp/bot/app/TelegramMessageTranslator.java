@@ -1,13 +1,13 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.audio.model.TitledAudio;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.document.model.TitledDocument;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.metadata.model.Metadata;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.Photos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.TitledPhotos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.video.model.TitledVideo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
