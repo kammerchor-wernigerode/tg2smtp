@@ -57,7 +57,7 @@ class MimeMessagePreparatorAdapterTests {
 
         adapter.prepare(mimeMessage);
 
-        verify(mimeMessage).setText(eq("foo"), any(String.class));
+        verify(mimeMessage).setText(eq("foo\n"), any(String.class));
     }
 
     @Test
@@ -68,7 +68,7 @@ class MimeMessagePreparatorAdapterTests {
 
         adapter.prepare(mimeMessage);
 
-        verify(mimeMessage).setText(eq(""), any(String.class));
+        verify(mimeMessage).setText(eq("\n"), any(String.class));
         verifyNoMoreInteractions(mimeMessage);
     }
 }
