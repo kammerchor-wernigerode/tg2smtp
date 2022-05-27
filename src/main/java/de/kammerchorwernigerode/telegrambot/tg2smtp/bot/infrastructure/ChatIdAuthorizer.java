@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

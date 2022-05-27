@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.Tg2SmtpBotProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
 import lombok.NonNull;

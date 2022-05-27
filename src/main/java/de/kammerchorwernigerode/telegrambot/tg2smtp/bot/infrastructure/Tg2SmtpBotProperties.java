@@ -1,5 +1,6 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.Tg2SmtpBot;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
