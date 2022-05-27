@@ -8,13 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.Resource;
 import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,11 +42,6 @@ class MetadataHeadedNotificationTests {
             public String getMessage(@NonNull Renderer renderer) throws IOException {
                 return null;
             }
-
-            @Override
-            public Stream<Resource> listAttachments() {
-                return null;
-            }
         };
     }
 
@@ -59,11 +52,6 @@ class MetadataHeadedNotificationTests {
             public String getMessage(@NonNull Renderer renderer) throws IOException {
                 return null;
             }
-
-            @Override
-            public Stream<Resource> listAttachments() {
-                return null;
-            }
         });
     }
 
@@ -72,11 +60,6 @@ class MetadataHeadedNotificationTests {
         assertThrows(IllegalArgumentException.class, () -> new MetadataHeadedNotification(metadata, null) {
             @Override
             public String getMessage(@NonNull Renderer renderer) throws IOException {
-                return null;
-            }
-
-            @Override
-            public Stream<Resource> listAttachments() {
                 return null;
             }
         });

@@ -23,7 +23,9 @@ public interface Notification {
 
     String getMessage(@NonNull Renderer renderer) throws IOException;
 
-    Stream<Resource> listAttachments();
+    default Stream<Resource> listAttachments() {
+        return Stream.empty();
+    }
 
     static Notification just(String message) {
         return just(renderer -> message);
@@ -43,11 +45,6 @@ public interface Notification {
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
             return renderFunction.apply(renderer);
-        }
-
-        @Override
-        public Stream<Resource> listAttachments() {
-            return null;
         }
     }
 }
