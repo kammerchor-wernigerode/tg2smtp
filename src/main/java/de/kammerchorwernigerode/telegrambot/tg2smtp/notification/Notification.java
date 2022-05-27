@@ -14,12 +14,7 @@ import java.util.stream.Stream;
  */
 public interface Notification {
 
-    @Deprecated
-    String getMessage();
-
-    default String getMessage(@NonNull Renderer renderer) throws IOException {
-        return getMessage();
-    }
+    String getMessage(@NonNull Renderer renderer) throws IOException;
 
     Stream<Resource> listAttachments();
 }

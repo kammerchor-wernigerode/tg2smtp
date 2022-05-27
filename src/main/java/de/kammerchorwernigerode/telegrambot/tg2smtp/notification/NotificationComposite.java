@@ -1,8 +1,10 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -14,7 +16,7 @@ public class NotificationComposite implements Notification {
     private final @NonNull MessageCompositor compositor;
 
     @Override
-    public String getMessage() {
+    public String getMessage(@Nullable Renderer renderer) {
         return compositor.compose(delegates);
     }
 

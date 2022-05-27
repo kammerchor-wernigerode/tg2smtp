@@ -25,11 +25,6 @@ public class TextNotificationFactory implements NotificationFactory<String> {
     public Notification create(@NonNull String message, @Nullable Metadata metadata) {
         return new Notification() {
             @Override
-            public String getMessage() {
-                return message;
-            }
-
-            @Override
             public String getMessage(@Nullable Renderer renderer) {
                 return message;
             }

@@ -55,7 +55,7 @@ class FreemarkerNotificationTests {
     void failingTemplateBuild_shouldThrowException() {
         when(templateBuilder.build(configuration)).thenThrow(IOException.class);
 
-        assertThrows(RuntimeException.class, () -> notification.getMessage());
+        assertThrows(IOException.class, () -> notification.getMessage(renderer));
     }
 
     @Test

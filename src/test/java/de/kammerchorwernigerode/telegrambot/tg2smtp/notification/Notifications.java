@@ -1,8 +1,10 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 
 import java.util.stream.Stream;
 
@@ -20,7 +22,7 @@ public class Notifications {
         private final String message;
 
         @Override
-        public String getMessage() {
+        public String getMessage(@Nullable Renderer renderer) {
             return message;
         }
 
