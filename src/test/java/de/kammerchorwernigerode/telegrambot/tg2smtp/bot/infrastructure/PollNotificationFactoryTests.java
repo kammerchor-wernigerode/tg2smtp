@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter;
 import freemarker.template.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,17 +21,15 @@ class PollNotificationFactoryTests {
     private PollNotificationFactory factory;
 
     private @Mock Configuration configuration;
-    private @Mock PollPrinter printer;
 
     @BeforeEach
     void setUp() {
-        factory = new PollNotificationFactory(configuration, printer);
+        factory = new PollNotificationFactory(configuration);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new PollNotificationFactory(null, printer));
-        assertThrows(IllegalArgumentException.class, () -> new PollNotificationFactory(configuration, null));
+        assertThrows(IllegalArgumentException.class, () -> new PollNotificationFactory(null));
     }
 
     @Test

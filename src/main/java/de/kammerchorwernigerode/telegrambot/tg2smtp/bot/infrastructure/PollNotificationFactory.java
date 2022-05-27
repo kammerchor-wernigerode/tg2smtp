@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.PollPrinter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FreemarkerNotification;
@@ -24,14 +23,12 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 public class PollNotificationFactory implements NotificationFactory<Poll> {
 
     private final @NonNull Configuration configuration;
-    private final @NonNull PollPrinter printer;
 
     @Override
     public Notification create(@NonNull Poll message, @NonNull Metadata metadata) {
         TemplateBuilder template = new TemplateBuilder("poll.ftl").locale(metadata.getLocale());
 
         Notification notification = new FreemarkerNotification(template, configuration)
-                .with("printer", printer)
                 .with("model", message);
         return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
