@@ -26,17 +26,22 @@ class MimeMessagePreparatorAdapterTests {
 
     private MimeMessagePreparatorAdapter adapter;
 
-    @Mock
-    private Notification notification;
+    private @Mock Notification notification;
+    private @Mock Renderer renderer;
 
     @BeforeEach
     void setUp() {
-        adapter = new MimeMessagePreparatorAdapter(notification);
+        adapter = new MimeMessagePreparatorAdapter(notification, renderer);
     }
 
     @Test
     void initializingNullNotification_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new MimeMessagePreparatorAdapter(null));
+        assertThrows(IllegalArgumentException.class, () -> new MimeMessagePreparatorAdapter(null, renderer));
+    }
+
+    @Test
+    void initializingNullRenderer_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new MimeMessagePreparatorAdapter(notification, null));
     }
 
     @Test
@@ -48,7 +53,7 @@ class MimeMessagePreparatorAdapterTests {
     @SneakyThrows
     void preparingMessage_shouldSetText() {
         MimeMessage mimeMessage = mock(MimeMessage.class);
-        when(notification.getMessage()).thenReturn("foo");
+        when(notification.getMessage(renderer)).thenReturn("foo");
 
         adapter.prepare(mimeMessage);
 
@@ -59,7 +64,7 @@ class MimeMessagePreparatorAdapterTests {
     @SneakyThrows
     void preparingEmptyAttachments_shouldNotAddAttachments() {
         MimeMessage mimeMessage = mock(MimeMessage.class);
-        when(notification.getMessage()).thenReturn("");
+        when(notification.getMessage(renderer)).thenReturn("");
 
         adapter.prepare(mimeMessage);
 

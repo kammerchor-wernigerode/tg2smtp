@@ -4,6 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorAdapter;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MimeMessagePreparatorComposite;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -28,6 +29,7 @@ public class EmailNotificationService implements NotificationService {
     private final Tg2SmtpBotProperties properties;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
+    private final Renderer renderer;
 
     @Override
     public void send(@NonNull Notification notification) {
@@ -46,9 +48,9 @@ public class EmailNotificationService implements NotificationService {
         return composite;
     }
 
-    private static UnaryOperator<MimeMessagePreparatorComposite> add(Notification notification) {
+    private UnaryOperator<MimeMessagePreparatorComposite> add(Notification notification) {
         return preparator -> {
-            MimeMessagePreparatorAdapter adapter = new MimeMessagePreparatorAdapter(notification);
+            MimeMessagePreparatorAdapter adapter = new MimeMessagePreparatorAdapter(notification, renderer);
             preparator.add(adapter);
             return preparator;
         };

@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,12 +31,13 @@ class EmailNotificationServiceTests {
     private @Mock Tg2SmtpBotProperties botProperties;
     private @Mock JavaMailSender sender;
     private @Mock(answer = Answers.RETURNS_DEEP_STUBS) MailProperties mailProperties;
+    private @Mock Renderer renderer;
 
     private EmailNotificationService service;
 
     @BeforeEach
     void setUp() {
-        service = new EmailNotificationService(botProperties, sender, mailProperties);
+        service = new EmailNotificationService(botProperties, sender, mailProperties, renderer);
     }
 
     @Test

@@ -1,7 +1,11 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,13 +14,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Vincent Nadoll
  */
+@ExtendWith(MockitoExtension.class)
 class EmptyMessageFilterTests {
 
     private EmptyMessageFilter filter;
 
+    @Mock
+    private Renderer renderer;
+
     @BeforeEach
     void setUp() {
-        filter = new EmptyMessageFilter();
+        filter = new EmptyMessageFilter(renderer);
+    }
+
+    @Test
+    void initializingNullRenderer_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new EmptyMessageFilter(null));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.common;
 
+import java.util.function.Function;
+
 /**
  * A {@link java.util.function.Function} that may throw an exception.
  *
@@ -12,4 +14,14 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.common;
 public interface ThrowingFunction<T, R, E extends Throwable> {
 
     R apply(T t) throws E;
+
+    static <T, R, E extends Throwable> Function<T, R> sneaky(ThrowingFunction<T, R, E> subject) {
+        return t -> {
+            try {
+                return subject.apply(t);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
 }

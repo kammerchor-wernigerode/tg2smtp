@@ -1,5 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,17 +25,22 @@ class AppendingMessageCompositorTests {
 
     private AppendingMessageCompositor compositor;
 
-    @Mock
-    private CharSequence delimiter;
+    private @Mock CharSequence delimiter;
+    private @Mock Renderer renderer;
 
     @BeforeEach
     void setUp() {
-        compositor = new AppendingMessageCompositor(delimiter);
+        compositor = new AppendingMessageCompositor(delimiter, renderer);
     }
 
     @Test
     void initializingNullDelimiter_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new AppendingMessageCompositor(null));
+        assertThrows(IllegalArgumentException.class, () -> new AppendingMessageCompositor(null, renderer));
+    }
+
+    @Test
+    void initializingNullRenderer_shouldThrowException() {
+        assertThrows(IllegalArgumentException.class, () -> new AppendingMessageCompositor(delimiter, null));
     }
 
     @Test

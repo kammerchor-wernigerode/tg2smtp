@@ -7,8 +7,10 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPo
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageCompositor;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.FreemarkerRenderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -39,14 +41,21 @@ class Tg2SmtpBotConfiguration implements Configurer {
     private final ListableBeanFactory beanFactory;
 
     @Bean
+    public Renderer renderer(freemarker.template.Configuration configuration) {
+        return new FreemarkerRenderer(configuration);
+    }
+
+    @Bean
     @Profile("!debug")
     public NotificationService notificationService(Tg2SmtpBotProperties properties,
                                                    JavaMailSender javaMailSender,
-                                                   MailProperties mailProperties) {
+                                                   MailProperties mailProperties,
+                                                   Renderer renderer) {
         EmailNotificationService notificationService = new EmailNotificationService(properties,
                 javaMailSender,
-                mailProperties);
-        return new FilteringNotificationService(notificationService, new EmptyMessageFilter());
+                mailProperties,
+                renderer);
+        return new FilteringNotificationService(notificationService, new EmptyMessageFilter(renderer));
     }
 
     @Bean
