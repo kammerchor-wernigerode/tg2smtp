@@ -8,7 +8,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.Notificatio
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.email.EmailNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.spi.Configurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -31,11 +30,6 @@ import java.util.function.Function;
 public class NotificationConfiguration implements Configurer {
 
     private final ListableBeanFactory beanFactory;
-
-    @Bean
-    public Renderer renderer(freemarker.template.Configuration configuration, PrinterService printerService) {
-        return new FreemarkerRenderer(configuration, printerService);
-    }
 
     @Bean
     @Profile("!debug")

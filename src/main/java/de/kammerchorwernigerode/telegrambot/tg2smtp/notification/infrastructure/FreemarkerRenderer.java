@@ -8,12 +8,14 @@ import freemarker.template.TemplateException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 
+@Component
 @RequiredArgsConstructor
 public class FreemarkerRenderer implements Renderer {
 
