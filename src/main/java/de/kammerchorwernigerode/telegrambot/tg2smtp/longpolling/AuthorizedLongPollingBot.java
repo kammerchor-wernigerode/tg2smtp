@@ -3,6 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.UpdateUtils;
 import lombok.NonNull;
 import lombok.SneakyThrows;
+import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,14 +20,17 @@ import java.util.stream.Collectors;
  * @author Vincent Nadoll
  */
 @Slf4j
-public class AuthorizedLongPollingBot extends LongPollingBotDecorator implements LongPollingBot {
+public class AuthorizedLongPollingBot implements LongPollingBot {
 
+    @NonNull
+    @Delegate(excludes = Overrides.class)
+    private final LongPollingBot subject;
     private final Predicate<Update> authorizer;
     private final AbsSender sender;
 
     public AuthorizedLongPollingBot(@NonNull LongPollingBot subject, @NonNull Predicate<Update> authorizer,
                                     @NonNull AbsSender sender) {
-        super(subject);
+        this.subject = subject;
         this.authorizer = authorizer;
         this.sender = sender;
     }
@@ -42,13 +46,13 @@ public class AuthorizedLongPollingBot extends LongPollingBotDecorator implements
                     respondUnauthorized(update);
                     return false;
                 }).collect(Collectors.toList());
-        super.onUpdatesReceived(filtered);
+        subject.onUpdatesReceived(filtered);
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (authorizer.test(update)) {
-            super.onUpdateReceived(update);
+            subject.onUpdateReceived(update);
         }
 
         respondUnauthorized(update);
@@ -64,5 +68,13 @@ public class AuthorizedLongPollingBot extends LongPollingBotDecorator implements
                 .map(Object::toString)
                 .map(chatId -> new SendMessage(chatId, text));
         if (errorMessage.isPresent()) sender.execute(errorMessage.get());
+    }
+
+
+    private interface Overrides {
+
+        void onUpdatesReceived(List<Update> updates);
+
+        void onUpdateReceived(Update update);
     }
 }
