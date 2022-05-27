@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.UpdateUtils.extractMessage;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.support.UpdateUtils.extractMessage;
 
 /**
  * @author Vincent Nadoll

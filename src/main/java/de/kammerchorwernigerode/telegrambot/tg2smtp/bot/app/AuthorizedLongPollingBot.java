@@ -1,6 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.UpdateUtils;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.support.UpdateUtils;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.Delegate;

@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.support;
 
 import lombok.experimental.UtilityClass;
 import org.telegram.telegrambots.meta.api.objects.Message;
