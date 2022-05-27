@@ -1,23 +1,20 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MetadataHeadedNotificationDecorator;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
-import freemarker.template.Configuration;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.Resource;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Vincent Nadoll
@@ -27,18 +24,16 @@ class AudioNotificationFactoryTests {
 
     private AudioNotificationFactory factory;
 
-    private @Mock Configuration configuration;
     private @Mock Downloader<MediaReference> downloader;
 
     @BeforeEach
     void setUp() {
-        factory = new AudioNotificationFactory(configuration, downloader);
+        factory = new AudioNotificationFactory(downloader);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new AudioNotificationFactory(null, downloader));
-        assertThrows(IllegalArgumentException.class, () -> new AudioNotificationFactory(configuration, null));
+        assertThrows(IllegalArgumentException.class, () -> new AudioNotificationFactory(null));
     }
 
     @Test
@@ -55,18 +50,12 @@ class AudioNotificationFactoryTests {
     }
 
     @Test
-    @SneakyThrows
-    void creatingFromAudio_shouldDelegateDownload() {
+    void creatingNotification_shouldDecorate() {
         Audio audio = mock(Audio.class);
         TitledAudio titledAudio = new TitledAudio("bar.mp3", audio);
-        Resource attachment = mock(Resource.class);
-        MediaReference mediaReference = new MediaReference("foo", "bar.mp3");
-        when(audio.getFileId()).thenReturn("foo");
-        when(audio.getFileName()).thenReturn("bar.mp3");
-        when(downloader.download(eq(mediaReference))).thenReturn(attachment);
 
-        factory.create(titledAudio, createDefault());
+        Notification notification = factory.create(titledAudio, createDefault());
 
-        verify(downloader).download(mediaReference);
+        assertEquals(MetadataHeadedNotificationDecorator.class, notification.getClass());
     }
 }
