@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.print.support;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.print.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;
