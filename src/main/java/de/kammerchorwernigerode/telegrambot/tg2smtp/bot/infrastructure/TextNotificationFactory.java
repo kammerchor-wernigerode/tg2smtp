@@ -40,7 +40,7 @@ public class TextNotificationFactory implements NotificationFactory<String> {
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
-            return renderer.render("text.ftl", locale, singletonMap("text", text));
+            return renderer.render("text", locale, singletonMap("text", text));
         }
     }
 }

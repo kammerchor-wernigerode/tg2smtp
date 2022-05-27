@@ -56,7 +56,7 @@ public class VideoNotificationFactory implements NotificationFactory<TitledVideo
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
-            return renderer.render("video.ftl", locale, singletonMap("model", video.getCaption().orElse(null)));
+            return renderer.render("video", locale, singletonMap("model", video.getCaption().orElse(null)));
         }
     }
 }

@@ -9,5 +9,5 @@ import java.util.Locale;
 @FunctionalInterface
 public interface Renderer {
 
-    String render(@NonNull String templateName, @Nullable Locale locale, @Nullable Object model) throws IOException;
+    String render(@NonNull String resourceKey, @Nullable Locale locale, @Nullable Object model) throws IOException;
 }

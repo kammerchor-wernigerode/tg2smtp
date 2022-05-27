@@ -20,7 +20,7 @@ public abstract class MetadataHeadedNotification implements Notification {
         HashMap<String, Object> model = new HashMap<>();
         model.put("metadata", metadata);
 
-        String render = renderer.render("subject.ftl", Locale.getDefault(), model);
+        String render = renderer.render("subject", Locale.getDefault(), model);
         return Optional.of(render);
     }
 }

@@ -54,7 +54,7 @@ public class StickerNotificationFactory implements NotificationFactory<Sticker> 
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
-            return renderer.render("sticker.ftl", locale, new Object());
+            return renderer.render("sticker", locale, new Object());
         }
     }
 }

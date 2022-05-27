@@ -52,7 +52,7 @@ public class VideoNoteNotificationFactory implements NotificationFactory<VideoNo
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
-            return renderer.render("video-note.ftl", locale, new Object());
+            return renderer.render("video-note", locale, new Object());
         }
     }
 }

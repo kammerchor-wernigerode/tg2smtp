@@ -36,14 +36,14 @@ class FreemarkerRendererRenderTests {
 
     @Test
     void renderingNullLocale_shouldNotThrowException() {
-        assertDoesNotThrow(() -> renderer.render("test-plain.ftl", null, new Object()));
+        assertDoesNotThrow(() -> renderer.render("test-plain", null, new Object()));
     }
 
     @Disabled("Powerful computers may run into issues with locales, because Spring reuses the same test bootstrapper for all Spring Boot integration tests")
     @Test
     @SneakyThrows
     void renderingNullLocale_shouldRenderDefaultLocale() {
-        String render = renderer.render("test-plain.ftl", null, new Object());
+        String render = renderer.render("test-plain", null, new Object());
 
         assertEquals("John Doe", render);
     }
@@ -53,7 +53,7 @@ class FreemarkerRendererRenderTests {
     @SneakyThrows
     void renderingUnsupportedLocale_shouldDefaultToFallbackLocale() {
         setDefault(FRENCH);
-        String render = renderer.render("test-plain.ftl", null, new Object());
+        String render = renderer.render("test-plain", null, new Object());
 
         assertEquals("John Doe", render);
         setDefault(ENGLISH);
@@ -62,29 +62,29 @@ class FreemarkerRendererRenderTests {
     @Test
     @SneakyThrows
     void renderingGermanLocale_shouldRenderGermanTemplate() {
-        String render = renderer.render("test-plain.ftl", GERMAN, new Object());
+        String render = renderer.render("test-plain", GERMAN, new Object());
 
         assertEquals("Max Mustermann", render);
     }
 
     @Test
     void renderingMissingTemplate_shouldThrowException() {
-        assertThrows(TemplateNotFoundException.class, () -> renderer.render("foo.ftl", getDefault(), new Object()));
+        assertThrows(TemplateNotFoundException.class, () -> renderer.render("foo", getDefault(), new Object()));
     }
 
     @Test
     void renderingNullModel_shouldNotThrowException() {
-        assertDoesNotThrow(() -> renderer.render("test-plain.ftl", getDefault(), null));
+        assertDoesNotThrow(() -> renderer.render("test-plain", getDefault(), null));
     }
 
     @Test
     void renderingEmptyModel_shouldThrowException() {
-        assertThrows(IOException.class, () -> renderer.render("test-parameterized.ftl", getDefault(), new Object()));
+        assertThrows(IOException.class, () -> renderer.render("test-parameterized", getDefault(), new Object()));
     }
 
     @Test
     void renderingNullModel_shouldThrowException() {
-        assertThrows(IOException.class, () -> renderer.render("test-parameterized.ftl", getDefault(), null));
+        assertThrows(IOException.class, () -> renderer.render("test-parameterized", getDefault(), null));
     }
 
     @Test
@@ -92,7 +92,7 @@ class FreemarkerRendererRenderTests {
     void renderingParameterized_shouldRender() {
         Map<String, Object> model = Collections.singletonMap("name", "John");
 
-        String render = renderer.render("test-parameterized.ftl", getDefault(), model);
+        String render = renderer.render("test-parameterized", getDefault(), model);
 
         assertEquals("Name: John", render);
     }

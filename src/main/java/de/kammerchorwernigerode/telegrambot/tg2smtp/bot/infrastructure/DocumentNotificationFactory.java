@@ -53,7 +53,7 @@ public class DocumentNotificationFactory implements NotificationFactory<TitledDo
             Map<String, Object> model = new HashMap<>();
             model.put("model", document.getCaption().orElse(null));
 
-            return renderer.render("document.ftl", locale, model);
+            return renderer.render("document", locale, model);
         }
 
         @Override

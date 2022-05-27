@@ -52,7 +52,7 @@ public class VoiceNotificationFactory implements NotificationFactory<Voice> {
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
-            return renderer.render("voice.ftl", locale, new Object());
+            return renderer.render("voice", locale, new Object());
         }
     }
 }

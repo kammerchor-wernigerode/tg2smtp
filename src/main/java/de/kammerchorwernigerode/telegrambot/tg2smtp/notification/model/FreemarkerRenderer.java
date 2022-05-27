@@ -26,7 +26,7 @@ public class FreemarkerRenderer implements Renderer {
             formattingModel.put("printer", printerService);
             formattingModel.put("root", model);
 
-            Template template = configuration.getTemplate(resourceKey, locale);
+            Template template = configuration.getTemplate(resourceKey + ".ftl", locale);
             String render = FreeMarkerTemplateUtils.processTemplateIntoString(template, formattingModel);
             return render.trim();
         } catch (TemplateException e) {

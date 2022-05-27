@@ -66,7 +66,7 @@ public class PhotoNotificationFactory implements NotificationFactory<TitledPhoto
             Map<String, Object> model = new HashMap<>();
             model.put("model", photos.getCaption().orElse(null));
 
-            return renderer.render("photo.ftl", locale, model);
+            return renderer.render("photo", locale, model);
         }
     }
 }

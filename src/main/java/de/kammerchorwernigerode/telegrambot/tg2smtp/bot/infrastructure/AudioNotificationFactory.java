@@ -53,7 +53,7 @@ public class AudioNotificationFactory implements NotificationFactory<TitledAudio
             Map<String, Object> model = new HashMap<>();
             model.put("model", audio.getCaption().orElse(null));
 
-            return renderer.render("audio.ftl", locale, model);
+            return renderer.render("audio", locale, model);
         }
 
         @Override

@@ -44,7 +44,7 @@ public class PollNotificationFactory implements NotificationFactory<Poll> {
             Map<String, Object> model = new HashMap<>();
             model.put("model", location);
 
-            return renderer.render("poll.ftl", locale, model);
+            return renderer.render("poll", locale, model);
         }
     }
 }

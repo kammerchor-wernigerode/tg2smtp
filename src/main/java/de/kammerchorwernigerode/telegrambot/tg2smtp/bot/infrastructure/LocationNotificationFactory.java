@@ -44,7 +44,7 @@ public class LocationNotificationFactory implements NotificationFactory<Location
             Map<String, Object> model = new HashMap<>();
             model.put("model", location);
 
-            return renderer.render("location.ftl", locale, model);
+            return renderer.render("location", locale, model);
         }
     }
 }

@@ -56,7 +56,7 @@ class FreemarkerRendererTests {
         Template template = mock(Template.class);
         when(configuration.getTemplate(eq("foo.ftl"), eq((Locale) null))).thenReturn(template);
 
-        assertDoesNotThrow(() -> renderer.render("foo.ftl", null, model));
+        assertDoesNotThrow(() -> renderer.render("foo", null, model));
     }
 
     @Test
@@ -65,6 +65,6 @@ class FreemarkerRendererTests {
         Template template = mock(Template.class);
         when(configuration.getTemplate(any(String.class), any(Locale.class))).thenReturn(template);
 
-        assertDoesNotThrow(() -> renderer.render("foo.ftl", getDefault(), null));
+        assertDoesNotThrow(() -> renderer.render("foo", getDefault(), null));
     }
 }
