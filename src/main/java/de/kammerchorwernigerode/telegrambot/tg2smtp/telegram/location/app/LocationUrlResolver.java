@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.location.app;
 
 import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.Location;
