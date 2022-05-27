@@ -1,5 +1,6 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.notification;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import lombok.NonNull;
 
 import java.util.function.Predicate;

@@ -4,7 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.Tg2SmtpBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageCompositor;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

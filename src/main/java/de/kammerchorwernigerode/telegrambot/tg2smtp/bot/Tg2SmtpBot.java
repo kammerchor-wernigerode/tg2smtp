@@ -5,7 +5,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBo
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.MessageCompositor;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationComposite;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.telegram.telegrambots.bots.DefaultBotOptions;

@@ -2,11 +2,11 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBotProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.FilteringNotificationService;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FilteringNotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.FreemarkerRenderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.support.Configurer;

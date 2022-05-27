@@ -1,6 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterRegistry;
 import org.springframework.util.CollectionUtils;
 

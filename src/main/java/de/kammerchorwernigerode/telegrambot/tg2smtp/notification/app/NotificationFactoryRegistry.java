@@ -1,5 +1,6 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import lombok.NonNull;
 
 /**

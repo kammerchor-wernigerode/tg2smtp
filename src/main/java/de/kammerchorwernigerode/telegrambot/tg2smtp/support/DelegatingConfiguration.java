@@ -1,6 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.support.ConfigurablePrinterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

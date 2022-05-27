@@ -1,8 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryProvider;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
