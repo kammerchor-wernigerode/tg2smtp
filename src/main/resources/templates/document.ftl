@@ -1,4 +1,4 @@
 A document has been uploaded.
 <#if model??>
-  > ${model}
+  * ${model}
 </#if>

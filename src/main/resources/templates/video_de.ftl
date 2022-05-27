@@ -1,4 +1,4 @@
 Eine Videodatei wurde hochgeladen.
 <#if model??>
-  > ${model}
+  * ${model}
 </#if>

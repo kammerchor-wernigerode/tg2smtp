@@ -1,4 +1,4 @@
 Eine Audiodatei wurde hochgeladen.
 <#if model??>
-  > ${model}
+  * ${model}
 </#if>
