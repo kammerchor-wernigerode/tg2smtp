@@ -9,22 +9,24 @@ import java.util.function.Predicate;
  *
  * @author Vincent Nadoll
  */
-public class FilteringNotificationService extends NotificationServiceDecorator
-        implements NotificationService {
+public class FilteringNotificationService implements NotificationService {
+
+    @NonNull
+    private final NotificationService subject;
 
     @NonNull
     private final Predicate<Notification> filter;
 
     public FilteringNotificationService(@NonNull NotificationService subject,
                                         @NonNull Predicate<Notification> filter) {
-        super(subject);
+        this.subject = subject;
         this.filter = filter;
     }
 
     @Override
     public void send(@NonNull Notification notification) {
         if (filter.test(notification)) {
-            super.send(notification);
+            subject.send(notification);
         }
     }
 }
