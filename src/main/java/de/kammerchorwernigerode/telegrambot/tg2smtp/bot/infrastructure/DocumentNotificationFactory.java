@@ -9,8 +9,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Document;
 
@@ -18,7 +16,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * {@link NotificationFactory} that creates templated
@@ -35,16 +32,21 @@ public class DocumentNotificationFactory implements NotificationFactory<TitledDo
 
     @Override
     public Notification create(@NonNull TitledDocument document, @NonNull Metadata metadata) {
-        DocumentNotification notification = new DocumentNotification(document, metadata.getLocale());
+        DocumentNotification notification = new DocumentNotification(document, downloader, metadata.getLocale());
         return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
 
-    @RequiredArgsConstructor
-    private final class DocumentNotification implements Notification {
+    private static final class DocumentNotification extends MediaNotification {
 
         private final TitledDocument document;
         private final Locale locale;
+
+        public DocumentNotification(TitledDocument document, Downloader<MediaReference> downloader, Locale locale) {
+            super(downloader);
+            this.document = document;
+            this.locale = locale;
+        }
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
@@ -55,14 +57,9 @@ public class DocumentNotificationFactory implements NotificationFactory<TitledDo
         }
 
         @Override
-        public Stream<Resource> listAttachments() {
-            return Stream.of(download(document.getContent()));
-        }
-
-        @SneakyThrows
-        private Resource download(Document document) {
-            MediaReference mediaReference = new MediaReference(document.getFileId(), document.getFileName());
-            return downloader.download(mediaReference);
+        protected MediaReference create() {
+            Document content = document.getContent();
+            return new MediaReference(content.getFileId(), content.getFileName());
         }
     }
 }

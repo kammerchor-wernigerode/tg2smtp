@@ -9,8 +9,6 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Audio;
 
@@ -18,7 +16,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * {@link NotificationFactory} that creates templated
@@ -35,16 +32,21 @@ public class AudioNotificationFactory implements NotificationFactory<TitledAudio
 
     @Override
     public Notification create(@NonNull TitledAudio audio, @NonNull Metadata metadata) {
-        AudioNotification notification = new AudioNotification(audio, metadata.getLocale());
+        AudioNotification notification = new AudioNotification(audio, downloader, metadata.getLocale());
         return new MetadataHeadedNotificationDecorator(metadata, notification);
     }
 
 
-    @RequiredArgsConstructor
-    private final class AudioNotification implements Notification {
+    private static final class AudioNotification extends MediaNotification {
 
         private final TitledAudio audio;
         private final Locale locale;
+
+        public AudioNotification(TitledAudio audio, Downloader<MediaReference> downloader, Locale locale) {
+            super(downloader);
+            this.audio = audio;
+            this.locale = locale;
+        }
 
         @Override
         public String getMessage(@NonNull Renderer renderer) throws IOException {
@@ -55,14 +57,9 @@ public class AudioNotificationFactory implements NotificationFactory<TitledAudio
         }
 
         @Override
-        public Stream<Resource> listAttachments() {
-            return Stream.of(download(audio.getContent()));
-        }
-
-        @SneakyThrows
-        private Resource download(Audio audio) {
-            MediaReference mediaReference = new MediaReference(audio.getFileId(), audio.getFileName());
-            return downloader.download(mediaReference);
+        protected MediaReference create() {
+            Audio content = audio.getContent();
+            return new MediaReference(content.getFileId(), content.getFileName());
         }
     }
 }
