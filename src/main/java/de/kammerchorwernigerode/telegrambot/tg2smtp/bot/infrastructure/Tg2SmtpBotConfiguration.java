@@ -1,8 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.TelegramMessageTranslator;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.Tg2SmtpBot;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling.AuthorizedLongPollingBot;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.MessageCompositor;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.longpolling;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.UpdateUtils;
 import lombok.NonNull;
