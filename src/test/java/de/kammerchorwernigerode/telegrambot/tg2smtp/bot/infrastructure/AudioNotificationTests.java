@@ -3,7 +3,7 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.audio.model.TitledAudio;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.test.IntegrationTest;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;

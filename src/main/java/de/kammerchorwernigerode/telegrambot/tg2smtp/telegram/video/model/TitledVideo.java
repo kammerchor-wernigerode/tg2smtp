@@ -1,22 +1,22 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.video.model;
 
 import lombok.NonNull;
 import lombok.Value;
 import org.springframework.lang.Nullable;
-import org.telegram.telegrambots.meta.api.objects.Document;
+import org.telegram.telegrambots.meta.api.objects.Video;
 
 import java.util.Optional;
 
 /**
- * VO that encapsulates a {@link Document Telegram document message} and its caption.
+ * VO that encapsulates a {@link Video Telegram video file} and its caption.
  *
  * @author Vincent Nadoll
  */
 @Value
-public class TitledDocument {
+public class TitledVideo {
 
     @Nullable String caption;
-    @NonNull Document content;
+    @NonNull Video content;
 
     public Optional<String> getCaption() {
         return Optional.ofNullable(caption);

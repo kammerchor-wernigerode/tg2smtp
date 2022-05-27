@@ -2,10 +2,10 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledAudio;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledVideo;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.audio.model.TitledAudio;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.document.model.TitledDocument;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.TitledPhotos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.video.model.TitledVideo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
