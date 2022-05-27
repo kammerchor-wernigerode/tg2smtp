@@ -101,7 +101,7 @@ throughout.
 
 ##### Message Types
 
-This bot will only forward these messages as stated in the introduction. For the sake of completeness following list
+This bot will only forward these messages as stated in the introduction. For the sake of completeness the following list
 shows the available messages types and their activation key.
 
 | Message Type   | Configuration Key |
