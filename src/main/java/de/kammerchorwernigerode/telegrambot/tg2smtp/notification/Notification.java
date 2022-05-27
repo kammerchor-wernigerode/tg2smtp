@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -13,6 +14,10 @@ import java.util.stream.Stream;
  * @author Vincent Nadoll
  */
 public interface Notification {
+
+    default Optional<String> getSubject(@NonNull Renderer renderer) throws IOException {
+        return Optional.empty();
+    }
 
     String getMessage(@NonNull Renderer renderer) throws IOException;
 

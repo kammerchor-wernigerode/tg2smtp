@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledDocument;
 import freemarker.template.Configuration;
 import lombok.SneakyThrows;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
+import org.springframework.format.Printer;
 import org.telegram.telegrambots.meta.api.objects.Document;
 
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Metadatas.createDefault;
@@ -29,16 +31,18 @@ class DocumentNotificationFactoryTests {
 
     private @Mock Configuration configuration;
     private @Mock Downloader<MediaReference> downloader;
+    private @Mock Printer<Metadata> metadataPrinter;
 
     @BeforeEach
     void setUp() {
-        factory = new DocumentNotificationFactory(configuration, downloader);
+        factory = new DocumentNotificationFactory(configuration, downloader, metadataPrinter);
     }
 
     @Test
     void initializingNullArguments_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> new DocumentNotificationFactory(null, downloader));
-        assertThrows(IllegalArgumentException.class, () -> new DocumentNotificationFactory(configuration, null));
+        assertThrows(IllegalArgumentException.class, () -> new DocumentNotificationFactory(null, downloader, metadataPrinter));
+        assertThrows(IllegalArgumentException.class, () -> new DocumentNotificationFactory(configuration, null, metadataPrinter));
+        assertThrows(IllegalArgumentException.class, () -> new DocumentNotificationFactory(configuration, downloader, null));
     }
 
     @Test
