@@ -1,6 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterRegistry;
 
 /**
  * Defines callback methods to customize the Java-based configuration for this application.
@@ -10,5 +11,8 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notificat
 public interface Configurer {
 
     default void addNotificationFactories(NotificationFactoryRegistry registry) {
+    }
+
+    default void addPrinters(PrinterRegistry registry) {
     }
 }

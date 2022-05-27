@@ -3,6 +3,8 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.support;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.ConfigurableNotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactoryRegistry;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.print.support.ConfigurablePrinterService;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -21,5 +23,15 @@ public class ConfigurationSupport {
     }
 
     protected void addNotificationFactories(NotificationFactoryRegistry registry) {
+    }
+
+    @Bean
+    public PrinterService printerService() {
+        ConfigurablePrinterService service = new ConfigurablePrinterService();
+        addPrinters(service);
+        return service;
+    }
+
+    protected void addPrinters(ConfigurablePrinterService service) {
     }
 }
