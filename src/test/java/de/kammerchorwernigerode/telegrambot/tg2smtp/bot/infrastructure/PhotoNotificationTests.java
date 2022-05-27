@@ -1,11 +1,11 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.model.Downloader;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.TitledPhotos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.app.PhotoPicker;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.Photos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.TitledPhotos;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.test.IntegrationTest;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;

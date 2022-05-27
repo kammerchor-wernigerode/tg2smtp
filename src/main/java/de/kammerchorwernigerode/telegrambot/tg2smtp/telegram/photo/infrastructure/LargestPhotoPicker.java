@@ -1,6 +1,6 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.app.PhotoPicker;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;

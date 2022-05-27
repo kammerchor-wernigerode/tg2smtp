@@ -1,5 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model;
 
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.Photos;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Location;

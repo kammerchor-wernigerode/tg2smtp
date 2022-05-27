@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ListDecorator;
 import lombok.NonNull;

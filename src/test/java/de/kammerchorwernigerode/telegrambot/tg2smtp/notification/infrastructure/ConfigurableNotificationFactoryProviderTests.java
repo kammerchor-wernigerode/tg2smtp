@@ -4,7 +4,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Metadata;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.Photos;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.model.Photos;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

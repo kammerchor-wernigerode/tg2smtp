@@ -1,4 +1,4 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.app;
 
 import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;

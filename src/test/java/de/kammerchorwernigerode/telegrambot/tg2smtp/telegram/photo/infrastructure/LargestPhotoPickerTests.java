@@ -1,6 +1,6 @@
-package de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure;
+package de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.app.PhotoPicker.UndecidableException;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.photo.app.PhotoPicker.UndecidableException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
