@@ -3,7 +3,6 @@ package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryProvider;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.NotificationFactory;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.telegram.model.MessageType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.DecoratingProxy;
@@ -11,7 +10,6 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +26,7 @@ public class ConfigurableNotificationFactoryProvider
         implements NotificationFactoryProvider, NotificationFactoryRegistry {
 
     @NonNull
-    private final EnumSet<MessageType> active;
+    private final Tg2SmtpMessageTypeProperties properties;
     private final Map<Class<?>, NotificationFactory<?>> registry = new LinkedHashMap<>(8);
 
     @Override
@@ -40,7 +38,7 @@ public class ConfigurableNotificationFactoryProvider
     }
 
     private boolean isActive(Class<?> fieldType) {
-        return active.stream()
+        return properties.getActive().stream()
                 .filter(byTelegramMessageType(isAssignableFrom(fieldType)).or(MessageType.ALL::equals))
                 .map(MessageType::getTelegramType)
                 .findAny().isPresent();

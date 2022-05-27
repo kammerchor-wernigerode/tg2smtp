@@ -18,7 +18,7 @@ public class ConfigurationSupport {
     @Bean
     public NotificationFactoryProvider notificationFactoryProvider(Tg2SmtpMessageTypeProperties properties) {
         ConfigurableNotificationFactoryProvider factoryProvider =
-                new ConfigurableNotificationFactoryProvider(properties.getActive());
+                new ConfigurableNotificationFactoryProvider(properties);
         addNotificationFactories(factoryProvider);
         return factoryProvider;
     }

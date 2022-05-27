@@ -8,19 +8,19 @@ import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 
-import java.util.EnumSet;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notifications.just;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.MessageType.ALL;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.MessageType.LOCATION;
 import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.MessageType.TEXT;
+import static de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notifications.just;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -36,12 +36,12 @@ class ConfigurableNotificationFactoryProviderTests {
 
     private ConfigurableNotificationFactoryProvider provider;
 
-    @Mock
-    private EnumSet<MessageType> active;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private Tg2SmtpMessageTypeProperties properties;
 
     @BeforeEach
     void setUp() {
-        provider = new ConfigurableNotificationFactoryProvider(active);
+        provider = new ConfigurableNotificationFactoryProvider(properties);
     }
 
     @Test
@@ -69,7 +69,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void findingRegistered_shouldReturnFactory() {
         NotificationFactory<Object> factory = new TestNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.of(ALL));
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.of(ALL));
         provider.addNotificationFactory(factory);
 
         NotificationFactory<Object> found = provider.findBy(new Object()).get();
@@ -80,7 +80,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void configuredLocation_shouldNotFindStringFactory() {
         NotificationFactory<String> factory = new StringNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.of(LOCATION));
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.of(LOCATION));
         provider.addNotificationFactory(factory);
 
         Optional<NotificationFactory<String>> registered = provider.findBy("");
@@ -91,7 +91,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void configuredNone_shouldNotFindStringFactory() {
         NotificationFactory<String> factory = new StringNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.empty());
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.empty());
         provider.addNotificationFactory(factory);
 
         Optional<NotificationFactory<String>> stringNotificationFactory = provider.findBy("");
@@ -102,7 +102,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void configuredNone_shouldNotFindLocationFactory() {
         NotificationFactory<String> factory = new StringNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.empty());
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.empty());
         provider.addNotificationFactory(factory);
 
         Optional<NotificationFactory<Location>> stringNotificationFactory = provider.findBy(new Location());
@@ -113,7 +113,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void configuredNone_shouldNotFindPhotosFactory() {
         NotificationFactory<String> factory = new StringNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.empty());
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.empty());
         provider.addNotificationFactory(factory);
 
         Optional<NotificationFactory<Photos>> stringNotificationFactory = provider.findBy(new Photos(emptyList()));
@@ -124,7 +124,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void configuredNone_shouldNotFindStickerFactory() {
         NotificationFactory<String> factory = new StringNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.empty());
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.empty());
         provider.addNotificationFactory(factory);
 
         Optional<NotificationFactory<Sticker>> stringNotificationFactory = provider.findBy(new Sticker());
@@ -139,7 +139,7 @@ class ConfigurableNotificationFactoryProviderTests {
     void configuredTextAndLocation_shouldFindBoth() {
         NotificationFactory<String> stringFactory = new StringNotificationFactory();
         NotificationFactory<Location> locationFactory = new LocationNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.of(TEXT, LOCATION));
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.of(TEXT, LOCATION));
         provider.addNotificationFactory(stringFactory);
         provider.addNotificationFactory(locationFactory);
 
@@ -150,7 +150,7 @@ class ConfigurableNotificationFactoryProviderTests {
     @Test
     void configuredLocation_shouldNotFindStickerFactory() {
         NotificationFactory<Location> locationFactory = new LocationNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.of(LOCATION));
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.of(LOCATION));
         provider.addNotificationFactory(locationFactory);
 
         assertFalse(provider.findBy(new Sticker()).isPresent());
@@ -161,7 +161,7 @@ class ConfigurableNotificationFactoryProviderTests {
         NotificationFactory<String> textFactory = new StringNotificationFactory();
         NotificationFactory<Location> locationFactory = new LocationNotificationFactory();
         NotificationFactory<Object> objectFactory = new TestNotificationFactory();
-        when(active.stream()).thenAnswer(i -> Stream.of(ALL));
+        when(properties.getActive().stream()).thenAnswer(i -> Stream.of(ALL));
         provider.addNotificationFactory(textFactory);
         provider.addNotificationFactory(locationFactory);
         provider.addNotificationFactory(objectFactory);
