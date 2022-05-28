@@ -14,7 +14,7 @@
     <artifactId>tg2smtp</artifactId>
     <version>0.7.0-SNAPSHOT</version>
 
-    <description>Telegram bot that forwards chat message to a SMTP server</description>
+    <description>Telegram bot that forwards chat message and files as emails</description>
 
     <properties>
         <java.version>11</java.version>
