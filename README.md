@@ -123,7 +123,7 @@ Download the `.jar`-file of the latest release. Execute the following command in
 forget to replace the sample configuration with your own.
 
 ```shell
-java -jar tg2smtp-0.6.0.jar \
+java -jar tg2smtp-1.0.0-rc-1.jar \
  --tg2smtp.notification.subject="[Telegram] New message" \
  --tg2smtp.notification.to=john.doe@example.com,jane.doe@example.com \
  --tg2smtp.bot.chat-id=1337420 \

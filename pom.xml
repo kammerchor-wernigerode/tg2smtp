@@ -12,7 +12,7 @@
 
     <groupId>de.kammerchor-wernigerode.telegrambot</groupId>
     <artifactId>tg2smtp</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>1.0.0-rc-1</version>
 
     <description>Telegram bot that forwards chat message and files as emails</description>
 
