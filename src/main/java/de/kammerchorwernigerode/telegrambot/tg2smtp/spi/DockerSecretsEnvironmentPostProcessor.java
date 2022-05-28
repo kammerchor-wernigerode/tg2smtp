@@ -24,8 +24,8 @@ public class DockerSecretsEnvironmentPostProcessor extends SecretsEnvironmentPos
         Map<String, String> properties = new HashMap<>();
         properties.put("spring.mail.username", "MAIL_USER_FILE");
         properties.put("spring.mail.password", "MAIL_PASSWORD_FILE");
-        properties.put("tg2smtp.to", "TG2SMTP_MAIL_TO_FILE");
-        properties.put("tg2smtp.chat-id", "TG2SMTP_CHAT_ID_FILE");
+        properties.put("tg2smtp.notification.to", "TG2SMTP_MAIL_TO_FILE");
+        properties.put("tg2smtp.bot.chat-id", "TG2SMTP_CHAT_ID_FILE");
         properties.put("tg2smtp.bot.username", "TG2SMTP_BOT_USERNAME_FILE");
         properties.put("tg2smtp.bot.token", "TG2SMTP_BOT_TOKEN_FILE");
 
