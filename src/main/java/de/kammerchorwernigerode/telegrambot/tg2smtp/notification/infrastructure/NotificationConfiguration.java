@@ -1,6 +1,5 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBotProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.common.ThrowingFunction;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.FilteringNotificationService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
@@ -17,16 +16,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.function.Function;
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({Tg2SmtpBotProperties.class, Tg2SmtpMessageTypeProperties.class,
-        Tg2SmtpNotificationProperties.class})
+@EnableConfigurationProperties({Tg2SmtpMessageTypeProperties.class, Tg2SmtpNotificationProperties.class})
 @RequiredArgsConstructor
 public class NotificationConfiguration implements Configurer {
 
@@ -46,13 +44,13 @@ public class NotificationConfiguration implements Configurer {
     }
 
     @Bean
-    public ThrowingFunction<GetFile, File, TelegramApiException> methodExtractor(AbsSender absSender) {
+    public ThrowingFunction<GetFile, File, TelegramApiException> methodExtractor(DefaultAbsSender absSender) {
         return absSender::execute;
     }
 
     @Bean
-    public Function<File, String> pathExtractor(Tg2SmtpBotProperties properties) {
-        return file -> file.getFileUrl(properties.getToken());
+    public Function<File, String> pathExtractor(DefaultAbsSender absSender) {
+        return file -> file.getFileUrl(absSender.getBotToken());
     }
 
     @Bean("notificationDelimiter")

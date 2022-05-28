@@ -6,6 +6,7 @@ import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.Tg2SmtpMessageTypeProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.app.PrinterService;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.infrastructure.ConfigurablePrinterService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 public class ConfigurationSupport {
 
     @Bean
+    @ConditionalOnBean(Tg2SmtpMessageTypeProperties.class)
     public NotificationFactoryProvider notificationFactoryProvider(Tg2SmtpMessageTypeProperties properties) {
         ConfigurableNotificationFactoryProvider factoryProvider =
                 new ConfigurableNotificationFactoryProvider(properties);

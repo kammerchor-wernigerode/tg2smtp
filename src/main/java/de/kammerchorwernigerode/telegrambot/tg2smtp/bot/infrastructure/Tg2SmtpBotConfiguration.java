@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 /**
@@ -36,7 +35,7 @@ class Tg2SmtpBotConfiguration {
     }
 
     @Bean
-    public AbsSender absSender(DefaultBotOptions botOptions, Tg2SmtpBotProperties properties) {
+    public DefaultAbsSender absSender(DefaultBotOptions botOptions, Tg2SmtpBotProperties properties) {
         return new DefaultAbsSender(botOptions) {
             @Override
             public String getBotToken() {

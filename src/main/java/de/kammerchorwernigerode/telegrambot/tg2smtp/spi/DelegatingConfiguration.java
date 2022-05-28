@@ -1,10 +1,8 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.spi;
 
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationFactoryRegistry;
-import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.Tg2SmtpMessageTypeProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.print.infrastructure.ConfigurablePrinterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
@@ -17,7 +15,6 @@ import java.util.List;
  * @author Vincent Nadoll
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({Tg2SmtpMessageTypeProperties.class})
 public class DelegatingConfiguration extends ConfigurationSupport {
 
     private final ConfigurerComposite configurers = new ConfigurerComposite();
