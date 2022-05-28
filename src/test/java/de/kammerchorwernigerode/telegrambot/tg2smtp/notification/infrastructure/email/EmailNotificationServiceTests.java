@@ -1,6 +1,6 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.email;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBotProperties;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.Tg2SmtpNotificationProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.SneakyThrows;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class EmailNotificationServiceTests {
 
-    private @Mock Tg2SmtpBotProperties botProperties;
+    private @Mock Tg2SmtpNotificationProperties botProperties;
     private @Mock JavaMailSender sender;
     private @Mock(answer = Answers.RETURNS_DEEP_STUBS) MailProperties mailProperties;
     private @Mock Renderer renderer;

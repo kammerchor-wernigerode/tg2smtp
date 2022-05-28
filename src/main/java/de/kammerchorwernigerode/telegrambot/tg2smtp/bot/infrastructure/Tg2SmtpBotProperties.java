@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import javax.mail.internet.InternetAddress;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,8 +19,6 @@ import java.util.Set;
 public class Tg2SmtpBotProperties {
 
     private Set<Long> chatId;
-    private String subject;
-    private Set<InternetAddress> to = new HashSet<>();
     private Bot bot = new Bot();
 
 

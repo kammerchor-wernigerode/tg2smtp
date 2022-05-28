@@ -1,7 +1,7 @@
 package de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.email;
 
-import de.kammerchorwernigerode.telegrambot.tg2smtp.bot.infrastructure.Tg2SmtpBotProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.app.NotificationService;
+import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.infrastructure.Tg2SmtpNotificationProperties;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Notification;
 import de.kammerchorwernigerode.telegrambot.tg2smtp.notification.model.Renderer;
 import lombok.NonNull;
@@ -25,7 +25,7 @@ import java.util.function.UnaryOperator;
 @RequiredArgsConstructor
 public class EmailNotificationService implements NotificationService {
 
-    private final Tg2SmtpBotProperties properties;
+    private final Tg2SmtpNotificationProperties properties;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
     private final Renderer renderer;
