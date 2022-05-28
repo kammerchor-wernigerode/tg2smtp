@@ -16,7 +16,7 @@ public class MetadataConfiguration {
     @Primary
     @Bean
     public Printer<Instant> instantPrinter() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.LONG)
                 .withZone(ZoneId.systemDefault());
         return new TimestampPrinter(formatter);
     }
