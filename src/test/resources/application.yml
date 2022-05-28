@@ -8,4 +8,5 @@ spring:
     test-connection: false
 
 tg2smtp:
-  chat-id: 0
+  bot:
+    chat-id: 0

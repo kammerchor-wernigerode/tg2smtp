@@ -40,7 +40,7 @@ class Tg2SmtpBotConfiguration {
         return new DefaultAbsSender(botOptions) {
             @Override
             public String getBotToken() {
-                return properties.getBot().getToken();
+                return properties.getToken();
             }
         };
     }

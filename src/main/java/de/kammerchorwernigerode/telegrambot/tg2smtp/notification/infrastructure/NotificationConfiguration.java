@@ -52,7 +52,7 @@ public class NotificationConfiguration implements Configurer {
 
     @Bean
     public Function<File, String> pathExtractor(Tg2SmtpBotProperties properties) {
-        return file -> file.getFileUrl(properties.getBot().getToken());
+        return file -> file.getFileUrl(properties.getToken());
     }
 
     @Bean("notificationDelimiter")

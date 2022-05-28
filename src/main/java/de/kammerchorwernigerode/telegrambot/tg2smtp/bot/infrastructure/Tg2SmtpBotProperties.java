@@ -15,18 +15,10 @@ import java.util.Set;
  */
 @Getter
 @Setter
-@ConfigurationProperties("tg2smtp")
+@ConfigurationProperties("tg2smtp.bot")
 public class Tg2SmtpBotProperties {
 
     private Set<Long> chatId;
-    private Bot bot = new Bot();
-
-
-    @Getter
-    @Setter
-    public static class Bot {
-
-        private String username;
-        private String token;
-    }
+    private String username;
+    private String token;
 }

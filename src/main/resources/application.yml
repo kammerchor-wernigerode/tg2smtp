@@ -24,8 +24,8 @@ tg2smtp:
   notification:
     subject: ${TG2SMTP_MAIL_SUBJECT}
     to: ${TG2SMTP_MAIL_TO}
-  chat-id: ${TG2SMTP_CHAT_ID}
   bot:
+    chat-id: ${TG2SMTP_CHAT_ID}
     username: ${TG2SMTP_BOT_USERNAME}
     token: ${TG2SMTP_BOT_TOKEN}
   messages:

@@ -47,12 +47,12 @@ public class Tg2SmtpBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return properties.getBot().getUsername();
+        return properties.getUsername();
     }
 
     @Override
     public String getBotToken() {
-        return properties.getBot().getToken();
+        return properties.getToken();
     }
 
     @Override

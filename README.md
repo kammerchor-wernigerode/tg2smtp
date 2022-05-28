@@ -80,7 +80,7 @@ file at startup.
 |----------------------------------------------|-------------------------|--------------|----------------------|-------------------------------------------------------|------------------------------------------------------------------------------|
 | _tg2smtp.notification.subject_               | TG2SMTP_MAIL_SUBJECT    | _`String`_   |                      | `"[Telegram] New Message"`                            | The mail's subject line                                                      |
 | _tg2smtp.notification.to_                    | TG2SMTP_MAIL_TO         | _`String[]`_ |                      | `john@example.com,jane@example.com`                   | Comma-separated list of zero or more mail recipients                         |
-| _tg2smtp.chat-id_                            | TG2SMTP_CHAT_ID         | _`Number[]`_ |                      | `1337420,-0815`                                       | Comma-separated list of zero or more Telegram Chat IDs                       |
+| _tg2smtp.bot.chat-id_                        | TG2SMTP_CHAT_ID         | _`Number[]`_ |                      | `1337420,-0815`                                       | Comma-separated list of zero or more authorized Telegram Chat IDs            |
 | _tg2smtp.bot.username_                       | TG2SMTP_BOT_USERNAME    | _`String`_   |                      | `MyAwesoneTg2SmtpBot`                                 | The Bot's username                                                           |
 | _tg2smtp.bot.token_                          | TG2SMTP_BOT_TOKEN       | _`String`_   |                      | `XXXXXXXX:YYYYYYYYY`                                  | The Bot's HTTP API Token                                                     |
 | _tg2smtp.messages.active_                    | TG2SMTP_MESSAGES_ACTIVE | _`String[]`_ | `ALL`                | `TEXT,PHOTO,LOCATION,VIDEO_NOTE`                      | Comma-separated list of Telegram [message types](#message-types)[^1].        |
@@ -126,7 +126,7 @@ forget to replace the sample configuration with your own.
 java -jar tg2smtp-0.6.0.jar \
  --tg2smtp.notification.subject="[Telegram] New message" \
  --tg2smtp.notification.to=john.doe@example.com,jane.doe@example.com \
- --tg2smtp.chat-id=1337420 \
+ --tg2smtp.bot.chat-id=1337420 \
  --tg2smtp.bot.username=MyAwesoneTg2SmtpBot \
  --tg2smtp.bot.token=XXXXXXXX:YYYYYYYYY \
  --spring.mail.host=smtp.example.com \
